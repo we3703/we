@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:we/presentation/foundations/colors.dart';
+
+class CustomToggle extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool>? onChanged;
+
+  const CustomToggle({super.key, required this.value, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+      value: value,
+      onChanged: onChanged,
+      activeThumbColor: AppColors.primaryBlack,
+      inactiveThumbColor: AppColors.secondary,
+      inactiveTrackColor: AppColors.secondaryLight,
+    );
+  }
+}

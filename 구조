@@ -1,0 +1,144 @@
+플러터 구조도
+
+lib/
+├── core/                          # 핵심 기능
+│   ├── config/                    # 설정 파일
+│   │   ├── api_config.dart
+│   │   ├── firebase_options.dart
+│   │   └── app_config.dart
+│   ├── constants/                 # 상수 관리
+│   │   ├── api_constants.dart
+│   │   ├── asset_constants.dart
+│   │   └── route_constants.dart
+│   ├── routes/                    # 라우팅
+│   │   └── app_routes.dart
+│   └── utils/                     # 유틸리티
+│       ├── comment_mention.dart
+│       ├── route_utils.dart
+│       └── time_formatter.dart
+│
+├── data/                          # 데이터 레이어
+│   ├── api/                       # API 클라이언트
+│   │   ├── calendar_api.dart
+│   │   ├── comment_api.dart
+│   │   ├── firebase_message_api.dart
+│   │   ├── notice_api.dart
+│   │   ├── post_api.dart
+│   │   ├── report_api.dart
+│   │   ├── route_api.dart
+│   │   └── user_api.dart
+│   ├── models/                    # 데이터 모델
+│   │   ├── analyze.dart
+│   │   ├── calendar_summary.dart
+│   │   ├── comment.dart
+│   │   ├── daily_distance.dart
+│   │   ├── notice.dart
+│   │   ├── post.dart
+│   │   ├── report.dart
+│   │   ├── route.dart
+│   │   └── user.dart
+│   └── repositories/              # 데이터 저장소 (새로 추가)
+│       ├── auth_repository.dart
+│       ├── post_repository.dart
+│       ├── route_repository.dart
+│       └── user_repository.dart
+│
+├── domain/                        # 비즈니스 로직 (새로 추가)
+│   ├── entities/                  # 순수 비즈니스 엔티티
+│   └── use_cases/                 # 비즈니스 유스케이스
+│       ├── auth/
+│       ├── post/
+│       └── route/
+│
+├── presentation/                  # UI 레이어
+│   ├── foundations/              # 🎨 Foundation (디자인 토큰)
+│   │   ├── colors.dart           # 색상 팔레트
+│   │   ├── typography.dart       # 타이포그래피
+│   │   ├── spacing.dart          # 간격 시스템
+│   │   ├── radius.dart           # 모서리 반경
+│   │   ├── shadows.dart          # 그림자
+│   │   └── app_theme.dart        # 전체 테마
+│   │
+│   ├── atoms/                    # ⚛️ Atoms (가장 작은 UI 단위)
+│   │   ├── buttons/
+│   │   │   ├── primary_button.dart
+│   │   │   ├── secondary_button.dart
+│   │   │   ├── icon_button.dart
+│   │   │   └── social_login_button.dart
+│   │   ├── inputs/
+│   │   │   ├── text_field.dart
+│   │   │   └── search_field.dart
+│   │   ├── icons/
+│   │   │   └── custom_icons.dart
+│   │   ├── images/
+│   │   │   └── custom_image.dart
+│   │   ├── badges/
+│   │   │   └── badge.dart
+│   │   └── loaders/
+│   │       ├── spinner.dart
+│   │       └── skeleton.dart
+│   │
+│   ├── molecules/                # 🧬 Molecules (Atoms 조합)
+│   │   ├── cards/
+│   │   │   ├── base_card.dart
+│   │   │   ├── stat_card.dart
+│   │   │   └── info_card.dart
+│   │   ├── list_items/
+│   │   │   ├── post_list_item.dart
+│   │   │   ├── comment_list_item.dart
+│   │   │   └── notice_list_item.dart
+│   │   ├── inputs/
+│   │   │   └── search_bar.dart
+│   │   ├── navigation/
+│   │   │   └── nav_item.dart
+│   │   └── chips/
+│   │       └── filter_chip.dart
+│   │
+│   ├── organisms/                # 🦠 Organisms (복잡한 UI 컴포넌트)
+│   │   ├── app_bars/
+│   │   │   ├── logo_app_bar.dart
+│   │   │   └── custom_app_bar.dart
+│   │   ├── navigation/
+│   │   │   ├── bottom_nav_bar.dart
+│   │   │   └── navigation_drawer.dart
+│   │   ├── cards/
+│   │   │   ├── activity_card.dart         # home/card에서 이동
+│   │   │   ├── activity_summary_card.dart
+│   │   │   ├── post_card.dart
+│   │   │   ├── reply_card.dart
+│   │   │   ├── medal_summary_card.dart
+│   │   │   ├── riding_calendar_card.dart
+│   │   │   ├── today_message_card.dart
+│   │   │   ├── weekly_distance_chart_card.dart
+│   │   │   ├── weekly_speed_stat.dart
+│   │   │   └── weekly_time_stat.dart
+│   │   ├── forms/
+│   │   │   ├── post_form.dart
+│   │   │   └── profile_form.dart
+│   │   ├── feeds/
+│   │   │   └── activity_feed.dart
+│   │   ├── headers/
+│   │   │   ├── profile_header.dart
+│   │   │   └── section_header.dart
+│   │   ├── lists/
+│   │   │   └── post_list.dart
+│   │   ├── overlays/
+│   │   │   ├── pre_recording_overlay.dart
+│   │   │   ├── recording_overlay.dart
+│   │   │   └── map_controls.dart
+│   │   └── widgets/
+│   │       ├── ride_summary.dart
+│   │       └── riding_progress_bar.dart
+│   │
+│   └── screen/                    # 📱 screens (실제 화면)
+│       ├── home/
+│       │   ├── home_screen.dart
+│       │   └── home_view_model.dart
+│       └── login/
+│           ├── login_screen.dart
+│           └── login_view_model.dart           # 화면별 ViewModel
+│
+├── services/                     # 외부 서비스
+│   └── toss_payment_service.dart
+│
+└── main.dart
