@@ -136,15 +136,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         } else if (noticeState.notices != null &&
                             noticeState.notices!.isNotEmpty) {
+                          final firstNotice = noticeState.notices!.first;
                           return NoticeCard(
-                            title: noticeState.notices!.first.title,
-                            date: noticeState.notices!.first.createdAt,
-                            description: noticeState.notices!.first.content,
+                            title: firstNotice.title,
+                            date: firstNotice.createdAt,
+                            description: firstNotice.content,
                             onTap: () {
-                              // TODO: Pass notice ID
-                              Navigator.of(
-                                context,
-                              ).pushNamed(NoticeDetailScreen.routeName);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => NoticeDetailScreen(
+                                    noticeId: firstNotice.id.toString(),
+                                  ),
+                                ),
+                              );
                             },
                           );
                         } else {
