@@ -71,6 +71,7 @@ class UserStatusCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.layoutPadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Profile Image/Icon
             CircleAvatar(
@@ -87,60 +88,48 @@ class UserStatusCard extends StatelessWidget {
                   : null,
             ),
             const SizedBox(width: AppSpacing.layoutPadding),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userName,
-                    style: AppTextStyles.bodyBold.copyWith(
-                      color: AppColors.textPrimary,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  userName,
+                  style: AppTextStyles.bodyBold.copyWith(
+                    color: AppColors.textPrimary,
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      if (membershipLevel != MembershipLevel.none) ...[
-                        Flexible(
-                          child: Text(
-                            membershipLevel.displayName,
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              color: membershipLevel.color,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                      ],
-                      Flexible(
-                        child: Text(
-                          'Member',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.textDisabled,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (membershipLevel != MembershipLevel.none) ...[
+                      Text(
+                        membershipLevel.displayName,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: membershipLevel.color,
                         ),
                       ),
+                      const SizedBox(width: 4),
                     ],
-                  ),
-                  if (joinDate != null || recommendationCount != null) ...[
-                    const SizedBox(height: 8),
                     Text(
-                      _buildAdditionalInfo(),
-                      style: AppTextStyles.bodyRegular.copyWith(
+                      'Member',
+                      style: AppTextStyles.bodyMedium.copyWith(
                         color: AppColors.textDisabled,
-                        fontSize: 12,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
+                ),
+                if (joinDate != null || recommendationCount != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    _buildAdditionalInfo(),
+                    style: AppTextStyles.bodyRegular.copyWith(
+                      color: AppColors.textDisabled,
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
-              ),
+              ],
             ),
           ],
         ),

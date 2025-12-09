@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we/presentation/foundations/icon_radio.dart';
+import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 
 class QuickActionButton extends StatelessWidget {
@@ -21,8 +22,12 @@ class QuickActionButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(8.0),
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        padding: EdgeInsets.all(AppSpacing.layoutPadding),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

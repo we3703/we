@@ -12,7 +12,6 @@ import 'package:we/presentation/organisms/user/home_header_section.dart';
 import 'package:we/presentation/screens/notice/notice_detail_screen.dart';
 import 'package:we/presentation/screens/notice/notice_list_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
-import 'package:we/presentation/screens/main/product_list_screen.dart';
 import 'package:we/presentation/screens/main/recommendation_screen.dart';
 import 'package:we/presentation/screens/notice/notice_view_model.dart';
 import 'package:we/presentation/screens/product/product_detail_screen.dart';

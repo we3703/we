@@ -30,62 +30,6 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
     });
   }
 
-  ReferralNodeEntity _createMockReferralTree() {
-    // Create mock referral tree for demonstration
-    return ReferralNodeEntity(
-      userId: 'user001',
-      name: '나 (최상위)',
-      level: 'GOLD',
-      joinedAt: '2024-01-01',
-      children: [
-        ReferralNodeEntity(
-          userId: 'user002',
-          name: '김철수',
-          level: 'SILVER',
-          joinedAt: '2024-02-15',
-          children: [
-            ReferralNodeEntity(
-              userId: 'user005',
-              name: '박영희',
-              level: 'BRONZE',
-              joinedAt: '2024-03-20',
-              children: [],
-            ),
-            ReferralNodeEntity(
-              userId: 'user006',
-              name: '최민수',
-              level: 'BRONZE',
-              joinedAt: '2024-04-10',
-              children: [],
-            ),
-          ],
-        ),
-        ReferralNodeEntity(
-          userId: 'user003',
-          name: '이영희',
-          level: 'SILVER',
-          joinedAt: '2024-02-20',
-          children: [
-            ReferralNodeEntity(
-              userId: 'user007',
-              name: '정수진',
-              level: 'BRONZE',
-              joinedAt: '2024-05-01',
-              children: [],
-            ),
-          ],
-        ),
-        ReferralNodeEntity(
-          userId: 'user004',
-          name: '박민수',
-          level: 'BRONZE',
-          joinedAt: '2024-03-01',
-          children: [],
-        ),
-      ],
-    );
-  }
-
   void _buildGraphFromEntity(
     Graph graph,
     ReferralNodeEntity node,
@@ -122,12 +66,15 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
           return Center(child: Text(referralVM.errorMessage!));
         }
 
-        var referralTree = referralVM.referralTree;
+        final referralTree = referralVM.referralTree;
 
-        // Check if tree is empty (only has root node with no children)
-        if (referralTree == null || referralTree.children.isEmpty) {
-          // Use mock data for demonstration
-          referralTree = _createMockReferralTree();
+        // Check if tree is empty
+        if (referralTree == null) {
+          return const Center(child: Text('추천 트리 정보를 불러올 수 없습니다.'));
+        }
+
+        if (referralTree.children.isEmpty) {
+          return const Center(child: Text('추천한 사람이 없습니다.'));
         }
 
         // Build graph from entity
@@ -178,15 +125,12 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
                     }
 
                     // Widget for each node using UserStatusCard
-                    return SizedBox(
-                      width: 200, // Fixed width for consistency in tree
-                      child: UserStatusCard(
-                        userName: entity.name,
-                        membershipLevel: convertLevel(entity.level),
-                        joinDate: entity.joinedAt,
-                        recommendationCount: entity.children.length,
-                        profileImageUrl: null,
-                      ),
+                    return UserStatusCard(
+                      userName: entity.name,
+                      membershipLevel: convertLevel(entity.level),
+                      joinDate: entity.joinedAt,
+                      recommendationCount: entity.children.length,
+                      profileImageUrl: null,
                     );
                   },
                 ),

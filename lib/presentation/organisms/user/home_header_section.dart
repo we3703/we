@@ -82,10 +82,6 @@ class HomeHeaderSection extends StatelessWidget {
         Card(
           margin: EdgeInsets.zero,
           clipBehavior: Clip.antiAlias,
-          color: AppColors.primaryBlack,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.layoutPadding),
             child: QuickActionGroup(

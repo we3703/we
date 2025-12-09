@@ -30,7 +30,7 @@ class InfoStatCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: AppTextStyles.bodyBold.copyWith(
+              style: AppTextStyles.heading3Bold.copyWith(
                 color: AppColors.textPrimary,
               ),
             ),
@@ -45,7 +45,6 @@ class InfoStatCard extends StatelessWidget {
                         stat.title,
                         style: AppTextStyles.bodyRegular.copyWith(
                           color: AppColors.textDisabled,
-                          fontSize: 13,
                         ),
                         textAlign: TextAlign.center,
                       ),
