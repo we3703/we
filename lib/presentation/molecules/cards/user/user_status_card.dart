@@ -103,18 +103,26 @@ class UserStatusCard extends StatelessWidget {
                   Row(
                     children: [
                       if (membershipLevel != MembershipLevel.none) ...[
-                        Text(
-                          membershipLevel.displayName,
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: membershipLevel.color,
+                        Flexible(
+                          child: Text(
+                            membershipLevel.displayName,
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: membershipLevel.color,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: 4),
                       ],
-                      Text(
-                        'Member', // Assuming "Member" is always present if membershipLevel is "none" or as a general title
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.textDisabled,
+                      Flexible(
+                        child: Text(
+                          'Member',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.textDisabled,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

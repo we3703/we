@@ -19,7 +19,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<Result<MyInfo>> getMe() async {
     try {
       final response = await userApi.getMe();
-      final myInfo = MyInfo.fromJson(response);
+      // Extract data from response wrapper
+      final data = response['data'] as Map<String, dynamic>? ?? response;
+      final myInfo = MyInfo.fromJson(data);
       return Result.success(myInfo);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

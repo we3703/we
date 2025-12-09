@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/date_formatter.dart';
 import 'package:we/domain/entities/product/paginated_products_entity.dart';
 import 'package:we/domain/entities/user/my_info_entity.dart';
 import 'package:we/presentation/foundations/spacing.dart';
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Load initial data
-      context.read<UserViewModel>().getMe();
+      // User info is already loaded from login, no need to call getMe() again
       context.read<NoticeViewModel>().getNotices();
       context.read<ProductViewModel>().getProducts(page: 1, limit: 2);
     });
@@ -139,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           final firstNotice = noticeState.notices!.first;
                           return NoticeCard(
                             title: firstNotice.title,
-                            date: firstNotice.createdAt,
+                            date: formatDate(firstNotice.createdAt),
                             description: firstNotice.content,
                             onTap: () {
                               Navigator.of(context).push(
@@ -158,9 +159,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: AppSpacing.space32),
                     _buildSectionHeader(context, '추천 제품', () {
-                      Navigator.of(
-                        context,
-                      ).pushNamed(ProductListScreen.routeName);
+                      // Navigate to MainScaffold with product tab (index 1)
+                      Navigator.of(context).pushReplacementNamed(
+                        MainScaffold.routeName,
+                        arguments: 1,
+                      );
                     }),
                     const SizedBox(height: AppSpacing.space12),
                     // Latest products

@@ -27,10 +27,13 @@ class ReferralViewModel extends BaseViewModel {
 
     result.when(
       success: (data) {
+        print('🌳 ReferralViewModel.getReferralTree() SUCCESS');
+        print('  - Tree data: $data');
         _referralTree = data;
         setError(null);
       },
       failure: (failure) {
+        print('❌ ReferralViewModel.getReferralTree() FAILURE: ${mapFailureToMessage(failure)}');
         setError(mapFailureToMessage(failure));
         _referralTree = null;
       },
@@ -47,10 +50,20 @@ class ReferralViewModel extends BaseViewModel {
 
     result.when(
       success: (data) {
+        print('📊 ReferralViewModel.getReferralSummary() SUCCESS');
+        print('  - Total referrals: ${data.totalReferrals}');
+        print('  - Direct referrals: ${data.directReferrals}');
+        print('  - Indirect referrals: ${data.indirectReferrals}');
+        print('  - Referrals count: ${data.referrals.length}');
+        for (var i = 0; i < data.referrals.length; i++) {
+          final ref = data.referrals[i];
+          print('  - Referral[$i]: name=${ref.name}, level=${ref.level}, joinedAt=${ref.joinedAt}, subReferrals=${ref.subReferrals}');
+        }
         _referralSummary = data;
         setError(null);
       },
       failure: (failure) {
+        print('❌ ReferralViewModel.getReferralSummary() FAILURE: ${mapFailureToMessage(failure)}');
         setError(mapFailureToMessage(failure));
         _referralSummary = null;
       },

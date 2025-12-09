@@ -296,20 +296,7 @@ Future<List<SingleChildWidget>> setupProviders() async {
     ),
 
     // ViewModels - Lazy initialization with ProxyProvider
-    ChangeNotifierProxyProvider<LoginUseCase, LoginViewModel>(
-      create: (context) => LoginViewModel(
-        Provider.of<LoginUseCase>(context, listen: false),
-        tokenProvider,
-      ),
-      update: (_, loginUseCase, previous) =>
-          previous ?? LoginViewModel(loginUseCase, tokenProvider),
-    ),
-    ChangeNotifierProxyProvider<SignupUseCase, SignUpViewModel>(
-      create: (context) =>
-          SignUpViewModel(Provider.of<SignupUseCase>(context, listen: false)),
-      update: (_, signupUseCase, previous) =>
-          previous ?? SignUpViewModel(signupUseCase),
-    ),
+    // UserViewModel must be defined first because LoginViewModel depends on it
     ChangeNotifierProxyProvider2<GetMeUseCase, UpdateMeUseCase, UserViewModel>(
       create: (context) => UserViewModel(
         Provider.of<GetMeUseCase>(context, listen: false),
@@ -317,6 +304,21 @@ Future<List<SingleChildWidget>> setupProviders() async {
       ),
       update: (_, getMeUseCase, updateMeUseCase, previous) =>
           previous ?? UserViewModel(getMeUseCase, updateMeUseCase),
+    ),
+    ChangeNotifierProxyProvider3<LoginUseCase, TokenProvider, UserViewModel, LoginViewModel>(
+      create: (context) => LoginViewModel(
+        Provider.of<LoginUseCase>(context, listen: false),
+        tokenProvider,
+        Provider.of<UserViewModel>(context, listen: false),
+      ),
+      update: (_, loginUseCase, tokenProvider, userViewModel, previous) =>
+          previous ?? LoginViewModel(loginUseCase, tokenProvider, userViewModel),
+    ),
+    ChangeNotifierProxyProvider<SignupUseCase, SignUpViewModel>(
+      create: (context) =>
+          SignUpViewModel(Provider.of<SignupUseCase>(context, listen: false)),
+      update: (_, signupUseCase, previous) =>
+          previous ?? SignUpViewModel(signupUseCase),
     ),
     ChangeNotifierProxyProvider5<
       GetProductsUseCase,

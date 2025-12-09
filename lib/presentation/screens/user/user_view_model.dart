@@ -1,6 +1,7 @@
 import 'package:we/data/models/user/update_my_info_request.dart';
 import 'package:we/domain/entities/user/my_info_entity.dart';
 import 'package:we/domain/entities/user/update_my_info_entity.dart';
+import 'package:we/domain/entities/user/user_entity.dart';
 import 'package:we/domain/use_cases/user/get_me_use_case.dart';
 import 'package:we/domain/use_cases/user/update_me_use_case.dart';
 import 'package:we/presentation/base/base_view_model.dart';
@@ -16,6 +17,22 @@ class UserViewModel extends BaseViewModel {
 
   UpdateMyInfoEntity? _updatedMyInfo;
   UpdateMyInfoEntity? get updatedMyInfo => _updatedMyInfo;
+
+  /// Set user info from login response (UserEntity -> MyInfoEntity)
+  void setUserFromLogin(UserEntity userEntity) {
+    _myInfo = MyInfoEntity(
+      userId: userEntity.userId,
+      name: userEntity.name,
+      phone: userEntity.phone,
+      points: userEntity.points ?? 0,
+      level: userEntity.level ?? '',
+      referrerId: userEntity.referrerId,
+      referrerName: userEntity.referrerName,
+      totalReferrals: userEntity.totalReferrals ?? 0,
+      createdAt: userEntity.createdAt ?? '',
+    );
+    notifyListeners();
+  }
 
   Future<void> getMe() async {
     setLoading(true);

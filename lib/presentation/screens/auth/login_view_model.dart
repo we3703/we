@@ -3,12 +3,18 @@ import 'package:we/data/models/auth/login_request.dart';
 import 'package:we/domain/entities/auth/login_entity.dart';
 import 'package:we/domain/use_cases/auth/login_use_case.dart';
 import 'package:we/presentation/base/base_view_model.dart';
+import 'package:we/presentation/screens/user/user_view_model.dart';
 
 class LoginViewModel extends BaseViewModel {
   final LoginUseCase _loginUseCase;
   final TokenProvider _tokenProvider;
+  final UserViewModel _userViewModel;
 
-  LoginViewModel(this._loginUseCase, this._tokenProvider);
+  LoginViewModel(
+    this._loginUseCase,
+    this._tokenProvider,
+    this._userViewModel,
+  );
 
   LoginEntity? _loggedInUser;
   LoginEntity? get loggedInUser => _loggedInUser;
@@ -28,6 +34,8 @@ class LoginViewModel extends BaseViewModel {
             loginEntity.tokens.accessToken,
             loginEntity.tokens.refreshToken,
           );
+          // Save user info to UserViewModel
+          _userViewModel.setUserFromLogin(loginEntity.user);
           setError(null);
         },
         failure: (failure) async {

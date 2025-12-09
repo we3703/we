@@ -1,5 +1,12 @@
 import 'failure.dart';
 
+/// Unit type for representing void/empty success results
+class Unit {
+  const Unit();
+}
+
+const unit = Unit();
+
 /// Result type for handling success and failure cases
 /// Usage:
 /// ```dart
@@ -20,7 +27,7 @@ class Result<T> {
   factory Result.success(T data) => Result._(data: data);
   factory Result.failure(Failure failure) => Result._(failure: failure);
 
-  bool get isSuccess => _data != null;
+  bool get isSuccess => _failure == null;
   bool get isFailure => _failure != null;
 
   T get data => _data!;

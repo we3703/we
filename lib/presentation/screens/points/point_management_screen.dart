@@ -24,7 +24,10 @@ class _PointManagementScreenState extends State<PointManagementScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PointsViewModel>().getPointsHistory();
+      final pointsVM = context.read<PointsViewModel?>();
+      if (pointsVM != null) {
+        pointsVM.getPointsHistory();
+      }
     });
   }
 

@@ -19,7 +19,8 @@ class PointsRepositoryImpl implements PointsRepository {
   Future<Result<void>> rechargePoints(RechargePointsRequest request) async {
     try {
       await pointsApi.rechargePoints(request.toJson());
-      return Result.success(null);
+      // ignore: void_checks
+      return Result.success(unit);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
@@ -39,7 +40,8 @@ class PointsRepositoryImpl implements PointsRepository {
   Future<Result<void>> rechargePointsSuccess() async {
     try {
       await pointsApi.rechargePointsSuccess();
-      return Result.success(null);
+      // ignore: void_checks
+      return Result.success(unit);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
@@ -56,7 +58,8 @@ class PointsRepositoryImpl implements PointsRepository {
   Future<Result<void>> rechargePointsFail() async {
     try {
       await pointsApi.rechargePointsFail();
-      return Result.success(null);
+      // ignore: void_checks
+      return Result.success(unit);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {

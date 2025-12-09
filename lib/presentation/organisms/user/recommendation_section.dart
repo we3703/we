@@ -102,23 +102,26 @@ class RecommendationSection extends StatelessWidget {
               AppTextStyles.heading3Bold, // Using AppTextStyles for consistency
         ),
         const SizedBox(height: AppSpacing.space12),
-        ...recommendedUsers.asMap().entries.map((entry) {
-          final index = entry.key;
-          final user = entry.value;
-          return Column(
-            children: [
-              UserStatusCard(
-                userName: user.name,
-                membershipLevel: user.membershipLevel,
-                joinDate: user.joinDate,
-                recommendationCount: user.recommendationCount,
-                profileImageUrl: user.profileImageUrl,
-              ),
-              if (index < recommendedUsers.length - 1)
-                const SizedBox(height: AppSpacing.space12),
-            ],
-          );
-        }),
+        if (recommendedUsers.isEmpty)
+          const Text('추천한 사람이 없습니다.')
+        else
+          ...recommendedUsers.asMap().entries.map((entry) {
+            final index = entry.key;
+            final user = entry.value;
+            return Column(
+              children: [
+                UserStatusCard(
+                  userName: user.name,
+                  membershipLevel: user.membershipLevel,
+                  joinDate: user.joinDate,
+                  recommendationCount: user.recommendationCount,
+                  profileImageUrl: user.profileImageUrl,
+                ),
+                if (index < recommendedUsers.length - 1)
+                  const SizedBox(height: AppSpacing.space12),
+              ],
+            );
+          }),
       ],
     );
   }

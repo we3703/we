@@ -1,11 +1,11 @@
 {
-    "name": "We - 외주 모아보기",
-    "short_name": "We",
+    "name": "헬스온",
+    "short_name": "헬스온",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#1976D2",
-    "description": "외주 모아보기 플랫폼",
+    "description": "헬스온",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
