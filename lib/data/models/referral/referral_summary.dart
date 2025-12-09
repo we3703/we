@@ -17,12 +17,12 @@ class Referral {
 
   factory Referral.fromJson(Map<String, dynamic> json) {
     return Referral(
-      userId: json['userId'],
-      name: json['name'],
-      level: json['level'],
-      joinedAt: json['joinedAt'],
-      totalPurchase: json['totalPurchase'],
-      subReferrals: json['subReferrals'],
+      userId: json['user_id'] ?? json['userId'] ?? '',
+      name: json['name'] ?? '',
+      level: json['level'] ?? '',
+      joinedAt: json['joined_at'] ?? json['joinedAt'] ?? '',
+      totalPurchase: json['total_purchase'] ?? json['totalPurchase'] ?? 0,
+      subReferrals: json['sub_referrals'] ?? json['subReferrals'] ?? 0,
     );
   }
 }
@@ -43,16 +43,17 @@ class ReferralSummary {
   });
 
   factory ReferralSummary.fromJson(Map<String, dynamic> json) {
-    var referralList = json['referrals'] as List;
+    var referralList = json['referrals'] as List? ?? [];
     List<Referral> referrals = referralList
         .map((i) => Referral.fromJson(i))
         .toList();
 
     return ReferralSummary(
-      totalReferrals: json['totalReferrals'],
-      directReferrals: json['directReferrals'],
-      indirectReferrals: json['indirectReferrals'],
-      totalCommission: json['totalCommission'],
+      totalReferrals: json['total_referrals'] ?? json['totalReferrals'] ?? 0,
+      directReferrals: json['direct_referrals'] ?? json['directReferrals'] ?? 0,
+      indirectReferrals:
+          json['indirect_referrals'] ?? json['indirectReferrals'] ?? 0,
+      totalCommission: json['total_commission'] ?? json['totalCommission'] ?? 0,
       referrals: referrals,
     );
   }

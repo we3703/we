@@ -33,9 +33,7 @@ class ProductRepositoryImpl implements ProductRepository {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('상품 목록을 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -56,9 +54,7 @@ class ProductRepositoryImpl implements ProductRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('상품 정보를 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -78,9 +74,7 @@ class ProductRepositoryImpl implements ProductRepository {
       if (e.statusCode == 403) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('상품 생성 중 오류가 발생했습니다: ${e.toString()}'),
@@ -110,9 +104,7 @@ class ProductRepositoryImpl implements ProductRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('상품 수정 중 오류가 발생했습니다: ${e.toString()}'),
@@ -136,9 +128,7 @@ class ProductRepositoryImpl implements ProductRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('상품 삭제 중 오류가 발생했습니다: ${e.toString()}'),

@@ -11,32 +11,26 @@ class LoginForm extends StatefulWidget {
   final VoidCallback onSignUp;
   final bool isLoading;
   final String? errorMessage;
-  final GlobalKey<LoginFormState> formKey; // Add a key to access state
 
   const LoginForm({
-    required this.formKey, // Require the key
+    super.key,
     required this.onLogin,
     required this.onSignUp,
     this.isLoading = false,
     this.errorMessage,
-  }) : super(key: formKey); // Pass the key to super
+  });
 
   @override
   State<LoginForm> createState() => LoginFormState();
 }
 
 class LoginFormState extends State<LoginForm> {
-  final _emailController = TextEditingController();
+  final _idController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  void clearInputs() {
-    _emailController.clear();
-    _passwordController.clear();
-  }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _idController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -46,11 +40,11 @@ class LoginFormState extends State<LoginForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('이메일', style: AppTextStyles.bodyBold),
+        Text('아이디', style: AppTextStyles.bodyBold),
         const SizedBox(height: AppSpacing.space12),
         TextInput(
-          controller: _emailController,
-          hintText: '이메일 입력',
+          controller: _idController,
+          hintText: '아이디 입력',
           keyboardType: TextInputType.text,
         ),
         const SizedBox(height: AppSpacing.space20),
@@ -72,9 +66,9 @@ class LoginFormState extends State<LoginForm> {
           ),
         const SizedBox(height: AppSpacing.space32),
         PrimaryButton(
-          text: '로그인', // "Login"
+          text: '로그인',
           onPressed: () =>
-              widget.onLogin(_emailController.text, _passwordController.text),
+              widget.onLogin(_idController.text, _passwordController.text),
           isLoading: widget.isLoading,
         ),
         const SizedBox(height: AppSpacing.space20),

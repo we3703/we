@@ -52,11 +52,7 @@ class LinkButton extends StatelessWidget {
                 ),
               )
             : Icon(icon, size: 16),
-        label: Text(
-          text,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+        label: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
       );
     }
 
@@ -72,11 +68,7 @@ class LinkButton extends StatelessWidget {
                 strokeWidth: 2,
               ),
             )
-          : Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+          : Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
     );
   }
 }

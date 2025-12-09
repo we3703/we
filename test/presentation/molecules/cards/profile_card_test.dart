@@ -20,7 +20,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
             ),
           ),
@@ -42,7 +42,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
             ),
           ),
@@ -69,7 +69,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               profileImageUrl: imageUrl,
             ),
@@ -95,7 +95,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               profileImageUrl: null,
             ),
@@ -123,7 +123,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               profileImageUrl: '',
             ),
@@ -148,7 +148,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               joinDate: joinDate,
             ),
@@ -170,7 +170,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               joinDate: null,
             ),
@@ -192,7 +192,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               joinDate: '',
             ),
@@ -218,7 +218,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
               profileImageUrl: imageUrl,
               joinDate: joinDate,
@@ -244,7 +244,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: ProfileCard(
-              userName: userName,
+              name: userName,
               membershipTitle: membershipTitle,
             ),
           ),

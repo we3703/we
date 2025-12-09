@@ -45,11 +45,7 @@ class SecondaryButton extends StatelessWidget {
                 ),
               )
             : Icon(icon, size: 20),
-        label: Text(
-          text,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+        label: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
       );
     }
 
@@ -65,11 +61,7 @@ class SecondaryButton extends StatelessWidget {
                 strokeWidth: 2,
               ),
             )
-          : Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+          : Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
     );
   }
 }

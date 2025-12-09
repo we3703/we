@@ -21,14 +21,14 @@ class PointHistoryItem {
 
   factory PointHistoryItem.fromJson(Map<String, dynamic> json) {
     return PointHistoryItem(
-      historyId: json['historyId'],
-      type: json['type'],
-      amount: json['amount'],
-      balance: json['balance'],
-      description: json['description'],
-      orderId: json['orderId'],
-      fromUserId: json['fromUserId'],
-      createdAt: json['createdAt'],
+      historyId: (json['history_id'] ?? json['historyId'] ?? '').toString(),
+      type: json['type'] ?? '',
+      amount: json['amount'] ?? 0,
+      balance: json['balance'] ?? 0,
+      description: json['description'] ?? '',
+      orderId: json['order_id'] ?? json['orderId'],
+      fromUserId: json['from_user_id'] ?? json['fromUserId'],
+      createdAt: json['created_at'] ?? json['createdAt'] ?? '',
     );
   }
 }
@@ -49,15 +49,15 @@ class PointsHistory {
   });
 
   factory PointsHistory.fromJson(Map<String, dynamic> json) {
-    var historyList = json['history'] as List;
+    var historyList = json['history'] as List? ?? [];
     List<PointHistoryItem> history = historyList
         .map((i) => PointHistoryItem.fromJson(i))
         .toList();
     return PointsHistory(
-      currentPoints: json['currentPoints'],
-      totalCharged: json['totalCharged'],
-      totalUsed: json['totalUsed'],
-      totalCommission: json['totalCommission'],
+      currentPoints: json['current_points'] ?? json['currentPoints'] ?? 0,
+      totalCharged: json['total_charged'] ?? json['totalCharged'] ?? 0,
+      totalUsed: json['total_used'] ?? json['totalUsed'] ?? 0,
+      totalCommission: json['total_commission'] ?? json['totalCommission'] ?? 0,
       history: history,
     );
   }

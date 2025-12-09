@@ -14,10 +14,8 @@ class GetMeUseCase {
         return Result.success(
           MyInfoEntity(
             userId: myInfo.userId,
-            email: myInfo.email,
             name: myInfo.name,
             phone: myInfo.phone,
-            referralCode: myInfo.referralCode,
             points: myInfo.points,
             level: myInfo.level,
             referrerId: myInfo.referrerId,

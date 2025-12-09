@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/icon_radio.dart';
 import 'package:we/presentation/foundations/typography.dart';
 
@@ -27,13 +26,13 @@ class QuickActionButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppIcon.size32(icon: icon, color: AppColors.textPrimary),
+            AppIcon.size32(icon: icon, color: Colors.white),
             const SizedBox(height: 4),
             Text(
               label,
               style: AppTextStyles.bodyRegular.copyWith(
                 fontSize: 13,
-                color: AppColors.textPrimary,
+                color: Colors.white,
               ),
             ),
           ],

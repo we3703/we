@@ -13,15 +13,34 @@ import 'package:we/presentation/screens/notice/notice_list_screen.dart';
 
 class MainScaffold extends StatefulWidget {
   static const routeName = '/main';
+  final int? initialIndex;
 
-  const MainScaffold({super.key});
+  const MainScaffold({super.key, this.initialIndex});
 
   @override
   State<MainScaffold> createState() => _MainScaffoldState();
 }
 
 class _MainScaffoldState extends State<MainScaffold> {
-  int _currentIndex = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex ?? 0;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Handle arguments from navigation
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args != null && args is int) {
+      setState(() {
+        _currentIndex = args;
+      });
+    }
+  }
 
   final List<Widget> _pages = [
     const HomeScreen(),

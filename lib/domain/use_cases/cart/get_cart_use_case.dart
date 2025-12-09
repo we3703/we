@@ -13,16 +13,19 @@ class GetCartUseCase {
     return result.when(
       success: (cart) {
         final items = cart.items
-            .map((item) => CartItemEntity(
-                  productId: item.productId,
-                  name: item.name,
-                  quantity: item.quantity,
-                  price: item.price,
-                  imageUrl: item.imageUrl,
-                ))
+            .map(
+              (item) => CartItemEntity(
+                productId: item.productId,
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                imageUrl: item.imageUrl,
+              ),
+            )
             .toList();
         return Result.success(
-            CartEntity(items: items, totalPrice: cart.totalPrice));
+          CartEntity(items: items, totalPrice: cart.totalPrice),
+        );
       },
       failure: (error) {
         return Result.failure(error);

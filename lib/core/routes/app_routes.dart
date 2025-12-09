@@ -7,12 +7,12 @@ import 'package:we/presentation/screens/main/my_page_screen.dart';
 import 'package:we/presentation/screens/main/product_list_screen.dart';
 import 'package:we/presentation/screens/main/recommendation_screen.dart';
 import 'package:we/presentation/screens/notice/notice_list_screen.dart';
-import 'package:we/presentation/screens/user/point_management_screen.dart';
+import 'package:we/presentation/screens/points/point_management_screen.dart';
 import 'package:we/presentation/screens/user/purchase_history_screen.dart';
 import 'package:we/presentation/screens/user/user_info_edit_screen.dart';
 import 'package:we/presentation/screens/notification/notification_screen.dart';
 import 'package:we/presentation/screens/user/my_product_management_screen.dart';
-import 'package:we/presentation/screens/user/referral_tree_screen.dart';
+import 'package:we/presentation/screens/referral/referral_tree_screen.dart';
 
 class AppRoutes {
   static Map<String, WidgetBuilder> get routes {

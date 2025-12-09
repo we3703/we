@@ -1,9 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:we/core/auth/token_provider.dart';
 import 'package:we/core/config/http_client.dart';
 import 'package:we/data/api/auth/auth_api.dart';
 import 'package:we/data/api/auth/license_api.dart';
+import 'package:we/data/api/order/order_api.dart';
 import 'package:we/data/api/user/user_api.dart';
 import 'package:we/data/api/product/product_api.dart';
 import 'package:we/data/api/notice/notice_api.dart';
@@ -22,6 +24,7 @@ import 'package:we/data/repositories/auth/auth_repository_impl.dart';
 import 'package:we/data/repositories/auth/license_repository_impl.dart';
 import 'package:we/data/repositories/cart/cart_repository_impl.dart';
 import 'package:we/data/repositories/notice/notice_repository_impl.dart';
+import 'package:we/data/repositories/order/order_repository_impl.dart';
 import 'package:we/data/repositories/points/points_repository_impl.dart';
 import 'package:we/data/repositories/product/product_repository_impl.dart';
 import 'package:we/data/repositories/referrals/referral_repository_impl.dart';
@@ -34,6 +37,7 @@ import 'package:we/domain/repositories/auth/auth_repository.dart';
 import 'package:we/domain/repositories/auth/license_repository.dart';
 import 'package:we/domain/repositories/cart/cart_repository.dart';
 import 'package:we/domain/repositories/notice/notice_repository.dart';
+import 'package:we/domain/repositories/order/order_repository.dart';
 import 'package:we/domain/repositories/points/points_repository.dart';
 import 'package:we/domain/repositories/product/product_repository.dart';
 import 'package:we/domain/repositories/referrals/referral_repository.dart';
@@ -57,6 +61,8 @@ import 'package:we/domain/use_cases/cart/get_cart_use_case.dart';
 import 'package:we/domain/use_cases/cart/update_cart_item_use_case.dart';
 import 'package:we/domain/use_cases/notice/get_notice_detail_use_case.dart';
 import 'package:we/domain/use_cases/notice/get_notices_use_case.dart';
+import 'package:we/domain/use_cases/order/create_order_use_case.dart';
+import 'package:we/domain/use_cases/order/get_my_orders_use_case.dart';
 import 'package:we/domain/use_cases/points/get_points_history_use_case.dart';
 import 'package:we/domain/use_cases/points/get_recharge_history_use_case.dart';
 import 'package:we/domain/use_cases/points/recharge_points_fail_use_case.dart';
@@ -79,269 +85,411 @@ import 'package:we/presentation/screens/auth/login_view_model.dart';
 import 'package:we/presentation/screens/auth/signup_view_model.dart';
 import 'package:we/presentation/screens/cart/cart_view_model.dart';
 import 'package:we/presentation/screens/notice/notice_view_model.dart';
+import 'package:we/presentation/screens/order/order_view_model.dart';
 import 'package:we/presentation/screens/points/points_view_model.dart';
 import 'package:we/presentation/screens/product/product_view_model.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';
 import 'package:we/presentation/screens/user/user_view_model.dart';
 
-List<SingleChildWidget> setupProviders() {
+Future<List<SingleChildWidget>> setupProviders() async {
   // Core Dependencies
   final tokenProvider = TokenProvider();
-  final httpClient = HttpClient(
-    baseUrl: "http://192.168.1.3:8000",
-    tokenProvider: tokenProvider,
-  );
 
-  // API Implementations
-  final authApi = AuthApi(httpClient);
-  final licenseApi = LicenseApi(httpClient);
-  final userApi = UserApi(httpClient);
-  final productApi = ProductApi(httpClient);
-  final noticeApi = NoticeApi(httpClient);
-  final pointsApi = PointsApi(httpClient);
-  final referralsApi = ReferralsApi(httpClient);
-  final cartApi = CartApi(httpClient);
-  final adminNoticeApi = AdminNoticeApi(httpClient);
-  final adminOrderApi = AdminOrderApi(httpClient);
-  final adminReferralsApi = AdminReferralsApi(httpClient);
-  final adminUserApi = AdminUserApi(httpClient);
+  // Load tokens from storage before setting up the rest
+  await tokenProvider.loadTokens();
 
-  // Repository Implementations
-  final AuthRepository authRepository = AuthRepositoryImpl(authApi);
-  final LicenseRepository licenseRepository = LicenseRepositoryImpl(licenseApi);
-  final UserRepository userRepository = UserRepositoryImpl(userApi);
-  final ProductRepository productRepository = ProductRepositoryImpl(productApi);
-  final NoticeRepository noticeRepository = NoticeRepositoryImpl(noticeApi);
-  final PointsRepository pointsRepository = PointsRepositoryImpl(pointsApi);
-  final ReferralRepository referralRepository = ReferralRepositoryImpl(
-    referralsApi,
+  String url = dotenv.get(
+    "SERVER_ADDRESS",
+    fallback: "https://www.weserver.store/",
   );
-  final CartRepository cartRepository = CartRepositoryImpl(cartApi);
-  final AdminNoticeRepository adminNoticeRepository = AdminNoticeRepositoryImpl(
-    adminNoticeApi,
-  );
-  final AdminOrderRepository adminOrderRepository = AdminOrderRepositoryImpl(
-    adminOrderApi,
-  );
-  final AdminReferralRepository adminReferralRepository =
-      AdminReferralRepositoryImpl(adminReferralsApi);
-  final AdminUserRepository adminUserRepository = AdminUserRepositoryImpl(
-    adminUserApi,
-  );
-
-  // Use Cases
-  final LoginUseCase loginUseCase = LoginUseCase(authRepository);
-  final SignupUseCase signupUseCase = SignupUseCase(authRepository);
-  final SendCodeUseCase sendCodeUseCase = SendCodeUseCase(licenseRepository);
-  final VerifyCodeUseCase verifyCodeUseCase = VerifyCodeUseCase(licenseRepository);
-  final RefreshTokenUseCase refreshTokenUseCase = RefreshTokenUseCase(
-    authRepository,
-  );
-  final ChangePasswordUseCase changePasswordUseCase = ChangePasswordUseCase(
-    authRepository,
-  );
-  final LogoutUseCase logoutUseCase = LogoutUseCase(authRepository);
-
-  final GetMeUseCase getMeUseCase = GetMeUseCase(userRepository);
-  final UpdateMeUseCase updateMeUseCase = UpdateMeUseCase(userRepository);
-
-  final GetProductsUseCase getProductsUseCase = GetProductsUseCase(
-    productRepository,
-  );
-  final GetProductDetailUseCase getProductDetailUseCase =
-      GetProductDetailUseCase(productRepository);
-  final CreateProductUseCase createProductUseCase = CreateProductUseCase(
-    productRepository,
-  );
-  final UpdateProductUseCase updateProductUseCase = UpdateProductUseCase(
-    productRepository,
-  );
-  final DeleteProductUseCase deleteProductUseCase = DeleteProductUseCase(
-    productRepository,
-  );
-
-  final GetNoticesUseCase getNoticesUseCase = GetNoticesUseCase(
-    noticeRepository,
-  );
-  final GetNoticeDetailUseCase getNoticeDetailUseCase = GetNoticeDetailUseCase(
-    noticeRepository,
-  );
-
-  final RechargePointsUseCase rechargePointsUseCase = RechargePointsUseCase(
-    pointsRepository,
-  );
-  final RechargePointsSuccessUseCase rechargePointsSuccessUseCase =
-      RechargePointsSuccessUseCase(pointsRepository);
-  final RechargePointsFailUseCase rechargePointsFailUseCase =
-      RechargePointsFailUseCase(pointsRepository);
-  final GetRechargeHistoryUseCase getRechargeHistoryUseCase =
-      GetRechargeHistoryUseCase(pointsRepository);
-  final GetPointsHistoryUseCase getPointsHistoryUseCase =
-      GetPointsHistoryUseCase(pointsRepository);
-
-  final GetReferralTreeUseCase getReferralTreeUseCase = GetReferralTreeUseCase(
-    referralRepository,
-  );
-  final GetReferralSummaryUseCase getReferralSummaryUseCase =
-      GetReferralSummaryUseCase(referralRepository);
-
-  final AddCartItemUseCase addCartItemUseCase = AddCartItemUseCase(
-    cartRepository,
-  );
-  final GetCartUseCase getCartUseCase = GetCartUseCase(cartRepository);
-  final UpdateCartItemUseCase updateCartItemUseCase = UpdateCartItemUseCase(
-    cartRepository,
-  );
-  final DeleteCartItemUseCase deleteCartItemUseCase = DeleteCartItemUseCase(
-    cartRepository,
-  );
-
-  final CreateAdminNoticeUseCase createAdminNoticeUseCase =
-      CreateAdminNoticeUseCase(adminNoticeRepository);
-  final UpdateAdminNoticeUseCase updateAdminNoticeUseCase =
-      UpdateAdminNoticeUseCase(adminNoticeRepository);
-  final DeleteAdminNoticeUseCase deleteAdminNoticeUseCase =
-      DeleteAdminNoticeUseCase(adminNoticeRepository);
-
-  final GetAdminOrdersUseCase getAdminOrdersUseCase = GetAdminOrdersUseCase(
-    adminOrderRepository,
-  );
-
-  final GetAdminUserReferralTreeUseCase getAdminUserReferralTreeUseCase =
-      GetAdminUserReferralTreeUseCase(adminReferralRepository);
-
-  final GetAdminUsersUseCase getAdminUsersUseCase = GetAdminUsersUseCase(
-    adminUserRepository,
-  );
+  final httpClient = HttpClient(baseUrl: url, tokenProvider: tokenProvider);
 
   return [
     ChangeNotifierProvider<TokenProvider>.value(value: tokenProvider),
     Provider<HttpClient>.value(value: httpClient),
 
-    // Repositories
-    Provider<AuthRepository>.value(value: authRepository),
-    Provider<UserRepository>.value(value: userRepository),
-    Provider<ProductRepository>.value(value: productRepository),
-    Provider<NoticeRepository>.value(value: noticeRepository),
-    Provider<PointsRepository>.value(value: pointsRepository),
-    Provider<ReferralRepository>.value(value: referralRepository),
-    Provider<CartRepository>.value(value: cartRepository),
-    Provider<AdminNoticeRepository>.value(value: adminNoticeRepository),
-    Provider<AdminOrderRepository>.value(value: adminOrderRepository),
-    Provider<AdminReferralRepository>.value(value: adminReferralRepository),
-    Provider<AdminUserRepository>.value(value: adminUserRepository),
+    // APIs - Lazy initialization
+    Provider<AuthApi>(create: (_) => AuthApi(httpClient)),
+    Provider<LicenseApi>(create: (_) => LicenseApi(httpClient)),
+    Provider<UserApi>(create: (_) => UserApi(httpClient)),
+    Provider<ProductApi>(create: (_) => ProductApi(httpClient)),
+    Provider<NoticeApi>(create: (_) => NoticeApi(httpClient)),
+    Provider<PointsApi>(create: (_) => PointsApi(httpClient)),
+    Provider<OrderApi>(create: (_) => OrderApi(httpClient)),
+    Provider<ReferralsApi>(create: (_) => ReferralsApi(httpClient)),
+    Provider<CartApi>(create: (_) => CartApi(httpClient)),
+    Provider<AdminNoticeApi>(create: (_) => AdminNoticeApi(httpClient)),
+    Provider<AdminOrderApi>(create: (_) => AdminOrderApi(httpClient)),
+    Provider<AdminReferralsApi>(create: (_) => AdminReferralsApi(httpClient)),
+    Provider<AdminUserApi>(create: (_) => AdminUserApi(httpClient)),
 
-    // Use Cases (Auth)
-    Provider<LoginUseCase>.value(value: loginUseCase),
-    Provider<SignupUseCase>.value(value: signupUseCase),
-    Provider<SendCodeUseCase>.value(value: sendCodeUseCase),
-    Provider<VerifyCodeUseCase>.value(value: verifyCodeUseCase),
-    Provider<RefreshTokenUseCase>.value(value: refreshTokenUseCase),
-    Provider<ChangePasswordUseCase>.value(value: changePasswordUseCase),
-    Provider<LogoutUseCase>.value(value: logoutUseCase),
+    // Repositories - Lazy initialization using ProxyProvider
+    ProxyProvider<AuthApi, AuthRepository>(
+      update: (_, authApi, __) => AuthRepositoryImpl(authApi, tokenProvider),
+    ),
+    ProxyProvider<UserApi, UserRepository>(
+      update: (_, userApi, __) => UserRepositoryImpl(userApi),
+    ),
+    ProxyProvider<ProductApi, ProductRepository>(
+      update: (_, productApi, __) => ProductRepositoryImpl(productApi),
+    ),
+    ProxyProvider<NoticeApi, NoticeRepository>(
+      update: (_, noticeApi, __) => NoticeRepositoryImpl(noticeApi),
+    ),
+    ProxyProvider<PointsApi, PointsRepository>(
+      update: (_, pointsApi, __) => PointsRepositoryImpl(pointsApi),
+    ),
+    ProxyProvider<OrderApi, OrderRepository>(
+      update: (_, orderApi, __) => OrderRepositoryImpl(orderApi),
+    ),
+    ProxyProvider<ReferralsApi, ReferralRepository>(
+      update: (_, referralsApi, __) => ReferralRepositoryImpl(referralsApi),
+    ),
+    ProxyProvider<CartApi, CartRepository>(
+      update: (_, cartApi, __) => CartRepositoryImpl(cartApi),
+    ),
+    ProxyProvider<AdminNoticeApi, AdminNoticeRepository>(
+      update: (_, adminNoticeApi, __) =>
+          AdminNoticeRepositoryImpl(adminNoticeApi),
+    ),
+    ProxyProvider<AdminOrderApi, AdminOrderRepository>(
+      update: (_, adminOrderApi, __) => AdminOrderRepositoryImpl(adminOrderApi),
+    ),
+    ProxyProvider<AdminReferralsApi, AdminReferralRepository>(
+      update: (_, adminReferralsApi, __) =>
+          AdminReferralRepositoryImpl(adminReferralsApi),
+    ),
+    ProxyProvider<AdminUserApi, AdminUserRepository>(
+      update: (_, adminUserApi, __) => AdminUserRepositoryImpl(adminUserApi),
+    ),
+
+    // License Repository - needs special handling
+    ProxyProvider<LicenseApi, LicenseRepository>(
+      update: (_, licenseApi, __) => LicenseRepositoryImpl(licenseApi),
+    ),
+
+    // Use Cases (Auth) - Lazy initialization
+    ProxyProvider<AuthRepository, LoginUseCase>(
+      update: (_, authRepo, __) => LoginUseCase(authRepo),
+    ),
+    ProxyProvider<AuthRepository, SignupUseCase>(
+      update: (_, authRepo, __) => SignupUseCase(authRepo),
+    ),
+    ProxyProvider<LicenseRepository, SendCodeUseCase>(
+      update: (_, licenseRepo, __) => SendCodeUseCase(licenseRepo),
+    ),
+    ProxyProvider<LicenseRepository, VerifyCodeUseCase>(
+      update: (_, licenseRepo, __) => VerifyCodeUseCase(licenseRepo),
+    ),
+    ProxyProvider<AuthRepository, RefreshTokenUseCase>(
+      update: (_, authRepo, __) => RefreshTokenUseCase(authRepo),
+    ),
+    ProxyProvider<AuthRepository, ChangePasswordUseCase>(
+      update: (_, authRepo, __) => ChangePasswordUseCase(authRepo),
+    ),
+    ProxyProvider<AuthRepository, LogoutUseCase>(
+      update: (_, authRepo, __) => LogoutUseCase(authRepo),
+    ),
 
     // Use Cases (User)
-    Provider<GetMeUseCase>.value(value: getMeUseCase),
-    Provider<UpdateMeUseCase>.value(value: updateMeUseCase),
+    ProxyProvider<UserRepository, GetMeUseCase>(
+      update: (_, userRepo, __) => GetMeUseCase(userRepo),
+    ),
+    ProxyProvider<UserRepository, UpdateMeUseCase>(
+      update: (_, userRepo, __) => UpdateMeUseCase(userRepo),
+    ),
 
     // Use Cases (Product)
-    Provider<GetProductsUseCase>.value(value: getProductsUseCase),
-    Provider<GetProductDetailUseCase>.value(value: getProductDetailUseCase),
-    Provider<CreateProductUseCase>.value(value: createProductUseCase),
-    Provider<UpdateProductUseCase>.value(value: updateProductUseCase),
-    Provider<DeleteProductUseCase>.value(value: deleteProductUseCase),
+    ProxyProvider<ProductRepository, GetProductsUseCase>(
+      update: (_, productRepo, __) => GetProductsUseCase(productRepo),
+    ),
+    ProxyProvider<ProductRepository, GetProductDetailUseCase>(
+      update: (_, productRepo, __) => GetProductDetailUseCase(productRepo),
+    ),
+    ProxyProvider<ProductRepository, CreateProductUseCase>(
+      update: (_, productRepo, __) => CreateProductUseCase(productRepo),
+    ),
+    ProxyProvider<ProductRepository, UpdateProductUseCase>(
+      update: (_, productRepo, __) => UpdateProductUseCase(productRepo),
+    ),
+    ProxyProvider<ProductRepository, DeleteProductUseCase>(
+      update: (_, productRepo, __) => DeleteProductUseCase(productRepo),
+    ),
+
+    // Use Cases (Order)
+    ProxyProvider<OrderRepository, GetMyOrdersUseCase>(
+      update: (_, orderRepo, __) => GetMyOrdersUseCase(orderRepo),
+    ),
+    ProxyProvider<OrderRepository, CreateOrderUseCase>(
+      update: (_, orderRepo, __) => CreateOrderUseCase(orderRepo),
+    ),
 
     // Use Cases (Notice)
-    Provider<GetNoticesUseCase>.value(value: getNoticesUseCase),
-    Provider<GetNoticeDetailUseCase>.value(value: getNoticeDetailUseCase),
+    ProxyProvider<NoticeRepository, GetNoticesUseCase>(
+      update: (_, noticeRepo, __) => GetNoticesUseCase(noticeRepo),
+    ),
+    ProxyProvider<NoticeRepository, GetNoticeDetailUseCase>(
+      update: (_, noticeRepo, __) => GetNoticeDetailUseCase(noticeRepo),
+    ),
 
     // Use Cases (Points)
-    Provider<RechargePointsUseCase>.value(value: rechargePointsUseCase),
-    Provider<RechargePointsSuccessUseCase>.value(
-      value: rechargePointsSuccessUseCase,
+    ProxyProvider<PointsRepository, RechargePointsUseCase>(
+      update: (_, pointsRepo, __) => RechargePointsUseCase(pointsRepo),
     ),
-    Provider<RechargePointsFailUseCase>.value(value: rechargePointsFailUseCase),
-    Provider<GetRechargeHistoryUseCase>.value(value: getRechargeHistoryUseCase),
-    Provider<GetPointsHistoryUseCase>.value(value: getPointsHistoryUseCase),
+    ProxyProvider<PointsRepository, RechargePointsSuccessUseCase>(
+      update: (_, pointsRepo, __) => RechargePointsSuccessUseCase(pointsRepo),
+    ),
+    ProxyProvider<PointsRepository, RechargePointsFailUseCase>(
+      update: (_, pointsRepo, __) => RechargePointsFailUseCase(pointsRepo),
+    ),
+    ProxyProvider<PointsRepository, GetRechargeHistoryUseCase>(
+      update: (_, pointsRepo, __) => GetRechargeHistoryUseCase(pointsRepo),
+    ),
+    ProxyProvider<PointsRepository, GetPointsHistoryUseCase>(
+      update: (_, pointsRepo, __) => GetPointsHistoryUseCase(pointsRepo),
+    ),
 
     // Use Cases (Referrals)
-    Provider<GetReferralTreeUseCase>.value(value: getReferralTreeUseCase),
-    Provider<GetReferralSummaryUseCase>.value(value: getReferralSummaryUseCase),
+    ProxyProvider<ReferralRepository, GetReferralTreeUseCase>(
+      update: (_, referralRepo, __) => GetReferralTreeUseCase(referralRepo),
+    ),
+    ProxyProvider<ReferralRepository, GetReferralSummaryUseCase>(
+      update: (_, referralRepo, __) => GetReferralSummaryUseCase(referralRepo),
+    ),
 
     // Use Cases (Cart)
-    Provider<AddCartItemUseCase>.value(value: addCartItemUseCase),
-    Provider<GetCartUseCase>.value(value: getCartUseCase),
-    Provider<UpdateCartItemUseCase>.value(value: updateCartItemUseCase),
-    Provider<DeleteCartItemUseCase>.value(value: deleteCartItemUseCase),
+    ProxyProvider<CartRepository, AddCartItemUseCase>(
+      update: (_, cartRepo, __) => AddCartItemUseCase(cartRepo),
+    ),
+    ProxyProvider<CartRepository, GetCartUseCase>(
+      update: (_, cartRepo, __) => GetCartUseCase(cartRepo),
+    ),
+    ProxyProvider<CartRepository, UpdateCartItemUseCase>(
+      update: (_, cartRepo, __) => UpdateCartItemUseCase(cartRepo),
+    ),
+    ProxyProvider<CartRepository, DeleteCartItemUseCase>(
+      update: (_, cartRepo, __) => DeleteCartItemUseCase(cartRepo),
+    ),
 
     // Use Cases (Admin)
-    Provider<CreateAdminNoticeUseCase>.value(value: createAdminNoticeUseCase),
-    Provider<UpdateAdminNoticeUseCase>.value(value: updateAdminNoticeUseCase),
-    Provider<DeleteAdminNoticeUseCase>.value(value: deleteAdminNoticeUseCase),
-    Provider<GetAdminOrdersUseCase>.value(value: getAdminOrdersUseCase),
-    Provider<GetAdminUserReferralTreeUseCase>.value(
-      value: getAdminUserReferralTreeUseCase,
+    ProxyProvider<AdminNoticeRepository, CreateAdminNoticeUseCase>(
+      update: (_, adminNoticeRepo, __) =>
+          CreateAdminNoticeUseCase(adminNoticeRepo),
     ),
-    Provider<GetAdminUsersUseCase>.value(value: getAdminUsersUseCase),
+    ProxyProvider<AdminNoticeRepository, UpdateAdminNoticeUseCase>(
+      update: (_, adminNoticeRepo, __) =>
+          UpdateAdminNoticeUseCase(adminNoticeRepo),
+    ),
+    ProxyProvider<AdminNoticeRepository, DeleteAdminNoticeUseCase>(
+      update: (_, adminNoticeRepo, __) =>
+          DeleteAdminNoticeUseCase(adminNoticeRepo),
+    ),
+    ProxyProvider<AdminOrderRepository, GetAdminOrdersUseCase>(
+      update: (_, adminOrderRepo, __) => GetAdminOrdersUseCase(adminOrderRepo),
+    ),
+    ProxyProvider<AdminReferralRepository, GetAdminUserReferralTreeUseCase>(
+      update: (_, adminReferralRepo, __) =>
+          GetAdminUserReferralTreeUseCase(adminReferralRepo),
+    ),
+    ProxyProvider<AdminUserRepository, GetAdminUsersUseCase>(
+      update: (_, adminUserRepo, __) => GetAdminUsersUseCase(adminUserRepo),
+    ),
 
-    // ViewModels
-    ChangeNotifierProvider(create: (_) => LoginViewModel(loginUseCase)),
-    ChangeNotifierProvider(
-        create: (_) => SignUpViewModel(
-            signupUseCase, sendCodeUseCase, verifyCodeUseCase)),
-    ChangeNotifierProvider(
-      create: (_) => UserViewModel(getMeUseCase, updateMeUseCase),
-    ),
-    ChangeNotifierProvider(
-      create: (_) => ProductViewModel(
-        getProductsUseCase,
-        getProductDetailUseCase,
-        createProductUseCase,
-        updateProductUseCase,
-        deleteProductUseCase,
+    // ViewModels - Lazy initialization with ProxyProvider
+    ChangeNotifierProxyProvider<LoginUseCase, LoginViewModel>(
+      create: (context) => LoginViewModel(
+        Provider.of<LoginUseCase>(context, listen: false),
+        tokenProvider,
       ),
+      update: (_, loginUseCase, previous) =>
+          previous ?? LoginViewModel(loginUseCase, tokenProvider),
     ),
-    ChangeNotifierProvider(
-      create: (_) => NoticeViewModel(getNoticesUseCase, getNoticeDetailUseCase),
+    ChangeNotifierProxyProvider<SignupUseCase, SignUpViewModel>(
+      create: (context) =>
+          SignUpViewModel(Provider.of<SignupUseCase>(context, listen: false)),
+      update: (_, signupUseCase, previous) =>
+          previous ?? SignUpViewModel(signupUseCase),
     ),
-    ChangeNotifierProvider(
-      create: (_) => PointsViewModel(
-        rechargePointsUseCase,
-        rechargePointsSuccessUseCase,
-        rechargePointsFailUseCase,
-        getRechargeHistoryUseCase,
-        getPointsHistoryUseCase,
+    ChangeNotifierProxyProvider2<GetMeUseCase, UpdateMeUseCase, UserViewModel>(
+      create: (context) => UserViewModel(
+        Provider.of<GetMeUseCase>(context, listen: false),
+        Provider.of<UpdateMeUseCase>(context, listen: false),
       ),
+      update: (_, getMeUseCase, updateMeUseCase, previous) =>
+          previous ?? UserViewModel(getMeUseCase, updateMeUseCase),
     ),
-    ChangeNotifierProvider(
-      create: (_) =>
-          ReferralViewModel(getReferralTreeUseCase, getReferralSummaryUseCase),
-    ),
-    ChangeNotifierProvider(
-      create: (_) => CartViewModel(
-        addCartItemUseCase,
-        getCartUseCase,
-        updateCartItemUseCase,
-        deleteCartItemUseCase,
+    ChangeNotifierProxyProvider5<
+      GetProductsUseCase,
+      GetProductDetailUseCase,
+      CreateProductUseCase,
+      UpdateProductUseCase,
+      DeleteProductUseCase,
+      ProductViewModel
+    >(
+      create: (context) => ProductViewModel(
+        Provider.of<GetProductsUseCase>(context, listen: false),
+        Provider.of<GetProductDetailUseCase>(context, listen: false),
+        Provider.of<CreateProductUseCase>(context, listen: false),
+        Provider.of<UpdateProductUseCase>(context, listen: false),
+        Provider.of<DeleteProductUseCase>(context, listen: false),
       ),
+      update:
+          (
+            _,
+            getProducts,
+            getProductDetail,
+            createProduct,
+            updateProduct,
+            deleteProduct,
+            previous,
+          ) =>
+              previous ??
+              ProductViewModel(
+                getProducts,
+                getProductDetail,
+                createProduct,
+                updateProduct,
+                deleteProduct,
+              ),
     ),
-    ChangeNotifierProvider(
-      create: (_) => AdminNoticeViewModel(
-        createAdminNoticeUseCase,
-        updateAdminNoticeUseCase,
-        deleteAdminNoticeUseCase,
-        getNoticesUseCase,
-        getNoticeDetailUseCase,
+    ChangeNotifierProxyProvider<GetMyOrdersUseCase, OrderViewModel>(
+      create: (context) => OrderViewModel(
+        Provider.of<GetMyOrdersUseCase>(context, listen: false),
       ),
+      update: (_, getMyOrders, previous) =>
+          previous ?? OrderViewModel(getMyOrders),
     ),
-    ChangeNotifierProvider(
-      create: (_) => AdminOrderViewModel(getAdminOrdersUseCase),
+    ChangeNotifierProxyProvider2<
+      GetNoticesUseCase,
+      GetNoticeDetailUseCase,
+      NoticeViewModel
+    >(
+      create: (context) => NoticeViewModel(
+        Provider.of<GetNoticesUseCase>(context, listen: false),
+        Provider.of<GetNoticeDetailUseCase>(context, listen: false),
+      ),
+      update: (_, getNotices, getNoticeDetail, previous) =>
+          previous ?? NoticeViewModel(getNotices, getNoticeDetail),
     ),
-    ChangeNotifierProvider(
-      create: (_) => AdminReferralViewModel(getAdminUserReferralTreeUseCase),
+    ChangeNotifierProxyProvider5<
+      RechargePointsUseCase,
+      RechargePointsSuccessUseCase,
+      RechargePointsFailUseCase,
+      GetRechargeHistoryUseCase,
+      GetPointsHistoryUseCase,
+      PointsViewModel
+    >(
+      create: (context) => PointsViewModel(
+        Provider.of<RechargePointsUseCase>(context, listen: false),
+        Provider.of<RechargePointsSuccessUseCase>(context, listen: false),
+        Provider.of<RechargePointsFailUseCase>(context, listen: false),
+        Provider.of<GetRechargeHistoryUseCase>(context, listen: false),
+        Provider.of<GetPointsHistoryUseCase>(context, listen: false),
+      ),
+      update:
+          (
+            _,
+            rechargePoints,
+            rechargeSuccess,
+            rechargeFail,
+            getRechargeHistory,
+            getPointsHistory,
+            previous,
+          ) =>
+              previous ??
+              PointsViewModel(
+                rechargePoints,
+                rechargeSuccess,
+                rechargeFail,
+                getRechargeHistory,
+                getPointsHistory,
+              ),
     ),
-    ChangeNotifierProvider(
-      create: (_) => AdminUserViewModel(getAdminUsersUseCase),
+    ChangeNotifierProxyProvider2<
+      GetReferralTreeUseCase,
+      GetReferralSummaryUseCase,
+      ReferralViewModel
+    >(
+      create: (context) => ReferralViewModel(
+        Provider.of<GetReferralTreeUseCase>(context, listen: false),
+        Provider.of<GetReferralSummaryUseCase>(context, listen: false),
+      ),
+      update: (_, getReferralTree, getReferralSummary, previous) =>
+          previous ?? ReferralViewModel(getReferralTree, getReferralSummary),
+    ),
+    ChangeNotifierProxyProvider4<
+      AddCartItemUseCase,
+      GetCartUseCase,
+      UpdateCartItemUseCase,
+      DeleteCartItemUseCase,
+      CartViewModel
+    >(
+      create: (context) => CartViewModel(
+        Provider.of<AddCartItemUseCase>(context, listen: false),
+        Provider.of<GetCartUseCase>(context, listen: false),
+        Provider.of<UpdateCartItemUseCase>(context, listen: false),
+        Provider.of<DeleteCartItemUseCase>(context, listen: false),
+      ),
+      update: (_, addCart, getCart, updateCart, deleteCart, previous) =>
+          previous ?? CartViewModel(addCart, getCart, updateCart, deleteCart),
+    ),
+    ChangeNotifierProxyProvider5<
+      CreateAdminNoticeUseCase,
+      UpdateAdminNoticeUseCase,
+      DeleteAdminNoticeUseCase,
+      GetNoticesUseCase,
+      GetNoticeDetailUseCase,
+      AdminNoticeViewModel
+    >(
+      create: (context) => AdminNoticeViewModel(
+        Provider.of<CreateAdminNoticeUseCase>(context, listen: false),
+        Provider.of<UpdateAdminNoticeUseCase>(context, listen: false),
+        Provider.of<DeleteAdminNoticeUseCase>(context, listen: false),
+        Provider.of<GetNoticesUseCase>(context, listen: false),
+        Provider.of<GetNoticeDetailUseCase>(context, listen: false),
+      ),
+      update:
+          (
+            _,
+            createNotice,
+            updateNotice,
+            deleteNotice,
+            getNotices,
+            getNoticeDetail,
+            previous,
+          ) =>
+              previous ??
+              AdminNoticeViewModel(
+                createNotice,
+                updateNotice,
+                deleteNotice,
+                getNotices,
+                getNoticeDetail,
+              ),
+    ),
+    ChangeNotifierProxyProvider<GetAdminOrdersUseCase, AdminOrderViewModel>(
+      create: (context) => AdminOrderViewModel(
+        Provider.of<GetAdminOrdersUseCase>(context, listen: false),
+      ),
+      update: (_, getAdminOrders, previous) =>
+          previous ?? AdminOrderViewModel(getAdminOrders),
+    ),
+    ChangeNotifierProxyProvider<
+      GetAdminUserReferralTreeUseCase,
+      AdminReferralViewModel
+    >(
+      create: (context) => AdminReferralViewModel(
+        Provider.of<GetAdminUserReferralTreeUseCase>(context, listen: false),
+      ),
+      update: (_, getAdminUserReferralTree, previous) =>
+          previous ?? AdminReferralViewModel(getAdminUserReferralTree),
+    ),
+    ChangeNotifierProxyProvider<GetAdminUsersUseCase, AdminUserViewModel>(
+      create: (context) => AdminUserViewModel(
+        Provider.of<GetAdminUsersUseCase>(context, listen: false),
+      ),
+      update: (_, getAdminUsers, previous) =>
+          previous ?? AdminUserViewModel(getAdminUsers),
     ),
   ];
 }

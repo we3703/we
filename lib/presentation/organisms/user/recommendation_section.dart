@@ -5,7 +5,7 @@ import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/cards/user/info_stat_card.dart';
 import 'package:we/presentation/molecules/cards/user/user_status_card.dart';
-import 'package:we/presentation/screens/user/referral_tree_screen.dart';
+import 'package:we/presentation/screens/referral/referral_tree_screen.dart';
 
 // Data model for recommendation statistics
 class RecommendationStatsData {
@@ -22,14 +22,14 @@ class RecommendationStatsData {
 
 // Data model for a recommended user
 class RecommendedUserData {
-  final String userName;
+  final String name;
   final MembershipLevel membershipLevel;
   final String? joinDate;
   final int? recommendationCount;
   final String? profileImageUrl;
 
   RecommendedUserData({
-    required this.userName,
+    required this.name,
     required this.membershipLevel,
     this.joinDate,
     this.recommendationCount,
@@ -108,7 +108,7 @@ class RecommendationSection extends StatelessWidget {
           return Column(
             children: [
               UserStatusCard(
-                userName: user.userName,
+                userName: user.name,
                 membershipLevel: user.membershipLevel,
                 joinDate: user.joinDate,
                 recommendationCount: user.recommendationCount,

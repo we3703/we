@@ -1,9 +1,7 @@
 class MyInfo {
   final String userId;
-  final String email;
   final String name;
   final String? phone;
-  final String referralCode;
   final int points;
   final String level;
   final String? referrerId;
@@ -13,10 +11,8 @@ class MyInfo {
 
   MyInfo({
     required this.userId,
-    required this.email,
     required this.name,
     this.phone,
-    required this.referralCode,
     required this.points,
     required this.level,
     this.referrerId,
@@ -27,17 +23,15 @@ class MyInfo {
 
   factory MyInfo.fromJson(Map<String, dynamic> json) {
     return MyInfo(
-      userId: json['userId'],
-      email: json['email'],
-      name: json['name'],
-      phone: json['phone'],
-      referralCode: json['referralCode'],
-      points: json['points'],
-      level: json['level'],
-      referrerId: json['referrerId'],
-      referrerName: json['referrerName'],
-      totalReferrals: json['totalReferrals'],
-      createdAt: json['createdAt'],
+      userId: json['user_id'] ?? json['userId'] ?? '',
+      name: json['name'] ?? '',
+      phone: json['phone']?.toString(),
+      points: json['points'] ?? json['point'] ?? 0,
+      level: json['level'] ?? json['grade'] ?? '',
+      referrerId: json['referrer_id'] ?? json['referrerId'],
+      referrerName: json['referrer_name'] ?? json['referrerName'],
+      totalReferrals: json['total_referrals'] ?? json['totalReferrals'] ?? 0,
+      createdAt: json['created_at'] ?? json['createdAt'] ?? '',
     );
   }
 }

@@ -27,9 +27,7 @@ class ReferralRepositoryImpl implements ReferralRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('추천인 트리를 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -50,9 +48,7 @@ class ReferralRepositoryImpl implements ReferralRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('추천인 요약 정보를 불러오는 중 오류가 발생했습니다: ${e.toString()}'),

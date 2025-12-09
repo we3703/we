@@ -17,7 +17,7 @@ class MyPageMenuItemData {
 }
 
 class MyPageSection extends StatelessWidget {
-  final String userName;
+  final String name;
   final String membershipTitle;
   final String? profileImageUrl;
   final String? joinDate;
@@ -25,7 +25,7 @@ class MyPageSection extends StatelessWidget {
 
   const MyPageSection({
     super.key,
-    required this.userName,
+    required this.name,
     required this.membershipTitle,
     this.profileImageUrl,
     this.joinDate,
@@ -39,11 +39,11 @@ class MyPageSection extends StatelessWidget {
       children: [
         Center(
           child: ProfileCard(
-            userName: userName,
+            name: name,
             membershipTitle: membershipTitle,
             profileImageUrl: profileImageUrl,
             joinDate: joinDate,
-          )
+          ),
         ),
         const SizedBox(
           height: AppSpacing.space20,

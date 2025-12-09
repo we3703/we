@@ -30,9 +30,9 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
     this.searchHintText = '검색어를 입력해주세요',
     this.searchAtStart = false,
   }) : assert(
-          title == null || titleWidget == null,
-          'Cannot provide both a title and a titleWidget',
-        );
+         title == null || titleWidget == null,
+         'Cannot provide both a title and a titleWidget',
+       );
 
   @override
   State<AppHeader> createState() => _AppHeaderState();
@@ -84,9 +84,12 @@ class _AppHeaderState extends State<AppHeader> {
               color: AppColors.textDisabled,
             ),
             filled: true, // Added for SearchBar implementation
-            fillColor: AppColors.subSurface, // Added for SearchBar implementation
+            fillColor:
+                AppColors.subSurface, // Added for SearchBar implementation
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8), // Added for SearchBar implementation
+              borderRadius: BorderRadius.circular(
+                8,
+              ), // Added for SearchBar implementation
               borderSide: BorderSide.none, // Added for SearchBar implementation
             ),
             focusedBorder: OutlineInputBorder(
@@ -131,9 +134,11 @@ class _AppHeaderState extends State<AppHeader> {
                   () => Navigator.of(context).pop(),
             )
           : null,
-      title: widget.titleWidget ?? (widget.title != null
-          ? Text(widget.title!, style: AppTextStyles.heading3Bold)
-          : null),
+      title:
+          widget.titleWidget ??
+          (widget.title != null
+              ? Text(widget.title!, style: AppTextStyles.heading3Bold)
+              : null),
       actions: currentActions,
       centerTitle: false, // Align title to the left
       automaticallyImplyLeading: false,

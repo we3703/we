@@ -1,6 +1,5 @@
 class SignupRequest {
   final String userId;
-  final String email;
   final String password;
   final String memberName;
   final String phone;
@@ -8,7 +7,6 @@ class SignupRequest {
 
   SignupRequest({
     required this.userId,
-    required this.email,
     required this.password,
     required this.memberName,
     required this.phone,
@@ -18,7 +16,6 @@ class SignupRequest {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {
       'user_id': userId,
-      'email': email,
       'password': password,
       'member_name': memberName,
       'phone': phone,

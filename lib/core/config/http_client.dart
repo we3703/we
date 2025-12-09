@@ -19,7 +19,8 @@ class HttpClient {
 
     // Add token if available
     if (tokenProvider.hasToken()) {
-      headers['Authorization'] = 'Bearer ${tokenProvider.accessToken}';
+      final token = tokenProvider.accessToken;
+      headers['Authorization'] = 'Bearer $token';
     }
 
     // Add custom headers (can override default headers)

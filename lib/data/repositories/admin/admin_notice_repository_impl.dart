@@ -31,9 +31,7 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
       if (e.statusCode == 403) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('공지사항 생성 중 오류가 발생했습니다: ${e.toString()}'),
@@ -66,9 +64,7 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('공지사항 수정 중 오류가 발생했습니다: ${e.toString()}'),
@@ -97,9 +93,7 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('공지사항 삭제 중 오류가 발생했습니다: ${e.toString()}'),

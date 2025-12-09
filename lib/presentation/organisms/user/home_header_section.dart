@@ -9,13 +9,13 @@ import 'package:we/presentation/molecules/tab/quick_action_button.dart';
 import 'package:we/presentation/molecules/tab/quick_action_group.dart';
 
 class HomeHeaderData {
-  final String userName;
+  final String name;
   final MembershipLevel membershipLevel;
   final String points;
   final String recommendationCount;
 
   HomeHeaderData({
-    required this.userName,
+    required this.name,
     required this.membershipLevel,
     required this.points,
     required this.recommendationCount,
@@ -54,7 +54,7 @@ class HomeHeaderSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '안녕하세요, ${data.userName}님!',
+                  '안녕하세요, ${data.name}님!',
                   style: AppTextStyles.heading3Bold,
                 ),
                 const SizedBox(height: 4),
@@ -82,6 +82,7 @@ class HomeHeaderSection extends StatelessWidget {
         Card(
           margin: EdgeInsets.zero,
           clipBehavior: Clip.antiAlias,
+          color: AppColors.primaryBlack,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),

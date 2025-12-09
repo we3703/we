@@ -20,8 +20,14 @@ class LoginUseCase {
           ),
           user: UserEntity(
             userId: loginResponseData.user.userId,
-            email: loginResponseData.user.email,
             name: loginResponseData.user.name,
+            phone: loginResponseData.user.phone,
+            points: loginResponseData.user.points,
+            level: loginResponseData.user.level,
+            referrerId: loginResponseData.user.referrerId,
+            referrerName: loginResponseData.user.referrerName,
+            totalReferrals: loginResponseData.user.totalReferrals,
+            createdAt: loginResponseData.user.createdAt,
             role: loginResponseData.user.role,
           ),
         );

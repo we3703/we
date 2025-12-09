@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/molecules/cards/user/user_status_card.dart';
 import 'package:we/presentation/organisms/user/recommendation_section.dart';
 import 'package:we/presentation/organisms/referral/referral_tree_widget.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';
+import 'package:we/presentation/screens/user/user_view_model.dart';
 
 class RecommendationScreen extends StatefulWidget {
   static const routeName = '/recommendations';
@@ -21,14 +23,16 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ReferralViewModel>().getReferralSummary();
+      context.read<UserViewModel>().getMe();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<ReferralViewModel>(
-        builder: (context, referralVM, child) {
+      appBar: AppBar(title: const Text('추천 관리')),
+      body: Consumer2<ReferralViewModel, UserViewModel>(
+        builder: (context, referralVM, userVM, child) {
           if (referralVM.isLoading && referralVM.referralSummary == null) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -66,7 +70,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
 
           final recommendedUsers = summary.referrals.map((referral) {
             return RecommendedUserData(
-              userName: referral.name,
+              name: referral.name,
               membershipLevel: convertLevel(referral.level),
               joinDate: referral.joinedAt,
               recommendationCount: referral.subReferrals,
@@ -82,25 +86,38 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                   children: [
                     RecommendationSection(
                       stats: statsData,
-                      onCopyLinkPressed: () {
+                      onCopyLinkPressed: () async {
                         // 추천 링크 복사
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('알림'),
-                              content: const Text('추천 링크가 복사되었습니다!'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('확인'),
-                                ),
-                              ],
+                        final myInfo = userVM.myInfo;
+                        if (myInfo != null) {
+                          final referralLink =
+                              'https://weserver.store/signup?referrer=${myInfo.userId}';
+                          await Clipboard.setData(
+                            ClipboardData(text: referralLink),
+                          );
+
+                          if (context.mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('알림'),
+                                  content: Text(
+                                    '추천 링크가 복사되었습니다!\n$referralLink',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('확인'),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        );
+                          }
+                        }
                       },
                       recommendedUsers: recommendedUsers,
                     ),

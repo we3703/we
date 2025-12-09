@@ -10,7 +10,5 @@ abstract class LicenseRepository {
   Future<Result<LicenseCodeResponse>> sendCode(SendCodeRequest request);
 
   /// Verify license code
-  Future<Result<LicenseVerifyResponse>> verifyCode(
-    VerifyCodeRequest request,
-  );
+  Future<Result<LicenseVerifyResponse>> verifyCode(VerifyCodeRequest request);
 }

@@ -62,9 +62,9 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
 
                 final viewModel = context.read<UserViewModel>();
                 if (viewModel.errorMessage == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('정보가 저장되었습니다.')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('정보가 저장되었습니다.')));
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

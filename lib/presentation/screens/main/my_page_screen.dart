@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/domain/use_cases/auth/logout_use_case.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/organisms/user/my_page_section.dart';
 import 'package:we/presentation/screens/auth/login_screen.dart';
 import 'package:we/presentation/screens/user/my_product_management_screen.dart';
-import 'package:we/presentation/screens/user/point_management_screen.dart';
+import 'package:we/presentation/screens/points/point_management_screen.dart';
 import 'package:we/presentation/screens/user/purchase_history_screen.dart';
 import 'package:we/presentation/molecules/modal/logout_modal.dart';
 import 'package:we/presentation/screens/user/user_info_edit_screen.dart';
@@ -60,13 +61,30 @@ class _MyPageScreenState extends State<MyPageScreen> {
       MyPageMenuItemData(
         icon: Icons.logout,
         title: '로그아웃',
-        onTap: () {
+        onTap: () async {
           showLogoutModal(
             context: context,
-            onLogout: () {
-              Navigator.of(
-                context,
-              ).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+            onLogout: () async {
+              final logoutUseCase = context.read<LogoutUseCase>();
+              final result = await logoutUseCase();
+
+              result.when(
+                success: (_) {
+                  if (context.mounted) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      LoginScreen.routeName,
+                      (route) => false,
+                    );
+                  }
+                },
+                failure: (failure) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(failure.message)));
+                  }
+                },
+              );
             },
           );
         },
@@ -111,7 +129,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
             }
 
             return MyPageSection(
-              userName: myInfo.name,
+              name: myInfo.name,
               membershipTitle: membershipTitle,
               joinDate: '가입 날짜 ${myInfo.createdAt}',
               profileImageUrl: null, // No image in design

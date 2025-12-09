@@ -11,14 +11,18 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   /// Set loading state and notify listeners
   void setLoading(bool loading) {
-    _isLoading = loading;
-    notifyListeners();
+    if (_isLoading != loading) {
+      _isLoading = loading;
+      notifyListeners();
+    }
   }
 
   /// Set error message and notify listeners
   void setError(String? error) {
-    _errorMessage = error;
-    notifyListeners();
+    if (_errorMessage != error) {
+      _errorMessage = error;
+      notifyListeners();
+    }
   }
 
   /// Clear error message

@@ -49,7 +49,7 @@ class OrderDetail {
   });
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) {
-    var historyList = json['statusHistory'] as List;
+    var historyList = json['statusHistory'] as List? ?? [];
     List<StatusHistoryItem> history = historyList
         .map((i) => StatusHistoryItem.fromJson(i))
         .toList();

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:we/core/config/http_client.dart';
 
 class AuthApi {
@@ -8,11 +9,15 @@ class AuthApi {
 
   Future<Map<String, dynamic>> signup(Map<String, dynamic> body) async {
     final res = await client.post('/auth/signup', body: body);
+    debugPrint('Signup API response body type: ${res.body.runtimeType}');
+    debugPrint('Signup API response body: ${res.body}');
     return jsonDecode(res.body);
   }
 
   Future<Map<String, dynamic>> login(Map<String, dynamic> body) async {
     final res = await client.post('/auth/login', body: body);
+    debugPrint('Login API response body type: ${res.body.runtimeType}');
+    debugPrint('Login API response body: ${res.body}');
     return jsonDecode(res.body);
   }
 

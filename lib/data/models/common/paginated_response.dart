@@ -18,15 +18,15 @@ class PaginatedResponse<T> {
     String itemsKey,
     T Function(Map<String, dynamic>) fromJsonT,
   ) {
-    var itemList = json[itemsKey] as List;
+    var itemList = json[itemsKey] as List? ?? [];
     List<T> items = itemList.map((i) => fromJsonT(i)).toList();
 
     return PaginatedResponse<T>(
-      totalCount: json['totalCount'],
-      currentPage: json['currentPage'],
-      totalPages: json['totalPages'],
+      totalCount: json['total_count'] ?? json['totalCount'] ?? 0,
+      currentPage: json['current_page'] ?? json['currentPage'] ?? 1,
+      totalPages: json['total_pages'] ?? json['totalPages'] ?? 0,
       items: items,
-      totalAmount: json['totalAmount'],
+      totalAmount: json['total_amount'] ?? json['totalAmount'],
     );
   }
 }

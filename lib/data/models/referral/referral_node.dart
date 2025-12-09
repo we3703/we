@@ -3,6 +3,8 @@ class ReferralNode {
   final String name;
   final String level;
   final String? joinedAt;
+  final int? totalPurchase;
+  final int? totalCommissionGenerated;
   final List<ReferralNode> children;
 
   ReferralNode({
@@ -10,6 +12,8 @@ class ReferralNode {
     required this.name,
     required this.level,
     this.joinedAt,
+    this.totalPurchase,
+    this.totalCommissionGenerated,
     required this.children,
   });
 
@@ -20,10 +24,14 @@ class ReferralNode {
         .toList();
 
     return ReferralNode(
-      userId: json['userId'],
-      name: json['name'],
-      level: json['level'],
-      joinedAt: json['joinedAt'],
+      userId: json['user_id'] ?? json['userId'] ?? '',
+      name: json['name'] ?? '',
+      level: json['level'] ?? '',
+      joinedAt: json['joined_at'] ?? json['joinedAt'],
+      totalPurchase: json['total_purchase'] ?? json['totalPurchase'],
+      totalCommissionGenerated:
+          json['total_commission_generated'] ??
+          json['totalCommissionGenerated'],
       children: children,
     );
   }

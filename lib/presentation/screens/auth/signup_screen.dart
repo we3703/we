@@ -17,7 +17,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final GlobalKey<SignUpFormState> _signupFormKey = GlobalKey<SignUpFormState>();
+  bool _hasNavigated = false;
 
   @override
   void initState() {
@@ -26,14 +26,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (mounted) {
         final viewModel = Provider.of<SignUpViewModel>(context, listen: false);
         viewModel.reset();
-        _signupFormKey.currentState?.clearInputs();
       }
     });
   }
 
   void _handleSignup(
     String id,
-    String email,
     String password,
     String name,
     String phone,
@@ -42,7 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final viewModel = Provider.of<SignUpViewModel>(context, listen: false);
     viewModel.signup(
       userId: id,
-      email: email,
       password: password,
       memberName: name,
       phone: phone,
@@ -50,41 +47,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _handleSendCode(String email) {
-    final viewModel = Provider.of<SignUpViewModel>(context, listen: false);
-    viewModel.sendCode(email);
-    // Optionally show a snackbar or update UI to indicate code sent
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('인증번호가 전송되었습니다.')),
-    );
-  }
-
-  void _handleVerifyCode(String email, String code) {
-    final viewModel = Provider.of<SignUpViewModel>(context, listen: false);
-    viewModel.verifyCode(email, code);
-    // Optionally show a snackbar or update UI based on verification result
-    // This part might need to listen to viewModel.errorMessage or other status
-    // For now, assuming success for UI feedback
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('인증번호가 확인되었습니다.')),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppHeader(
-        titleWidget: const Text('회원가입'),
-        showBackButton: true,
-      ),
+      resizeToAvoidBottomInset: true,
+      appBar: AppHeader(titleWidget: const Text('회원가입'), showBackButton: true),
       body: Consumer<SignUpViewModel>(
         builder: (context, viewModel, child) {
-          if (viewModel.signupSuccess) {
+          if (viewModel.signupSuccess && !_hasNavigated) {
+            _hasNavigated = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('회원가입이 완료되었습니다.')),
-              );
-              Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+              if (mounted) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('회원가입이 완료되었습니다.')));
+                Navigator.of(
+                  context,
+                ).pushReplacementNamed(LoginScreen.routeName);
+              }
             });
           }
 
@@ -99,10 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SignUpForm(
-                          formKey: _signupFormKey,
                           onSignUp: _handleSignup,
-                          onSendCode: _handleSendCode, // Pass new function
-                          onVerifyCode: _handleVerifyCode, // Pass new function
                           isLoading: viewModel.isLoading,
                         ),
                         if (viewModel.errorMessage != null)
@@ -119,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-            )
+            ),
           );
         },
       ),

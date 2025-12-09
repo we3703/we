@@ -28,9 +28,7 @@ class UserRepositoryImpl implements UserRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('사용자 정보를 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -53,9 +51,7 @@ class UserRepositoryImpl implements UserRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('사용자 정보 수정 중 오류가 발생했습니다: ${e.toString()}'),

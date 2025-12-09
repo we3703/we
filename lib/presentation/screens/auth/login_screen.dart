@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/auth/token_provider.dart';
 import 'package:we/presentation/organisms/auth/login_form.dart';
 import 'package:we/presentation/screens/auth/login_view_model.dart';
 import 'package:we/presentation/screens/auth/signup_screen.dart';
@@ -15,24 +16,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<LoginFormState> _loginFormKey = GlobalKey<LoginFormState>();
+  bool _hasNavigated = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final viewModel = Provider.of<LoginViewModel>(context, listen: false);
-      viewModel.reset();
+      if (mounted) {
+        // Check if user already has a valid token
+        final tokenProvider = Provider.of<TokenProvider>(
+          context,
+          listen: false,
+        );
+        if (tokenProvider.hasToken()) {
+          _hasNavigated = true;
+          Navigator.of(context).pushReplacementNamed(MainScaffold.routeName);
+          return;
+        }
 
-      Future.microtask(() {
-        _loginFormKey.currentState?.clearInputs();
-      });
+        final viewModel = Provider.of<LoginViewModel>(context, listen: false);
+        viewModel.reset();
+      }
     });
   }
 
-  void _handleLogin(String email, String password) {
+  void _handleLogin(String userId, String password) {
     final viewModel = Provider.of<LoginViewModel>(context, listen: false);
-    viewModel.login(email, password);
+    viewModel.login(userId, password);
   }
 
   void _handleSignUp() {
@@ -42,11 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Consumer<LoginViewModel>(
         builder: (context, viewModel, child) {
-          if (viewModel.loggedInUser != null) {
+          if (viewModel.loggedInUser != null && !_hasNavigated) {
+            _hasNavigated = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacementNamed(MainScaffold.routeName);
+              if (mounted) {
+                Navigator.of(
+                  context,
+                ).pushReplacementNamed(MainScaffold.routeName);
+              }
             });
           }
 
@@ -58,15 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 80),
-                    Center(
-                      child: Image.asset(
-                        'assets/Logo.png',
-                        height: 80,
-                      ),
-                    ),
+                    Center(child: Image.asset('assets/Logo.png', height: 80)),
                     const SizedBox(height: 60),
                     LoginForm(
-                      formKey: _loginFormKey, // Pass the key
                       onLogin: _handleLogin,
                       onSignUp: _handleSignUp,
                       isLoading: viewModel.isLoading,

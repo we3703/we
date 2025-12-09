@@ -1,3 +1,4 @@
+import 'package:we/core/error/result.dart';
 import 'package:we/data/models/point/recharge_points_request.dart';
 import 'package:we/domain/entities/point/paginated_recharge_history_entity.dart';
 import 'package:we/domain/entities/point/points_history_entity.dart';
@@ -27,7 +28,7 @@ class PointsViewModel extends BaseViewModel {
   PointsHistoryEntity? _pointsHistory;
   PointsHistoryEntity? get pointsHistory => _pointsHistory;
 
-  Future<void> rechargePoints(RechargePointsRequest request) async {
+  Future<Result<void>> rechargePoints(RechargePointsRequest request) async {
     setLoading(true);
     clearError();
 
@@ -44,6 +45,7 @@ class PointsViewModel extends BaseViewModel {
     );
 
     setLoading(false);
+    return result;
   }
 
   Future<void> rechargePointsSuccess() async {

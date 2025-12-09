@@ -9,7 +9,10 @@ class LoginResponseData {
 
   factory LoginResponseData.fromJson(Map<String, dynamic> json) {
     return LoginResponseData(
-      tokens: TokenResponse.fromJson(json['tokens'] as Map<String, dynamic>? ?? {}),
+      tokens: TokenResponse(
+        accessToken: json['access_token'] as String? ?? '',
+        refreshToken: json['refresh_token'] as String? ?? '',
+      ),
       user: User.fromJson(json['user'] as Map<String, dynamic>? ?? {}),
     );
   }

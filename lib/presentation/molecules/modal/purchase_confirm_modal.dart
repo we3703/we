@@ -24,7 +24,7 @@ class PurchaseConfirmModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseModal(
-      title: Text('구매하시겠습니까?', style: TextStyle(color: AppColors.textPrimary),),
+      title: Text('구매하시겠습니까?', style: TextStyle(color: AppColors.textPrimary)),
       content: Column(
         children: [
           _buildInfoRow('상품명', productName),

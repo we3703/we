@@ -75,109 +75,109 @@ class _UserInfoFormState extends State<UserInfoForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-        // Basic Info Section
-        Text('기본 정보', style: AppTextStyles.heading3Bold),
-        const SizedBox(height: AppSpacing.space12),
-        _buildLabeledInput(
-          label: '이름',
-          child: TextInput(
-            controller: _nameController,
-            hintText: '이름 입력',
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return '이름을 입력해주세요.';
-              }
-              return null;
-            },
-          ),
-        ),
-        const SizedBox(height: AppSpacing.space20),
-        _buildLabeledInput(
-          label: '전화번호',
-          child: TextInput(
-            controller: _phoneController,
-            hintText: '전화번호 입력',
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return '전화번호를 입력해주세요.';
-              }
-              return null;
-            },
-          ),
-        ),
-        const SizedBox(height: AppSpacing.space32),
-
-        // Password Change Section
-        Text('비밀번호 변경', style: AppTextStyles.heading3Bold),
-        const SizedBox(height: AppSpacing.space12),
-        _buildLabeledInput(
-          label: '기존 비밀번호',
-          child: TextInput(
-            controller: _oldPasswordController,
-            hintText: '기존 비밀번호 입력',
-            obscureText: true,
-            validator: (value) {
-              // 새 비밀번호를 입력했다면 기존 비밀번호도 필수
-              if (_newPasswordController.text.isNotEmpty) {
+          // Basic Info Section
+          Text('기본 정보', style: AppTextStyles.heading3Bold),
+          const SizedBox(height: AppSpacing.space12),
+          _buildLabeledInput(
+            label: '이름',
+            child: TextInput(
+              controller: _nameController,
+              hintText: '이름 입력',
+              validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return '비밀번호를 변경하려면 기존 비밀번호를 입력해주세요.';
+                  return '이름을 입력해주세요.';
                 }
-              }
-              return null;
-            },
+                return null;
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: AppSpacing.space20),
-        _buildLabeledInput(
-          label: '새 비밀번호',
-          child: TextInput(
-            controller: _newPasswordController,
-            hintText: '새 비밀번호 입력',
-            obscureText: true,
-            validator: (value) {
-              // 새 비밀번호를 입력했다면 유효성 검증
-              if (value != null && value.isNotEmpty) {
-                final regex = RegExp(
-                  r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$',
-                );
-                if (!regex.hasMatch(value)) {
-                  return '비밀번호는 8~20자이며, 영문 대/소문자, 숫자, 특수문자를 포함해야 합니다.';
-                }
-              }
-              return null;
-            },
-          ),
-        ),
-        const SizedBox(height: AppSpacing.space20),
-        _buildLabeledInput(
-          label: '새 비밀번호 확인',
-          child: TextInput(
-            controller: _newPasswordConfirmController,
-            hintText: '새 비밀번호 확인',
-            obscureText: true,
-            validator: (value) {
-              // 새 비밀번호를 입력했다면 확인도 필수
-              if (_newPasswordController.text.isNotEmpty) {
+          const SizedBox(height: AppSpacing.space20),
+          _buildLabeledInput(
+            label: '전화번호',
+            child: TextInput(
+              controller: _phoneController,
+              hintText: '전화번호 입력',
+              keyboardType: TextInputType.phone,
+              validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return '새 비밀번호를 다시 입력해주세요.';
+                  return '전화번호를 입력해주세요.';
                 }
-                if (value != _newPasswordController.text) {
-                  return '비밀번호가 일치하지 않습니다.';
-                }
-              }
-              return null;
-            },
+                return null;
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: AppSpacing.space32),
+          const SizedBox(height: AppSpacing.space32),
 
-        // Save Button
-        PrimaryButton(
-          text: '저장하기',
-          onPressed: _handleSave,
-          isLoading: widget.isLoading,
-        ),
+          // Password Change Section
+          Text('비밀번호 변경', style: AppTextStyles.heading3Bold),
+          const SizedBox(height: AppSpacing.space12),
+          _buildLabeledInput(
+            label: '기존 비밀번호',
+            child: TextInput(
+              controller: _oldPasswordController,
+              hintText: '기존 비밀번호 입력',
+              obscureText: true,
+              validator: (value) {
+                // 새 비밀번호를 입력했다면 기존 비밀번호도 필수
+                if (_newPasswordController.text.isNotEmpty) {
+                  if (value == null || value.isEmpty) {
+                    return '비밀번호를 변경하려면 기존 비밀번호를 입력해주세요.';
+                  }
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.space20),
+          _buildLabeledInput(
+            label: '새 비밀번호',
+            child: TextInput(
+              controller: _newPasswordController,
+              hintText: '새 비밀번호 입력',
+              obscureText: true,
+              validator: (value) {
+                // 새 비밀번호를 입력했다면 유효성 검증
+                if (value != null && value.isNotEmpty) {
+                  final regex = RegExp(
+                    r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$',
+                  );
+                  if (!regex.hasMatch(value)) {
+                    return '비밀번호는 8~20자이며, 영문 대/소문자, 숫자, 특수문자를 포함해야 합니다.';
+                  }
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.space20),
+          _buildLabeledInput(
+            label: '새 비밀번호 확인',
+            child: TextInput(
+              controller: _newPasswordConfirmController,
+              hintText: '새 비밀번호 확인',
+              obscureText: true,
+              validator: (value) {
+                // 새 비밀번호를 입력했다면 확인도 필수
+                if (_newPasswordController.text.isNotEmpty) {
+                  if (value == null || value.isEmpty) {
+                    return '새 비밀번호를 다시 입력해주세요.';
+                  }
+                  if (value != _newPasswordController.text) {
+                    return '비밀번호가 일치하지 않습니다.';
+                  }
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.space32),
+
+          // Save Button
+          PrimaryButton(
+            text: '저장하기',
+            onPressed: _handleSave,
+            isLoading: widget.isLoading,
+          ),
         ],
       ),
     );

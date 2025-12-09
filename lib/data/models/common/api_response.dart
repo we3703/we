@@ -12,11 +12,13 @@ class ApiResponse<T> {
   /// Generic fromJson
   /// [fromJsonT]는 T를 변환하는 함수
   factory ApiResponse.fromJson(
-      Map<String, dynamic> json, T Function(Map<String, dynamic>) fromJsonT) {
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
     final dataJson = (json['data'] as Map<String, dynamic>?) ?? {};
     return ApiResponse(
-      status: json['status'] ?? '',
-      message: json['message'] ?? '',
+      status: json['status']?.toString() ?? '',
+      message: json['message']?.toString() ?? '',
       data: fromJsonT(dataJson),
     );
   }

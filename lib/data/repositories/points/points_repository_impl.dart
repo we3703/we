@@ -27,9 +27,7 @@ class PointsRepositoryImpl implements PointsRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('포인트 충전 중 오류가 발생했습니다: ${e.toString()}'),
@@ -46,9 +44,7 @@ class PointsRepositoryImpl implements PointsRepository {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('포인트 충전 확인 중 오류가 발생했습니다: ${e.toString()}'),
@@ -65,9 +61,7 @@ class PointsRepositoryImpl implements PointsRepository {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('포인트 충전 실패 처리 중 오류가 발생했습니다: ${e.toString()}'),
@@ -88,9 +82,7 @@ class PointsRepositoryImpl implements PointsRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('충전 내역을 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -102,7 +94,8 @@ class PointsRepositoryImpl implements PointsRepository {
   Future<Result<PointsHistory>> getPointsHistory() async {
     try {
       final response = await pointsApi.getPointsHistory();
-      final history = PointsHistory.fromJson(response);
+      final data = response['data'] as Map<String, dynamic>? ?? response;
+      final history = PointsHistory.fromJson(data);
       return Result.success(history);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -111,9 +104,7 @@ class PointsRepositoryImpl implements PointsRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('포인트 내역을 불러오는 중 오류가 발생했습니다: ${e.toString()}'),

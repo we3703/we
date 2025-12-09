@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:provider/provider.dart';
 import 'package:we/domain/entities/referral/referral_node_entity.dart';
-import 'package:we/presentation/foundations/colors.dart';
-import 'package:we/presentation/foundations/shadows.dart';
-import 'package:we/presentation/foundations/typography.dart';
+import 'package:we/presentation/molecules/cards/user/user_status_card.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';
 
 class ReferralTreeWidget extends StatefulWidget {
@@ -36,12 +34,13 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
     Graph graph,
     ReferralNodeEntity node,
     Map<String, Node> nodeMap,
+    Map<String, ReferralNodeEntity> entityMap,
     Node? parentNode,
   ) {
-    // Create a node with user name and level
-    final nodeKey = '${node.name}\n(${node.level})';
-    final graphNode = Node.Id(nodeKey);
+    // Create a node with user ID as key
+    final graphNode = Node.Id(node.userId);
     nodeMap[node.userId] = graphNode;
+    entityMap[node.userId] = node;
 
     graph.addNode(graphNode);
 
@@ -51,7 +50,7 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
 
     // Recursively add children
     for (final child in node.children) {
-      _buildGraphFromEntity(graph, child, nodeMap, graphNode);
+      _buildGraphFromEntity(graph, child, nodeMap, entityMap, graphNode);
     }
   }
 
@@ -75,7 +74,26 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
         // Build graph from entity
         final Graph graph = Graph();
         final Map<String, Node> nodeMap = {};
-        _buildGraphFromEntity(graph, referralTree, nodeMap, null);
+        final Map<String, ReferralNodeEntity> entityMap = {};
+        _buildGraphFromEntity(graph, referralTree, nodeMap, entityMap, null);
+
+        // Convert level string to MembershipLevel enum
+        MembershipLevel convertLevel(String level) {
+          switch (level.toUpperCase()) {
+            case 'MASTER':
+              return MembershipLevel.master;
+            case 'DIAMOND':
+              return MembershipLevel.diamond;
+            case 'GOLD':
+              return MembershipLevel.gold;
+            case 'SILVER':
+              return MembershipLevel.silver;
+            case 'BRONZE':
+              return MembershipLevel.bronze;
+            default:
+              return MembershipLevel.none;
+          }
+        }
 
         return Column(
           children: [
@@ -92,25 +110,23 @@ class _ReferralTreeWidgetState extends State<ReferralTreeWidget> {
                     TreeEdgeRenderer(buchheimWalkerConfiguration),
                   ),
                   builder: (Node node) {
-                    // Widget for each node
-                    return GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Tapped on ${node.key!.value}')),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          boxShadow: AppShadow.card,
-                          color: AppColors.surface,
-                        ),
-                        child: Text(
-                          node.key!.value as String,
-                          style: AppTextStyles.bodyMedium,
-                          textAlign: TextAlign.center,
-                        ),
+                    // Get entity data for this node
+                    final userId = node.key!.value as String;
+                    final entity = entityMap[userId];
+
+                    if (entity == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    // Widget for each node using UserStatusCard
+                    return SizedBox(
+                      width: 200, // Fixed width for consistency in tree
+                      child: UserStatusCard(
+                        userName: entity.name,
+                        membershipLevel: convertLevel(entity.level),
+                        joinDate: entity.joinedAt,
+                        recommendationCount: entity.children.length,
+                        profileImageUrl: null,
                       ),
                     );
                   },

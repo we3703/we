@@ -15,25 +15,32 @@ import 'package:we/data/models/auth/login_request.dart';
 import 'package:we/data/models/auth/login_response.dart';
 import 'package:we/data/models/auth/refresh_response.dart';
 import 'package:we/data/models/auth/signup_request.dart';
+import 'package:we/core/auth/token_provider.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthApi authApi;
+  final TokenProvider tokenProvider;
 
-  AuthRepositoryImpl(this.authApi);
+  AuthRepositoryImpl(this.authApi, this.tokenProvider);
 
   @override
   Future<Result<void>> signup(SignupRequest request) async {
     try {
-      await authApi.signup(request.toJson());
+      debugPrint('Signup request: ${request.toJson()}');
+      final response = await authApi.signup(request.toJson());
+      debugPrint('Signup raw response: $response');
+      debugPrint('Signup success');
       return Result.success(null);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
-    } catch (e) {
+      debugPrint('Signup CustomHttpException: $errorMessage');
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
+    } catch (e, stackTrace) {
+      debugPrint('Signup error: ${e.toString()}');
+      debugPrint('Signup error type: ${e.runtimeType}');
+      debugPrint('Signup stack trace: $stackTrace');
       return Result.failure(
         ServerFailure('회원가입 중 오류가 발생했습니다: ${e.toString()}'),
       );
@@ -43,28 +50,28 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<LoginResponseData>> login(LoginRequest request) async {
     try {
+      debugPrint('Login request: ${request.toJson()}');
       final response = await authApi.login(request.toJson());
-      final loginData = ApiResponse.fromJson(
-        response,
-        (dataJson) => LoginResponseData.fromJson(dataJson),
-      );
-      debugPrint("$loginData");
+      debugPrint('Login raw response: $response');
+      final loginData = ApiResponse.fromJson(response, (dataJson) {
+        debugPrint('Login data json: $dataJson');
+        return LoginResponseData.fromJson(dataJson);
+      });
+      debugPrint('Login success');
       return Result.success(loginData.data);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      debugPrint(errorMessage);
+      debugPrint('Login CustomHttpException: $errorMessage');
       if (e.statusCode == 401) {
-        return Result.failure(
-          UnauthorizedFailure(errorMessage),
-        );
+        return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
-    } catch (e) {
-      debugPrint('여기 오류에요 repository');
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
+    } catch (e, stackTrace) {
+      debugPrint('Login error: ${e.toString()}');
+      debugPrint('Login error type: ${e.runtimeType}');
+      debugPrint('Login stack trace: $stackTrace');
       return Result.failure(ServerFailure('로그인 중 오류가 발생했습니다: ${e.toString()}'));
     }
   }
@@ -77,17 +84,12 @@ class AuthRepositoryImpl implements AuthRepository {
       return Result.success(refreshData);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
-    }
-    on CustomHttpException catch (e) {
+    } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
       if (e.statusCode == 401) {
-        return Result.failure(
-          UnauthorizedFailure(errorMessage),
-        );
+        return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('토큰 갱신 중 오류가 발생했습니다: ${e.toString()}'),
@@ -104,9 +106,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('비밀번호 변경 중 오류가 발생했습니다: ${e.toString()}'),
@@ -117,10 +117,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> logout() async {
     try {
-      // TODO: Clear local storage (SharedPreferences, SecureStorage, etc.)
-      // Example:
-      // await _secureStorage.delete(key: 'accessToken');
-      // await _secureStorage.delete(key: 'refreshToken');
+      await tokenProvider.clearTokens();
       return Result.success(null);
     } catch (e) {
       return Result.failure(CacheFailure('로그아웃 중 오류가 발생했습니다: ${e.toString()}'));
@@ -131,17 +128,12 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await authApi.sendCode(request.toJson());
       return Result.success(null);
-    }
-    on SocketException {
+    } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
-    }
-    on CustomHttpException catch (e) {
+    } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
-    }
-    catch (e) {
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
+    } catch (e) {
       return Result.failure(
         ServerFailure('인증번호 전송 중 오류가 발생했습니다: ${e.toString()}'),
       );
@@ -152,21 +144,15 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await authApi.verifyCode(request.toJson());
       return Result.success(null);
-    }
-    on SocketException {
+    } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
-    }
-    on CustomHttpException catch (e) {
+    } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
-    }
-    catch (e) {
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
+    } catch (e) {
       return Result.failure(
         ServerFailure('인증번호 확인 중 오류가 발생했습니다: ${e.toString()}'),
       );
     }
   }
 }
-

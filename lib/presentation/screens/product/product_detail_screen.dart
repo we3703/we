@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/domain/use_cases/order/create_order_use_case.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -57,15 +58,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             if (productDetail.specifications.isNotEmpty) {
               productDetail.specifications.forEach((key, value) {
                 if (value is List) {
-                  detailSections.add(DetailSection(
-                    title: key,
-                    items: List<String>.from(value),
-                  ));
+                  detailSections.add(
+                    DetailSection(title: key, items: List<String>.from(value)),
+                  );
                 } else if (value is String) {
-                  detailSections.add(DetailSection(
-                    title: key,
-                    items: [value],
-                  ));
+                  detailSections.add(DetailSection(title: key, items: [value]));
                 }
               });
             }
@@ -89,7 +86,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           height: 250,
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(AppSpacing.layoutPadding),
+                          padding: const EdgeInsets.all(
+                            AppSpacing.layoutPadding,
+                          ),
                           child: ProductDetailCard(
                             category: productDetail.category,
                             title: productDetail.name,
@@ -108,17 +107,53 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     width: double.infinity,
                     child: PrimaryButton(
                       text: '구매하기',
-                      onPressed: productDetail.isAvailable && productDetail.stock > 0
+                      onPressed:
+                          productDetail.isAvailable && productDetail.stock > 0
                           ? () {
                               showPurchaseConfirmModal(
                                 context: context,
                                 productName: productDetail.name,
                                 price: '${productDetail.price} P',
                                 pointsAfterPurchase: pointsAfterPurchase,
-                                onConfirm: () {
-                                  // TODO: Implement actual purchase logic via CartViewModel
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('구매가 완료되었습니다!')),
+                                onConfirm: () async {
+                                  final createOrderUseCase = context
+                                      .read<CreateOrderUseCase>();
+
+                                  final orderData = {
+                                    'product_id': productDetail.productId,
+                                    'quantity': 1,
+                                  };
+
+                                  final result = await createOrderUseCase(
+                                    orderData,
+                                  );
+
+                                  result.when(
+                                    success: (_) {
+                                      if (context.mounted) {
+                                        // Refresh user info to update points
+                                        context.read<UserViewModel>().getMe();
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('구매가 완료되었습니다!'),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    failure: (failure) {
+                                      if (context.mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(failure.message),
+                                          ),
+                                        );
+                                      }
+                                    },
                                   );
                                 },
                               );

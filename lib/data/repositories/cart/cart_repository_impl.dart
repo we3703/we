@@ -28,9 +28,7 @@ class CartRepositoryImpl implements CartRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('장바구니에 추가하는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -51,9 +49,7 @@ class CartRepositoryImpl implements CartRepository {
       if (e.statusCode == 401) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('장바구니를 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -79,9 +75,7 @@ class CartRepositoryImpl implements CartRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('장바구니 수정 중 오류가 발생했습니다: ${e.toString()}'),
@@ -104,9 +98,7 @@ class CartRepositoryImpl implements CartRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('장바구니 삭제 중 오류가 발생했습니다: ${e.toString()}'),

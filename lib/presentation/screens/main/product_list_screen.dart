@@ -1,8 +1,8 @@
 // product_list_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/domain/entities/product/paginated_products_entity.dart';
 import 'package:we/presentation/foundations/spacing.dart';
-import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/organisms/product/product_list.dart';
 import 'package:we/presentation/screens/product/product_detail_screen.dart';
 import 'package:we/presentation/screens/product/product_view_model.dart';
@@ -23,69 +23,87 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProductViewModel>().getProducts(page: _currentPage, limit: 10);
+      context.read<ProductViewModel>().getProducts(
+        page: _currentPage,
+        limit: 10,
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(title: '제품 목록', showBackButton: false),
+      appBar: null,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.layoutPadding),
-          child: Consumer<ProductViewModel>(
-            builder: (context, productVM, child) {
-              if (productVM.isLoading && productVM.paginatedProducts == null) {
-                return const Center(child: CircularProgressIndicator());
-              }
+          child:
+              Selector<
+                ProductViewModel,
+                ({
+                  bool isLoading,
+                  String? errorMessage,
+                  PaginatedProductsEntity? paginatedProducts,
+                })
+              >(
+                selector: (_, vm) => (
+                  isLoading: vm.isLoading,
+                  errorMessage: vm.errorMessage,
+                  paginatedProducts: vm.paginatedProducts,
+                ),
+                builder: (context, productState, child) {
+                  if (productState.isLoading &&
+                      productState.paginatedProducts == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-              if (productVM.errorMessage != null) {
-                return Center(child: Text(productVM.errorMessage!));
-              }
+                  if (productState.errorMessage != null) {
+                    return Center(child: Text(productState.errorMessage!));
+                  }
 
-              final paginatedProducts = productVM.paginatedProducts;
-              if (paginatedProducts == null || paginatedProducts.items.isEmpty) {
-                return const Center(child: Text('제품이 없습니다.'));
-              }
+                  final paginatedProducts = productState.paginatedProducts;
+                  if (paginatedProducts == null ||
+                      paginatedProducts.items.isEmpty) {
+                    return const Center(child: Text('제품이 없습니다.'));
+                  }
 
-              final products = paginatedProducts.items.map((product) {
-                return ProductListItemData(
-                  imageUrl: product.images.isNotEmpty
-                      ? product.images.first
-                      : 'https://via.placeholder.com/400x300',
-                  name: product.name,
-                  description: product.description,
-                  price: '${product.price} P',
-                  remaining: '${product.stock}개 남음',
-                  onDetailsPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ProductDetailScreen(
-                          productId: product.productId,
-                        ),
-                      ),
+                  final products = paginatedProducts.items.map((product) {
+                    return ProductListItemData(
+                      imageUrl: product.images.isNotEmpty
+                          ? product.images.first
+                          : 'https://via.placeholder.com/400x300',
+                      name: product.name,
+                      description: product.description,
+                      price: '${product.price} P',
+                      remaining: '${product.stock}개 남음',
+                      onDetailsPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(
+                              productId: product.productId,
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              }).toList();
+                  }).toList();
 
-              return ProductList(
-                products: products,
-                currentPage: _currentPage,
-                totalPages: paginatedProducts.totalPages,
-                onPageChanged: (page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                  context.read<ProductViewModel>().getProducts(
+                  return ProductList(
+                    products: products,
+                    currentPage: _currentPage,
+                    totalPages: paginatedProducts.totalPages,
+                    onPageChanged: (page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                      context.read<ProductViewModel>().getProducts(
                         page: page,
                         limit: 10,
                       );
+                    },
+                  );
                 },
-              );
-            },
-          ),
+              ),
         ),
       ),
     );

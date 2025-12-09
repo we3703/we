@@ -34,9 +34,7 @@ class AdminReferralRepositoryImpl implements AdminReferralRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('추천인 트리를 불러오는 중 오류가 발생했습니다: ${e.toString()}'),

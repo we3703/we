@@ -53,9 +53,8 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => NoticeDetailScreen(
-                        noticeId: notice.id.toString(),
-                      ),
+                      builder: (context) =>
+                          NoticeDetailScreen(noticeId: notice.id.toString()),
                     ),
                   );
                 },

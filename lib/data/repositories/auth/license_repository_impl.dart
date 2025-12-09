@@ -17,16 +17,15 @@ class LicenseRepositoryImpl implements LicenseRepository {
   LicenseRepositoryImpl(this.licenseApi);
 
   @override
-  Future<Result<LicenseCodeResponse>> sendCode(
-    SendCodeRequest request,
-  ) async {
+  Future<Result<LicenseCodeResponse>> sendCode(SendCodeRequest request) async {
     try {
       final response = await licenseApi.sendCode(request.toJson());
       final codeResponse = LicenseCodeResponse.fromJson(response);
       return Result.success(codeResponse);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
-    } on CustomHttpException catch (e) { // Changed from HttpException
+    } on CustomHttpException catch (e) {
+      // Changed from HttpException
       final errorMessage = extractErrorMessage(e);
       return Result.failure(
         ServerFailure(errorMessage, e.statusCode), // Use e.statusCode
@@ -48,9 +47,11 @@ class LicenseRepositoryImpl implements LicenseRepository {
       return Result.success(verifyResponse);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
-    } on CustomHttpException catch (e) { // Changed from HttpException
+    } on CustomHttpException catch (e) {
+      // Changed from HttpException
       final errorMessage = extractErrorMessage(e);
-      if (e.message.contains('400')) { // This part might need refinement depending on actual error structure
+      if (e.message.contains('400')) {
+        // This part might need refinement depending on actual error structure
         return Result.failure(const ValidationFailure('유효하지 않은 인증 코드입니다'));
       }
       return Result.failure(

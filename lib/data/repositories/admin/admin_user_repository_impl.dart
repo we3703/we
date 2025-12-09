@@ -29,9 +29,7 @@ class AdminUserRepositoryImpl implements AdminUserRepository {
       if (e.statusCode == 403) {
         return Result.failure(UnauthorizedFailure(errorMessage));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('사용자 목록을 불러오는 중 오류가 발생했습니다: ${e.toString()}'),

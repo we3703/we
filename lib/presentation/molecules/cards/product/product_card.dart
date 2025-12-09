@@ -42,75 +42,75 @@ class ProductCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            // Product Image
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  8.0,
-                ), // Smaller radius for mini card image
-                child: AppImage(
-                  imageUrl: imageUrl,
-                  ratioType: ImageRatioType.ratio1x1,
+              // Product Image
+              SizedBox(
+                width: 80,
+                height: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    8.0,
+                  ), // Smaller radius for mini card image
+                  child: AppImage(
+                    imageUrl: imageUrl,
+                    ratioType: ImageRatioType.ratio1x1,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: AppSpacing.layoutPadding),
-            // Product Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    productName,
-                    style: AppTextStyles.bodyBold.copyWith(
-                      color: AppColors.textPrimary,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    productDescription,
-                    style: AppTextStyles.bodyRegular.copyWith(
-                      color: AppColors.textDisabled,
-                      fontSize: 13,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      if (onDetailsPressed != null)
-                        LinkButton(text: '상세보기', onPressed: onDetailsPressed),
-                      const Spacer(),
-                      Text(
-                        price,
-                        style: AppTextStyles.bodyBold.copyWith(
-                          color: AppColors.primaryBlack,
-                          fontSize: 12,
-                        ),
+              const SizedBox(width: AppSpacing.layoutPadding),
+              // Product Details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      productName,
+                      style: AppTextStyles.bodyBold.copyWith(
+                        color: AppColors.textPrimary,
                       ),
-                      if (quantityRemaining != null) ...[
-                        const SizedBox(width: AppSpacing.space8),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      productDescription,
+                      style: AppTextStyles.bodyRegular.copyWith(
+                        color: AppColors.textDisabled,
+                        fontSize: 13,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        if (onDetailsPressed != null)
+                          LinkButton(text: '상세보기', onPressed: onDetailsPressed),
+                        const Spacer(),
                         Text(
-                          quantityRemaining!,
-                          style: AppTextStyles.bodyRegular.copyWith(
-                            color: AppColors.textDisabled,
+                          price,
+                          style: AppTextStyles.bodyBold.copyWith(
+                            color: AppColors.primaryBlack,
                             fontSize: 12,
                           ),
                         ),
+                        if (quantityRemaining != null) ...[
+                          const SizedBox(width: AppSpacing.space8),
+                          Text(
+                            quantityRemaining!,
+                            style: AppTextStyles.bodyRegular.copyWith(
+                              color: AppColors.textDisabled,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

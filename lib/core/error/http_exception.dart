@@ -5,8 +5,11 @@ class CustomHttpException implements IOException {
   final int statusCode;
   final String body;
 
-  CustomHttpException(
-      {required this.message, required this.statusCode, required this.body});
+  CustomHttpException({
+    required this.message,
+    required this.statusCode,
+    required this.body,
+  });
 
   @override
   String toString() {

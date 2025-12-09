@@ -17,17 +17,16 @@ class NoticeRepositoryImpl implements NoticeRepository {
   Future<Result<List<Notice>>> getNotices() async {
     try {
       final response = await noticeApi.getNotices();
-      final noticeList = (response['notices'] as List)
-          .map((notice) => Notice.fromJson(notice))
+      final data = response['data'] as Map<String, dynamic>? ?? response;
+      final noticeList = (data['notices'] as List? ?? [])
+          .map((notice) => Notice.fromJson(notice as Map<String, dynamic>))
           .toList();
       return Result.success(noticeList);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
     } on CustomHttpException catch (e) {
       final errorMessage = extractErrorMessage(e);
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('공지사항을 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
@@ -48,9 +47,7 @@ class NoticeRepositoryImpl implements NoticeRepository {
       if (e.statusCode == 404) {
         return Result.failure(ServerFailure(errorMessage, 404));
       }
-      return Result.failure(
-        ServerFailure(errorMessage, e.statusCode),
-      );
+      return Result.failure(ServerFailure(errorMessage, e.statusCode));
     } catch (e) {
       return Result.failure(
         ServerFailure('공지사항을 불러오는 중 오류가 발생했습니다: ${e.toString()}'),
