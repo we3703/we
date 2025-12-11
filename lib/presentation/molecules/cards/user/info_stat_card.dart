@@ -11,10 +11,9 @@ class InfoStatItem {
 }
 
 class InfoStatCard extends StatelessWidget {
-  final String title;
   final List<InfoStatItem> stats;
 
-  const InfoStatCard({super.key, required this.title, required this.stats});
+  const InfoStatCard({super.key, required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +27,6 @@ class InfoStatCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: AppTextStyles.heading3Bold.copyWith(
-                color: AppColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.layoutPadding),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: stats.map((stat) {

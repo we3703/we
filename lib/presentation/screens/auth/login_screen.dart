@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/auth/token_provider.dart';
 import 'package:we/presentation/organisms/auth/login_form.dart';
+import 'package:we/presentation/screens/admin/admin_scaffold.dart';
 import 'package:we/presentation/screens/auth/login_view_model.dart';
 import 'package:we/presentation/screens/auth/signup_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
@@ -52,16 +53,18 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: Consumer<LoginViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.loggedInUser != null && !_hasNavigated) {
             _hasNavigated = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
-                Navigator.of(
-                  context,
-                ).pushReplacementNamed(MainScaffold.routeName);
+                final role = viewModel.loggedInUser!.user.role;
+                final routeName = (role == 'ADMIN')
+                    ? AdminScaffold.routeName
+                    : MainScaffold.routeName;
+                Navigator.of(context).pushReplacementNamed(routeName);
               }
             });
           }

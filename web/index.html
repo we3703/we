@@ -48,8 +48,80 @@
 
   <title>헬스온</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Mobile keyboard fix styles -->
+  <style>
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .flutter-view {
+      min-height: 100%;
+    }
+
+    /* Prevent iOS bounce scrolling */
+    body.keyboard-open {
+      position: fixed;
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
+  <!-- Keyboard resize handler for mobile browsers -->
+  <script>
+    let initialHeight = window.innerHeight;
+    let isKeyboardOpen = false;
+
+    // Detect keyboard open/close
+    window.visualViewport.addEventListener('resize', function() {
+      const currentHeight = window.visualViewport.height;
+      const diff = initialHeight - currentHeight;
+
+      if (diff > 150) {
+        // Keyboard is open
+        isKeyboardOpen = true;
+      } else {
+        // Keyboard is closed
+        if (isKeyboardOpen) {
+          isKeyboardOpen = false;
+          // Reset scroll position when keyboard closes
+          setTimeout(function() {
+            window.scrollTo(0, 0);
+          }, 100);
+        }
+      }
+    });
+
+    // Handle focus events
+    document.addEventListener('focusin', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        // Scroll the input into view
+        setTimeout(function() {
+          e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+
+    // Handle blur events
+    document.addEventListener('focusout', function() {
+      setTimeout(function() {
+        if (!isKeyboardOpen) {
+          window.scrollTo(0, 0);
+        }
+      }, 100);
+    });
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

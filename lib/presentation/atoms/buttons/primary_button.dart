@@ -18,12 +18,10 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = AppColors.primaryBlack;
-
     final ButtonStyle style = ElevatedButton.styleFrom(
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.primaryGreen,
       foregroundColor: AppColors.surface,
-      disabledBackgroundColor: AppColors.secondary,
+      disabledBackgroundColor: AppColors.primaryDarkGreen,
       disabledForegroundColor: AppColors.textDisabled,
       minimumSize: const Size(0, 48), // Height 48px
       shape: RoundedRectangleBorder(
@@ -47,7 +45,7 @@ class PrimaryButton extends StatelessWidget {
                 ),
               )
             : Icon(icon, size: 20),
-        label: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
+        label: Text(text),
       );
     }
 
@@ -63,7 +61,7 @@ class PrimaryButton extends StatelessWidget {
                 strokeWidth: 2,
               ),
             )
-          : Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
+          : Text(text),
     );
   }
 }

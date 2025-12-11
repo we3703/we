@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/membership_level.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/foundations/icon_radio.dart';
@@ -6,14 +7,14 @@ import 'package:we/presentation/foundations/spacing.dart';
 
 class ProfileCard extends StatelessWidget {
   final String name;
-  final String membershipTitle; // e.g., "Gold Member"
+  final MembershipLevel membershipLevel;
   final String? profileImageUrl;
   final String? joinDate;
 
   const ProfileCard({
     super.key,
     required this.name,
-    required this.membershipTitle,
+    required this.membershipLevel,
     this.profileImageUrl,
     this.joinDate, // e.g., "가입 날짜 2025.11.16"
   });
@@ -49,13 +50,25 @@ class ProfileCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
-          Text(
-            membershipTitle,
-            style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.gold,
-            ), // Assuming gold-like color for member title
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (membershipLevel != MembershipLevel.none) ...[
+                Text(
+                  membershipLevel.displayName,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: membershipLevel.color,
+                  ),
+                ),
+                const SizedBox(width: 4),
+              ],
+              Text(
+                'Member',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
           ),
           if (joinDate != null) ...[
             const SizedBox(height: 8),

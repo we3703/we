@@ -89,7 +89,7 @@ class ProductCard extends StatelessWidget {
                         Text(
                           price,
                           style: AppTextStyles.bodyBold.copyWith(
-                            color: AppColors.primaryBlack,
+                            color: AppColors.primaryGreen,
                             fontSize: 12,
                           ),
                         ),

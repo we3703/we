@@ -10,11 +10,7 @@ class LoginViewModel extends BaseViewModel {
   final TokenProvider _tokenProvider;
   final UserViewModel _userViewModel;
 
-  LoginViewModel(
-    this._loginUseCase,
-    this._tokenProvider,
-    this._userViewModel,
-  );
+  LoginViewModel(this._loginUseCase, this._tokenProvider, this._userViewModel);
 
   LoginEntity? _loggedInUser;
   LoginEntity? get loggedInUser => _loggedInUser;
@@ -37,6 +33,7 @@ class LoginViewModel extends BaseViewModel {
           // Save user info to UserViewModel
           _userViewModel.setUserFromLogin(loginEntity.user);
           setError(null);
+          notifyListeners(); // UI 업데이트를 위해 명시적으로 호출
         },
         failure: (failure) async {
           setError(mapFailureToMessage(failure));

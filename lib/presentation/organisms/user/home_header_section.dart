@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/membership_level.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/shadows.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
-import 'package:we/presentation/molecules/cards/user/user_status_card.dart';
 import 'package:we/presentation/molecules/cards/user/info_stat_card.dart';
 import 'package:we/presentation/molecules/tab/quick_action_button.dart';
 import 'package:we/presentation/molecules/tab/quick_action_group.dart';
@@ -71,7 +71,6 @@ class HomeHeaderSection extends StatelessWidget {
         const SizedBox(height: AppSpacing.space12),
         // Stats using InfoStatCard
         InfoStatCard(
-          title: '내 정보',
           stats: [
             InfoStatItem(title: '보유 포인트', value: data.points),
             InfoStatItem(title: '내 추천 현황', value: data.recommendationCount),

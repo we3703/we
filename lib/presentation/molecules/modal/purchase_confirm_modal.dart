@@ -55,7 +55,7 @@ class PurchaseConfirmModal extends StatelessWidget {
         Text(
           value,
           style: highlight
-              ? AppTextStyles.bodyBold.copyWith(color: AppColors.primaryBlack)
+              ? AppTextStyles.bodyBold.copyWith(color: AppColors.primaryGreen)
               : AppTextStyles.bodyRegular.copyWith(
                   color: AppColors.textPrimary,
                 ),

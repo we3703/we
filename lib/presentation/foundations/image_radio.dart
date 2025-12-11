@@ -59,7 +59,7 @@ class AppImage extends StatelessWidget {
                           ? loadingProgress.cumulativeBytesLoaded /
                                 loadingProgress.expectedTotalBytes!
                           : null,
-                      color: AppColors.primaryDarkGray,
+                      color: AppColors.primaryDarkGreen,
                     ),
                   ),
                 );

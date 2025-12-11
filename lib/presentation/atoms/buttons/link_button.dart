@@ -20,7 +20,7 @@ class LinkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final ButtonStyle style =
         TextButton.styleFrom(
-          foregroundColor: AppColors.primaryBlack,
+          foregroundColor: AppColors.primaryGreen,
           disabledForegroundColor: AppColors.textDisabled,
           textStyle:
               AppTextStyles.bodyRegular, // Using bodyRegular for link text
@@ -32,7 +32,7 @@ class LinkButton extends StatelessWidget {
             Set<WidgetState> states,
           ) {
             if (states.contains(WidgetState.pressed)) {
-              return AppColors.primaryBlack.withValues(alpha: 0.1);
+              return AppColors.primaryGreen.withValues(alpha: 0.1);
             }
             return null; // Defer to the widget's default.
           }),
@@ -47,7 +47,7 @@ class LinkButton extends StatelessWidget {
                 width: 16,
                 height: 16,
                 child: CircularProgressIndicator(
-                  color: AppColors.primaryBlack,
+                  color: AppColors.primaryGreen,
                   strokeWidth: 2,
                 ),
               )
@@ -64,7 +64,7 @@ class LinkButton extends StatelessWidget {
               width: 16,
               height: 16,
               child: CircularProgressIndicator(
-                color: AppColors.primaryBlack,
+                color: AppColors.primaryGreen,
                 strokeWidth: 2,
               ),
             )

@@ -56,7 +56,7 @@ class PurchaseSummaryCard extends StatelessWidget {
                 Text(
                   amount,
                   style: AppTextStyles.heading3Medium.copyWith(
-                    color: AppColors.primaryBlack,
+                    color: AppColors.primaryGreen,
                   ),
                 ),
                 const SizedBox(height: 4),

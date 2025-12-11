@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/toast_service.dart';
 import 'package:we/data/models/point/recharge_points_request.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -114,18 +115,12 @@ class _PointManagementScreenState extends State<PointManagementScreen> {
 
                           result.when(
                             success: (_) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('포인트 충전이 완료되었습니다!'),
-                                ),
-                              );
+                              ToastService.showSuccess('포인트 충전이 완료되었습니다!');
                               // Refresh points history
                               pointsVM.getPointsHistory();
                             },
                             failure: (failure) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(failure.message)),
-                              );
+                              ToastService.showError(failure.message);
                             },
                           );
                         }

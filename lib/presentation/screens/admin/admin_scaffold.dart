@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:we/presentation/foundations/colors.dart';
-import 'package:we/presentation/foundations/icon_radio.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/molecules/navigation/bottom_nav_bar.dart';
-import 'package:we/presentation/screens/main/home_screen.dart';
-import 'package:we/presentation/screens/main/my_page_screen.dart';
-import 'package:we/presentation/screens/main/product_list_screen.dart';
-import 'package:we/presentation/screens/main/recommendation_screen.dart';
-import 'package:we/presentation/screens/notice/notice_list_screen.dart';
+import 'package:we/presentation/screens/admin/notice/admin_notice_screen.dart';
+import 'package:we/presentation/screens/admin/order/admin_order_screen.dart';
+import 'package:we/presentation/screens/admin/product/admin_product_screen.dart';
+import 'package:we/presentation/screens/admin/referral/admin_referral_screen.dart';
+import 'package:we/presentation/screens/admin/user/admin_user_screen.dart';
 
-class MainScaffold extends StatefulWidget {
-  static const routeName = '/main';
+class AdminScaffold extends StatefulWidget {
+  static const routeName = '/admin';
   final int? initialIndex;
 
-  const MainScaffold({super.key, this.initialIndex});
+  const AdminScaffold({super.key, this.initialIndex});
 
   @override
-  State<MainScaffold> createState() => _MainScaffoldState();
+  State<AdminScaffold> createState() => _AdminScaffoldState();
 }
 
-class _MainScaffoldState extends State<MainScaffold> {
+class _AdminScaffoldState extends State<AdminScaffold> {
   late int _currentIndex;
 
   @override
@@ -42,18 +41,20 @@ class _MainScaffoldState extends State<MainScaffold> {
     }
   }
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const ProductListScreen(),
-    const RecommendationScreen(),
-    const MyPageScreen(),
+  final List<Widget> _pages = const [
+    AdminProductScreen(),
+    AdminOrderScreen(),
+    AdminReferralScreen(),
+    AdminUserScreen(),
+    AdminNoticeScreen(),
   ];
 
   final List<BottomNavItemData> _navItems = const [
-    BottomNavItemData(icon: Icons.home_outlined, label: '홈'),
-    BottomNavItemData(icon: Icons.shopping_bag_outlined, label: '제품'),
-    BottomNavItemData(icon: Icons.groups_outlined, label: '조직도'),
-    BottomNavItemData(icon: Icons.person_outline, label: '마이'),
+    BottomNavItemData(icon: Icons.inventory_outlined, label: '제품'),
+    BottomNavItemData(icon: Icons.shopping_bag_outlined, label: '주문'),
+    BottomNavItemData(icon: Icons.groups_outlined, label: '추천'),
+    BottomNavItemData(icon: Icons.people_outline, label: '사용자'),
+    BottomNavItemData(icon: Icons.announcement_outlined, label: '공지'),
   ];
 
   PreferredSizeWidget _buildAppBar() {
@@ -64,28 +65,13 @@ class _MainScaffoldState extends State<MainScaffold> {
           Image.asset('assets/Logo.png', height: 24),
           const SizedBox(width: AppSpacing.space8),
           Text(
-            '헬스온',
+            '헬스온 관리자',
             style: AppTextStyles.heading3Bold.copyWith(
               color: AppColors.textPrimary,
             ),
           ),
         ],
       ),
-      showSearchAction: true,
-      searchAtStart: true,
-      onSearchSubmitted: (value) {
-        // TODO: Implement search logic for home
-        // ignore: avoid_print
-        print('Searching for: $value');
-      },
-      actions: [
-        IconButton(
-          icon: const AppIcon.size24(icon: Icons.notifications_none_outlined),
-          onPressed: () {
-            Navigator.of(context).pushNamed(NoticeListScreen.routeName);
-          },
-        ),
-      ],
     );
   }
 

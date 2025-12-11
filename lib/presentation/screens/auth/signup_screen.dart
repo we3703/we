@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/toast_service.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -50,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppHeader(titleWidget: const Text('회원가입'), showBackButton: true),
       body: Consumer<SignUpViewModel>(
         builder: (context, viewModel, child) {
@@ -58,9 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             _hasNavigated = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('회원가입이 완료되었습니다.')));
+                ToastService.showSuccess('회원가입이 완료되었습니다.');
                 Navigator.of(
                   context,
                 ).pushReplacementNamed(LoginScreen.routeName);

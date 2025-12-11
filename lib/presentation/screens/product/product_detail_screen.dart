@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/order/create_order_use_case.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
 import 'package:we/presentation/foundations/spacing.dart';
@@ -134,25 +135,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         // Refresh user info to update points
                                         context.read<UserViewModel>().getMe();
 
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('구매가 완료되었습니다!'),
-                                          ),
+                                        ToastService.showSuccess(
+                                          '구매가 완료되었습니다!',
                                         );
                                       }
                                     },
                                     failure: (failure) {
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(failure.message),
-                                          ),
-                                        );
-                                      }
+                                      ToastService.showError(failure.message);
                                     },
                                   );
                                 },

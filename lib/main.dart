@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:toastification/toastification.dart';
 import 'package:we/core/routes/app_routes.dart';
 import 'package:we/dependency_injection.dart'; // Import the new DI file
 import 'package:we/presentation/foundations/app_theme.dart';
@@ -20,11 +21,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'We',
-      theme: AppTheme.lightTheme,
-      initialRoute: LoginScreen.routeName,
-      routes: AppRoutes.routes,
+    return ToastificationWrapper(
+      child: MaterialApp(
+        title: '헬스온',
+        theme: AppTheme.lightTheme,
+        initialRoute: LoginScreen.routeName,
+        routes: AppRoutes.routes,
+      ),
     );
   }
 }

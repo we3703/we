@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/membership_level.dart';
+import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/auth/logout_use_case.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/organisms/user/my_page_section.dart';
@@ -65,11 +67,16 @@ class _MyPageScreenState extends State<MyPageScreen> {
           showLogoutModal(
             context: context,
             onLogout: () async {
+              // 먼저 모달을 닫음
+              Navigator.of(context).pop();
+
+              // 토큰 제거
               final logoutUseCase = context.read<LogoutUseCase>();
               final result = await logoutUseCase();
 
               result.when(
                 success: (_) {
+                  // 토큰이 완전히 제거된 후 로그인 화면으로 이동
                   if (context.mounted) {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       LoginScreen.routeName,
@@ -78,11 +85,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                   }
                 },
                 failure: (failure) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(failure.message)));
-                  }
+                  ToastService.showError(failure.message);
                 },
               );
             },
@@ -109,30 +112,11 @@ class _MyPageScreenState extends State<MyPageScreen> {
               return const Center(child: Text('사용자 정보를 불러올 수 없습니다.'));
             }
 
-            // Convert level string to membership title
-            String membershipTitle;
-            switch (myInfo.level.toLowerCase()) {
-              case 'master':
-                membershipTitle = 'Master Member';
-                break;
-              case 'diamond':
-                membershipTitle = 'Diamond Member';
-                break;
-              case 'gold':
-                membershipTitle = 'Gold Member';
-                break;
-              case 'silver':
-                membershipTitle = 'Silver Member';
-                break;
-              default:
-                membershipTitle = 'Bronze Member';
-            }
-
             return MyPageSection(
               name: myInfo.name,
-              membershipTitle: membershipTitle,
-              joinDate: '가입 날짜 ${myInfo.createdAt}',
-              profileImageUrl: null, // No image in design
+              membershipLevel: MembershipConvert.convertLevel(myInfo.level),
+              points: '${myInfo.points} P',
+              recommendationCount: '${myInfo.totalReferrals}명',
               menuItems: menuItems,
             );
           },

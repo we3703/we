@@ -30,7 +30,7 @@ class CustomCheckbox extends StatelessWidget {
           Checkbox(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.primaryBlack,
+            activeColor: AppColors.primaryGreen,
             checkColor: AppColors.surface,
             side: WidgetStateBorderSide.resolveWith((states) {
               if (states.contains(WidgetState.disabled)) {

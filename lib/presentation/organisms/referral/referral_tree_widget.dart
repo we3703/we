@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/membership_level.dart';
 import 'package:we/domain/entities/referral/referral_node_entity.dart';
 import 'package:we/presentation/molecules/cards/user/user_status_card.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';

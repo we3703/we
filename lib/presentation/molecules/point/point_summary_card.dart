@@ -38,15 +38,12 @@ class PointSummaryCard extends StatelessWidget {
                 Text(
                   currentPoints,
                   style: AppTextStyles.heading3Bold.copyWith(
-                    color: AppColors.primaryBlack,
+                    color: AppColors.primaryGreen,
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              width: 100, // Fixed width for button
-              child: PrimaryButton(text: '포인트 충전', onPressed: onChargePressed),
-            ),
+            PrimaryButton(text: '포인트 충전', onPressed: onChargePressed),
           ],
         ),
       ),

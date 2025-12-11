@@ -17,8 +17,21 @@ class NoticeRepositoryImpl implements NoticeRepository {
   Future<Result<List<Notice>>> getNotices() async {
     try {
       final response = await noticeApi.getNotices();
-      final data = response['data'] as Map<String, dynamic>? ?? response;
-      final noticeList = (data['notices'] as List? ?? [])
+      final data = response['data'];
+
+      // Handle both array and object response formats
+      final List<dynamic> noticeListData;
+      if (data is List) {
+        // data is directly an array: {"data": [...]}
+        noticeListData = data;
+      } else if (data is Map<String, dynamic>) {
+        // data is an object with notices field: {"data": {"notices": [...]}}
+        noticeListData = data['notices'] as List? ?? [];
+      } else {
+        noticeListData = [];
+      }
+
+      final noticeList = noticeListData
           .map((notice) => Notice.fromJson(notice as Map<String, dynamic>))
           .toList();
       return Result.success(noticeList);

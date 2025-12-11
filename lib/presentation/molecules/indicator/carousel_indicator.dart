@@ -13,7 +13,7 @@ class CarouselIndicator extends StatelessWidget {
     super.key,
     required this.itemCount,
     required this.currentIndex,
-    this.activeColor = AppColors.primaryBlack,
+    this.activeColor = AppColors.primaryGreen,
     this.inactiveColor = AppColors.secondaryLight,
     this.dotSize = 8.0,
     this.spacing = 8.0,

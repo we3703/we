@@ -19,9 +19,9 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style = ElevatedButton.styleFrom(
-      backgroundColor: AppColors.secondaryLight,
-      foregroundColor: AppColors.textPrimary,
-      disabledBackgroundColor: AppColors.secondary,
+      backgroundColor: AppColors.secondary,
+      foregroundColor: AppColors.surface,
+      disabledBackgroundColor: AppColors.secondaryDark,
       disabledForegroundColor: AppColors.textDisabled,
       minimumSize: const Size(0, 48), // Height 48px
       shape: RoundedRectangleBorder(
@@ -45,7 +45,7 @@ class SecondaryButton extends StatelessWidget {
                 ),
               )
             : Icon(icon, size: 20),
-        label: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
+        label: Text(text),
       );
     }
 
@@ -61,7 +61,7 @@ class SecondaryButton extends StatelessWidget {
                 strokeWidth: 2,
               ),
             )
-          : Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
+          : Text(text),
     );
   }
 }

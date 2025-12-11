@@ -24,7 +24,7 @@ class CategoryTabItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: isSelected ? AppColors.primaryBlack : Colors.transparent,
+              color: isSelected ? AppColors.primaryGreen : Colors.transparent,
               width: 2.0,
             ),
           ),

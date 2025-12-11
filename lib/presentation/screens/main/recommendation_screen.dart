@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/date_formatter.dart';
+import 'package:we/core/utils/membership_level.dart';
 import 'package:we/presentation/foundations/spacing.dart';
-import 'package:we/presentation/molecules/cards/user/user_status_card.dart';
 import 'package:we/presentation/organisms/user/recommendation_section.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';
 import 'package:we/presentation/screens/user/user_view_model.dart';
@@ -84,9 +84,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
               // 사용자 ID 복사
               final myInfo = userVM.myInfo;
               if (myInfo != null) {
-                await Clipboard.setData(
-                  ClipboardData(text: myInfo.userId),
-                );
+                await Clipboard.setData(ClipboardData(text: myInfo.userId));
 
                 if (context.mounted) {
                   showDialog(
@@ -94,9 +92,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('알림'),
-                        content: Text(
-                          '내 추천 ID가 복사되었습니다!\n${myInfo.userId}',
-                        ),
+                        content: Text('내 추천 ID가 복사되었습니다!\n${myInfo.userId}'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {

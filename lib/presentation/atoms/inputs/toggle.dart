@@ -12,7 +12,7 @@ class CustomToggle extends StatelessWidget {
     return Switch(
       value: value,
       onChanged: onChanged,
-      activeThumbColor: AppColors.primaryBlack,
+      activeThumbColor: AppColors.primaryGreen,
       inactiveThumbColor: AppColors.secondary,
       inactiveTrackColor: AppColors.secondaryLight,
     );

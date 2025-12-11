@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/membership_level.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
 import 'package:we/presentation/atoms/buttons/secondary_button.dart';
 import 'package:we/presentation/foundations/spacing.dart';
@@ -57,7 +58,6 @@ class RecommendationSection extends StatelessWidget {
       children: [
         // Recommendation Stats Card
         InfoStatCard(
-          title: '추천 통계', // "Recommendation Stats"
           stats: [
             InfoStatItem(
               title: '총 추천',

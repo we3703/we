@@ -31,7 +31,7 @@ class PointHistoryRow extends StatelessWidget {
     switch (type) {
       case PointTransactionType.charge:
       case PointTransactionType.earning:
-        return AppColors.primaryBlack;
+        return AppColors.primaryGreen;
       case PointTransactionType.use:
         return AppColors.error;
     }

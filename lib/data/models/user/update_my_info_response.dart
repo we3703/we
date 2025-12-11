@@ -13,10 +13,10 @@ class UpdateMyInfoResponse {
 
   factory UpdateMyInfoResponse.fromJson(Map<String, dynamic> json) {
     return UpdateMyInfoResponse(
-      userId: json['userId'],
-      name: json['name'],
-      phone: json['phone'],
-      updatedAt: json['updatedAt'],
+      userId: json['userId'] ?? json['user_id'] ?? '',
+      name: json['name'] ?? '',
+      phone: json['phone'] ?? '',
+      updatedAt: json['updatedAt'] ?? json['updated_at'] ?? '',
     );
   }
 }

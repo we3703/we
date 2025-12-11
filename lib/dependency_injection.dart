@@ -79,6 +79,7 @@ import 'package:we/domain/use_cases/user/get_me_use_case.dart';
 import 'package:we/domain/use_cases/user/update_me_use_case.dart';
 import 'package:we/presentation/screens/admin/notice/admin_notice_view_model.dart';
 import 'package:we/presentation/screens/admin/order/admin_order_view_model.dart';
+import 'package:we/presentation/screens/admin/product/admin_product_view_model.dart';
 import 'package:we/presentation/screens/admin/referral/admin_referral_view_model.dart';
 import 'package:we/presentation/screens/admin/user/admin_user_view_model.dart';
 import 'package:we/presentation/screens/auth/login_view_model.dart';
@@ -305,14 +306,20 @@ Future<List<SingleChildWidget>> setupProviders() async {
       update: (_, getMeUseCase, updateMeUseCase, previous) =>
           previous ?? UserViewModel(getMeUseCase, updateMeUseCase),
     ),
-    ChangeNotifierProxyProvider3<LoginUseCase, TokenProvider, UserViewModel, LoginViewModel>(
+    ChangeNotifierProxyProvider3<
+      LoginUseCase,
+      TokenProvider,
+      UserViewModel,
+      LoginViewModel
+    >(
       create: (context) => LoginViewModel(
         Provider.of<LoginUseCase>(context, listen: false),
         tokenProvider,
         Provider.of<UserViewModel>(context, listen: false),
       ),
       update: (_, loginUseCase, tokenProvider, userViewModel, previous) =>
-          previous ?? LoginViewModel(loginUseCase, tokenProvider, userViewModel),
+          previous ??
+          LoginViewModel(loginUseCase, tokenProvider, userViewModel),
     ),
     ChangeNotifierProxyProvider<SignupUseCase, SignUpViewModel>(
       create: (context) =>
@@ -492,6 +499,36 @@ Future<List<SingleChildWidget>> setupProviders() async {
       ),
       update: (_, getAdminUsers, previous) =>
           previous ?? AdminUserViewModel(getAdminUsers),
+    ),
+    ChangeNotifierProxyProvider4<
+      GetProductsUseCase,
+      CreateProductUseCase,
+      UpdateProductUseCase,
+      DeleteProductUseCase,
+      AdminProductViewModel
+    >(
+      create: (context) => AdminProductViewModel(
+        Provider.of<GetProductsUseCase>(context, listen: false),
+        Provider.of<CreateProductUseCase>(context, listen: false),
+        Provider.of<UpdateProductUseCase>(context, listen: false),
+        Provider.of<DeleteProductUseCase>(context, listen: false),
+      ),
+      update:
+          (
+            _,
+            getProducts,
+            createProduct,
+            updateProduct,
+            deleteProduct,
+            previous,
+          ) =>
+              previous ??
+              AdminProductViewModel(
+                getProducts,
+                createProduct,
+                updateProduct,
+                deleteProduct,
+              ),
     ),
   ];
 }

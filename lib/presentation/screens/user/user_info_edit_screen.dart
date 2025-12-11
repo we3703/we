@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/toast_service.dart';
 import 'package:we/data/models/user/update_my_info_request.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -27,6 +28,7 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: const AppHeader(title: '내 정보 수정', showBackButton: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.layoutPadding),
@@ -62,14 +64,10 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
 
                 final viewModel = context.read<UserViewModel>();
                 if (viewModel.errorMessage == null) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('정보가 저장되었습니다.')));
+                  ToastService.showSuccess('정보가 저장되었습니다.');
                   Navigator.of(context).pop();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(viewModel.errorMessage!)),
-                  );
+                  ToastService.showError(viewModel.errorMessage!);
                 }
               },
             );

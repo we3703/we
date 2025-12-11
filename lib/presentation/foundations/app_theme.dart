@@ -12,7 +12,7 @@ class AppTheme {
       // 1. Color Scheme
       colorScheme: ColorScheme(
         brightness: Brightness.light,
-        primary: AppColors.primaryBlack,
+        primary: AppColors.primaryGreen,
         onPrimary: AppColors.surface,
         secondary: AppColors.secondary,
         onSecondary: AppColors.textPrimary,
@@ -122,7 +122,7 @@ class AppTheme {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: const BorderSide(
-            color: AppColors.primaryBlack,
+            color: AppColors.primaryGreen,
             width: 1.5,
           ),
         ),

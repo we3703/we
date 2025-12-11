@@ -95,7 +95,7 @@ class PurchaseCard extends StatelessWidget {
                       Text(
                         '$price P',
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.primaryBlack,
+                          color: AppColors.primaryGreen,
                         ),
                       ),
                     ],

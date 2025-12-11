@@ -70,9 +70,11 @@ class _AppHeaderState extends State<AppHeader> {
       return AppBar(
         backgroundColor: widget.backgroundColor,
         elevation: widget.elevation,
-        leading: IconButton(
-          icon: const AppIcon.size24(icon: Icons.arrow_back_ios),
-          onPressed: _exitSearchMode,
+        leading: Center(
+          child: IconButton(
+            icon: const AppIcon.size24(icon: Icons.arrow_back_ios),
+            onPressed: _exitSearchMode,
+          ),
         ),
         title: TextField(
           controller: _searchController,

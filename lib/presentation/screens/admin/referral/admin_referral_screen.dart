@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/entities/admin/referral/admin_referral_node_entity.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
 import 'package:we/presentation/atoms/inputs/text_input.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
-import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/screens/admin/referral/admin_referral_view_model.dart';
 
 class AdminReferralScreen extends StatefulWidget {
@@ -61,12 +61,7 @@ class _AdminReferralScreenState extends State<AdminReferralScreen> {
 
   void _loadReferralTree() {
     if (_userIdController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('사용자 ID를 입력해주세요'),
-          backgroundColor: AppColors.error,
-        ),
-      );
+      ToastService.showError('사용자 ID를 입력해주세요');
       return;
     }
 
@@ -77,107 +72,104 @@ class _AdminReferralScreenState extends State<AdminReferralScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppHeader(title: '추천인 트리 조회', showBackButton: true),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.layoutPadding),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextInput(
-                    controller: _userIdController,
-                    hintText: '사용자 ID를 입력하세요',
-                    labelText: '사용자 ID',
-                    isRequired: true,
-                  ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(AppSpacing.layoutPadding),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextInput(
+                  controller: _userIdController,
+                  hintText: '사용자 ID를 입력하세요',
+                  labelText: '사용자 ID',
+                  isRequired: true,
                 ),
-                const SizedBox(width: AppSpacing.space12),
-                PrimaryButton(
-                  text: '조회',
-                  onPressed: _loadReferralTree,
-                  icon: Icons.search,
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(width: AppSpacing.space12),
+              PrimaryButton(
+                text: '조회',
+                onPressed: _loadReferralTree,
+                icon: Icons.search,
+              ),
+            ],
           ),
-          const Divider(),
-          Expanded(
-            child: Consumer<AdminReferralViewModel>(
-              builder: (context, viewModel, child) {
-                if (viewModel.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+        ),
+        const Divider(),
+        Expanded(
+          child: Consumer<AdminReferralViewModel>(
+            builder: (context, viewModel, child) {
+              if (viewModel.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                if (viewModel.errorMessage != null) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 64,
-                          color: AppColors.error.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: AppSpacing.space20),
-                        Text(
-                          viewModel.errorMessage!,
-                          style: AppTextStyles.bodyRegular.copyWith(
-                            color: AppColors.error,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (viewModel.adminReferralTree == null) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.account_tree_outlined,
-                          size: 64,
-                          color: AppColors.textDisabled.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: AppSpacing.space20),
-                        Text(
-                          '사용자 ID를 입력하고\n조회 버튼을 눌러주세요',
-                          style: AppTextStyles.bodyRegular.copyWith(
-                            color: AppColors.textDisabled,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(AppSpacing.layoutPadding),
+              if (viewModel.errorMessage != null) {
+                return Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (viewModel.adminReferralTree!.statistics != null) ...[
-                        _buildStatisticsCard(
-                          viewModel.adminReferralTree!.statistics!,
+                      Icon(
+                        Icons.error_outline,
+                        size: 64,
+                        color: AppColors.error.withValues(alpha: 0.5),
+                      ),
+                      const SizedBox(height: AppSpacing.space20),
+                      Text(
+                        viewModel.errorMessage!,
+                        style: AppTextStyles.bodyRegular.copyWith(
+                          color: AppColors.error,
                         ),
-                        const SizedBox(height: AppSpacing.space20),
-                      ],
-                      Text('추천인 트리', style: AppTextStyles.heading3Bold),
-                      const SizedBox(height: AppSpacing.space12),
-                      _buildReferralTree(viewModel.adminReferralTree!, 0),
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
                 );
-              },
-            ),
+              }
+
+              if (viewModel.adminReferralTree == null) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.account_tree_outlined,
+                        size: 64,
+                        color: AppColors.textDisabled.withValues(alpha: 0.5),
+                      ),
+                      const SizedBox(height: AppSpacing.space20),
+                      Text(
+                        '사용자 ID를 입력하고\n조회 버튼을 눌러주세요',
+                        style: AppTextStyles.bodyRegular.copyWith(
+                          color: AppColors.textDisabled,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(AppSpacing.layoutPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (viewModel.adminReferralTree!.statistics != null) ...[
+                      _buildStatisticsCard(
+                        viewModel.adminReferralTree!.statistics!,
+                      ),
+                      const SizedBox(height: AppSpacing.space20),
+                    ],
+                    Text('추천인 트리', style: AppTextStyles.heading3Bold),
+                    const SizedBox(height: AppSpacing.space12),
+                    _buildReferralTree(viewModel.adminReferralTree!, 0),
+                  ],
+                ),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
