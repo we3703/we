@@ -28,10 +28,15 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: const AppHeader(title: '내 정보 수정', showBackButton: true),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.layoutPadding),
+        padding: EdgeInsets.only(
+          left: AppSpacing.layoutPadding,
+          right: AppSpacing.layoutPadding,
+          top: AppSpacing.layoutPadding,
+          bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.layoutPadding,
+        ),
         child: Consumer<UserViewModel>(
           builder: (context, userVM, child) {
             if (userVM.isLoading && userVM.myInfo == null) {

@@ -135,12 +135,18 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
     final isEdit = widget.product != null;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppHeader(
         title: isEdit ? '제품 수정' : '제품 생성',
         showBackButton: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.layoutPadding),
+        padding: EdgeInsets.only(
+          left: AppSpacing.layoutPadding,
+          right: AppSpacing.layoutPadding,
+          top: AppSpacing.layoutPadding,
+          bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.layoutPadding,
+        ),
         child: Form(
           key: _formKey,
           child: Column(
