@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
 import 'package:we/core/error/result.dart';
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/error/error_extractor.dart';
 import 'package:we/domain/repositories/points/points_repository.dart';
 import 'package:we/data/api/points/points_api.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/data/models/point/paginated_recharge_history.dart';
 import 'package:we/data/models/point/points_history.dart';
 import 'package:we/data/models/point/recharge_points_request.dart';
@@ -76,7 +77,10 @@ class PointsRepositoryImpl implements PointsRepository {
   Future<Result<PaginatedRechargeHistory>> getRechargeHistory() async {
     try {
       final response = await pointsApi.getRechargeHistory();
-      final history = PaginatedRechargeHistoryExtension.fromJson(response);
+      final history = ApiResponse.fromJson(
+        response,
+        (data) => PaginatedRechargeHistoryExtension.fromJson(data),
+      ).data;
       return Result.success(history);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

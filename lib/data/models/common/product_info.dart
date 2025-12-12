@@ -13,7 +13,7 @@ class ProductInfo {
 
   factory ProductInfo.fromJson(Map<String, dynamic> json) {
     return ProductInfo(
-      productId: (json['productId'] ?? json['product_id'])?.toString() ?? '',
+      productId: (json['product_id'] ?? json['productId'])?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       image: json['image']?.toString() ?? '',
       price: json['price'] as int?,

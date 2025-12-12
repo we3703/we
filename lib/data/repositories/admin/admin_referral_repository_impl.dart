@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
 import 'package:we/core/error/result.dart';
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/error/error_extractor.dart';
 import 'package:we/domain/repositories/admin/admin_referral_repository.dart';
 import 'package:we/data/api/admin/admin_referrals_api.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/data/models/admin/referral/admin_referral_node.dart';
 
 class AdminReferralRepositoryImpl implements AdminReferralRepository {
@@ -19,7 +20,10 @@ class AdminReferralRepositoryImpl implements AdminReferralRepository {
   ) async {
     try {
       final response = await adminReferralsApi.getAdminUserReferralTree(userId);
-      final tree = AdminReferralNode.fromJson(response);
+      final tree = ApiResponse.fromJson(
+        response,
+        AdminReferralNode.fromJson,
+      ).data;
       return Result.success(tree);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

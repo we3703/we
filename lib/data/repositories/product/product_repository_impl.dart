@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
 import 'package:we/core/error/result.dart';
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/error/error_extractor.dart';
 import 'package:we/domain/repositories/product/product_repository.dart';
 import 'package:we/data/api/product/product_api.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/data/models/product/create_product_request.dart';
 import 'package:we/data/models/product/delete_product_response.dart';
 import 'package:we/data/models/product/paginated_products.dart';
@@ -27,9 +28,10 @@ class ProductRepositoryImpl implements ProductRepository {
   }) async {
     try {
       final response = await productApi.getProducts();
-      // Extract data from response: {status, data: {...}}
-      final data = response['data'] ?? response;
-      final products = PaginatedProductsExtension.fromJson(data);
+      final products = ApiResponse.fromJson(
+        response,
+        (data) => PaginatedProductsExtension.fromJson(data),
+      ).data;
       return Result.success(products);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -47,7 +49,10 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Result<ProductDetail>> getProductDetail(String productId) async {
     try {
       final response = await productApi.getProductDetail(productId);
-      final product = ProductDetail.fromJson(response);
+      final product = ApiResponse.fromJson(
+        response,
+        ProductDetail.fromJson,
+      ).data;
       return Result.success(product);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

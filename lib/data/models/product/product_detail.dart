@@ -31,19 +31,19 @@ class ProductDetail {
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
     return ProductDetail(
-      productId: (json['productId'] ?? json['product_id'])?.toString() ?? '',
+      productId: (json['id'] ?? json['productId'] ?? json['product_id'])?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       category: json['category']?.toString() ?? '',
       price: json['price'] as int? ?? 0,
       description: json['description']?.toString() ?? '',
-      detailDescription: (json['detailDescription'] ?? json['detail_description'])?.toString() ?? '',
+      detailDescription: (json['detail_description'] ?? json['detailDescription'])?.toString() ?? '',
       images: List<String>.from(json['images'] ?? []),
       stock: json['stock'] as int? ?? 0,
-      isAvailable: (json['isAvailable'] ?? json['is_available']) as bool? ?? true,
+      isAvailable: (json['is_available'] ?? json['isAvailable']) as bool? ?? true,
       specifications: Map<String, dynamic>.from(json['specifications'] ?? {}),
-      reviewCount: (json['reviewCount'] ?? json['review_count']) as int? ?? 0,
-      averageRating: ((json['averageRating'] ?? json['average_rating']) as num?)?.toDouble() ?? 0.0,
-      createdAt: (json['createdAt'] ?? json['created_at'])?.toString() ?? '',
+      reviewCount: (json['review_count'] ?? json['reviewCount']) as int? ?? 0,
+      averageRating: ((json['average_rating'] ?? json['averageRating']) as num?)?.toDouble() ?? 0.0,
+      createdAt: (json['created_at'] ?? json['createdAt'])?.toString() ?? '',
     );
   }
 }

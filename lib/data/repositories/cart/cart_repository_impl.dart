@@ -6,6 +6,7 @@ import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
 import 'package:we/core/error/result.dart';
 import 'package:we/data/models/cart/cart.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/domain/repositories/cart/cart_repository.dart';
 import 'package:we/data/api/product/cart_api.dart';
 import 'package:we/data/models/cart/add_cart_item_request.dart';
@@ -40,7 +41,10 @@ class CartRepositoryImpl implements CartRepository {
   Future<Result<Cart>> getCart() async {
     try {
       final response = await cartApi.getCart();
-      final cart = Cart.fromJson(response);
+      final cart = ApiResponse.fromJson(
+        response,
+        Cart.fromJson,
+      ).data;
       return Result.success(cart);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

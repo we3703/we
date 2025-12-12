@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
 import 'package:we/core/error/result.dart';
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/error/error_extractor.dart';
 import 'package:we/domain/repositories/admin/admin_notice_repository.dart';
 import 'package:we/data/api/admin/admin_notice_api.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/data/models/admin/notice/delete_notice_response.dart';
 import 'package:we/data/models/admin/notice/upsert_notice_request.dart';
 import 'package:we/data/models/notice/notice.dart';
@@ -19,7 +20,10 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
   Future<Result<Notice>> createAdminNotice(UpsertNoticeRequest request) async {
     try {
       final response = await adminNoticeApi.createAdminNotice(request.toJson());
-      final notice = Notice.fromJson(response);
+      final notice = ApiResponse.fromJson(
+        response,
+        Notice.fromJson,
+      ).data;
       return Result.success(notice);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -49,7 +53,10 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
         noticeId,
         request.toJson(),
       );
-      final notice = Notice.fromJson(response);
+      final notice = ApiResponse.fromJson(
+        response,
+        Notice.fromJson,
+      ).data;
       return Result.success(notice);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -78,7 +85,10 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
   ) async {
     try {
       final response = await adminNoticeApi.deleteAdminNotice(noticeId);
-      final deleteResponse = DeleteNoticeResponse.fromJson(response);
+      final deleteResponse = ApiResponse.fromJson(
+        response,
+        DeleteNoticeResponse.fromJson,
+      ).data;
       return Result.success(deleteResponse);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

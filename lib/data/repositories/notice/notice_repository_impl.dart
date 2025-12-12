@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/error/error_extractor.dart';
 import 'package:we/core/error/result.dart';
 import 'package:we/data/api/notice/notice_api.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/data/models/notice/notice.dart';
 import 'package:we/domain/repositories/notice/notice_repository.dart';
 
@@ -51,7 +52,10 @@ class NoticeRepositoryImpl implements NoticeRepository {
   Future<Result<Notice>> getNoticeDetail(String noticeId) async {
     try {
       final response = await noticeApi.getNoticeDetail(noticeId);
-      final notice = Notice.fromJson(response);
+      final notice = ApiResponse.fromJson(
+        response,
+        Notice.fromJson,
+      ).data;
       return Result.success(notice);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

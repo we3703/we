@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:we/core/error/failure.dart';
 import 'package:we/core/error/http_exception.dart';
 import 'package:we/core/error/result.dart';
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/error/error_extractor.dart';
 import 'package:we/domain/repositories/referrals/referral_repository.dart';
 import 'package:we/data/api/referrals/referrals_api.dart';
+import 'package:we/data/models/common/api_response.dart';
 import 'package:we/data/models/referral/referral_node.dart';
 import 'package:we/data/models/referral/referral_summary.dart';
 
@@ -18,7 +19,10 @@ class ReferralRepositoryImpl implements ReferralRepository {
   Future<Result<ReferralNode>> getReferralTree() async {
     try {
       final response = await referralsApi.getReferralTree();
-      final tree = ReferralNode.fromJson(response);
+      final tree = ApiResponse.fromJson(
+        response,
+        ReferralNode.fromJson,
+      ).data;
       return Result.success(tree);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -39,7 +43,10 @@ class ReferralRepositoryImpl implements ReferralRepository {
   Future<Result<ReferralSummary>> getReferralSummary() async {
     try {
       final response = await referralsApi.getReferralSummary();
-      final summary = ReferralSummary.fromJson(response);
+      final summary = ApiResponse.fromJson(
+        response,
+        ReferralSummary.fromJson,
+      ).data;
       return Result.success(summary);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
