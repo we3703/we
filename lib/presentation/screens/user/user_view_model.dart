@@ -43,7 +43,7 @@ class UserViewModel extends BaseViewModel {
     result.when(
       success: (myInfoEntity) {
         _myInfo = myInfoEntity;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -63,7 +63,7 @@ class UserViewModel extends BaseViewModel {
     result.when(
       success: (updateMyInfoEntity) {
         _updatedMyInfo = updateMyInfoEntity;
-        setError(null);
+        notifyListeners();
         getMe();
       },
       failure: (failure) {

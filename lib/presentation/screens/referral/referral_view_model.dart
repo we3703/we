@@ -28,7 +28,7 @@ class ReferralViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _referralTree = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -48,7 +48,7 @@ class ReferralViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _referralSummary = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));

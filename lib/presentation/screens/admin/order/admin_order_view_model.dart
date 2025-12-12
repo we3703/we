@@ -19,7 +19,6 @@ class AdminOrderViewModel extends ChangeNotifier {
 
   Future<void> getAdminOrders() async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getAdminOrdersUseCase();
@@ -27,7 +26,6 @@ class AdminOrderViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _paginatedAdminOrders = data;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);

@@ -17,12 +17,12 @@ class ShippingAddress {
 
   factory ShippingAddress.fromJson(Map<String, dynamic> json) {
     return ShippingAddress(
-      recipient: json['recipient'],
-      phone: json['phone'],
-      zipCode: json['zipCode'],
-      address: json['address'],
-      detailAddress: json['detailAddress'],
-      memo: json['memo'],
+      recipient: json['recipient']?.toString() ?? '',
+      phone: json['phone']?.toString() ?? '',
+      zipCode: (json['zipCode'] ?? json['zip_code'])?.toString(),
+      address: json['address']?.toString() ?? '',
+      detailAddress: (json['detailAddress'] ?? json['detail_address'])?.toString(),
+      memo: json['memo']?.toString(),
     );
   }
 

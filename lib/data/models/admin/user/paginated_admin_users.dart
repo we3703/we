@@ -33,19 +33,19 @@ class AdminUserSummary {
 
   factory AdminUserSummary.fromJson(Map<String, dynamic> json) {
     return AdminUserSummary(
-      userId: json['userId'],
-      email: json['email'],
-      name: json['name'],
-      phone: json['phone'],
-      level: json['level'],
-      points: json['points'],
-      totalPurchase: json['totalPurchase'],
-      totalReferrals: json['totalReferrals'],
-      referrerId: json['referrerId'],
-      referrerName: json['referrerName'],
-      status: json['status'],
-      createdAt: json['createdAt'],
-      lastLoginAt: json['lastLoginAt'],
+      userId: (json['userId'] ?? json['user_id'])?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      phone: json['phone']?.toString(),
+      level: json['level']?.toString() ?? 'BRONZE',
+      points: (json['points'] as int?) ?? 0,
+      totalPurchase: (json['totalPurchase'] ?? json['total_purchase']) as int? ?? 0,
+      totalReferrals: (json['totalReferrals'] ?? json['total_referrals']) as int? ?? 0,
+      referrerId: (json['referrerId'] ?? json['referrer_id'])?.toString(),
+      referrerName: (json['referrerName'] ?? json['referrer_name'])?.toString(),
+      status: json['status']?.toString() ?? 'ACTIVE',
+      createdAt: (json['createdAt'] ?? json['created_at'])?.toString() ?? '',
+      lastLoginAt: (json['lastLoginAt'] ?? json['last_login_at'])?.toString(),
     );
   }
 }

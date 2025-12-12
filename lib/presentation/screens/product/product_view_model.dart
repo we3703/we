@@ -57,7 +57,7 @@ class ProductViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _paginatedProducts = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -77,7 +77,7 @@ class ProductViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _productDetail = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -96,7 +96,7 @@ class ProductViewModel extends BaseViewModel {
 
     result.when(
       success: (_) {
-        setError(null);
+        notifyListeners();
         getProducts();
       },
       failure: (failure) {
@@ -119,7 +119,7 @@ class ProductViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _updatedProduct = data;
-        setError(null);
+        notifyListeners();
         getProductDetail(productId);
       },
       failure: (failure) {
@@ -140,7 +140,7 @@ class ProductViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _deletedProduct = data;
-        setError(null);
+        notifyListeners();
         getProducts();
       },
       failure: (failure) {

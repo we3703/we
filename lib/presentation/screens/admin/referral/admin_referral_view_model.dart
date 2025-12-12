@@ -19,7 +19,6 @@ class AdminReferralViewModel extends ChangeNotifier {
 
   Future<void> getAdminUserReferralTree(String userId) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getAdminUserReferralTreeUseCase(userId);
@@ -27,7 +26,6 @@ class AdminReferralViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _adminReferralTree = data;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);

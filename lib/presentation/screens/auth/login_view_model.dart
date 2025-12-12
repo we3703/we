@@ -32,8 +32,7 @@ class LoginViewModel extends BaseViewModel {
           );
           // Save user info to UserViewModel
           _userViewModel.setUserFromLogin(loginEntity.user);
-          setError(null);
-          notifyListeners(); // UI 업데이트를 위해 명시적으로 호출
+          notifyListeners();
         },
         failure: (failure) async {
           setError(mapFailureToMessage(failure));

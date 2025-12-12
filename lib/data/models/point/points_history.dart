@@ -21,14 +21,14 @@ class PointHistoryItem {
 
   factory PointHistoryItem.fromJson(Map<String, dynamic> json) {
     return PointHistoryItem(
-      historyId: (json['history_id'] ?? json['historyId'] ?? '').toString(),
-      type: json['type'] ?? '',
-      amount: json['amount'] ?? 0,
-      balance: json['balance'] ?? 0,
-      description: json['description'] ?? '',
-      orderId: json['order_id'] ?? json['orderId'],
-      fromUserId: json['from_user_id'] ?? json['fromUserId'],
-      createdAt: json['created_at'] ?? json['createdAt'] ?? '',
+      historyId: (json['history_id'] ?? json['historyId'])?.toString() ?? '',
+      type: json['type']?.toString() ?? '',
+      amount: json['amount'] as int? ?? 0,
+      balance: json['balance'] as int? ?? 0,
+      description: json['description']?.toString() ?? '',
+      orderId: (json['order_id'] ?? json['orderId'])?.toString(),
+      fromUserId: (json['from_user_id'] ?? json['fromUserId'])?.toString(),
+      createdAt: (json['created_at'] ?? json['createdAt'])?.toString() ?? '',
     );
   }
 }
@@ -51,13 +51,13 @@ class PointsHistory {
   factory PointsHistory.fromJson(Map<String, dynamic> json) {
     var historyList = json['history'] as List? ?? [];
     List<PointHistoryItem> history = historyList
-        .map((i) => PointHistoryItem.fromJson(i))
+        .map((i) => PointHistoryItem.fromJson(i as Map<String, dynamic>))
         .toList();
     return PointsHistory(
-      currentPoints: json['current_points'] ?? json['currentPoints'] ?? 0,
-      totalCharged: json['total_charged'] ?? json['totalCharged'] ?? 0,
-      totalUsed: json['total_used'] ?? json['totalUsed'] ?? 0,
-      totalCommission: json['total_commission'] ?? json['totalCommission'] ?? 0,
+      currentPoints: (json['current_points'] ?? json['currentPoints']) as int? ?? 0,
+      totalCharged: (json['total_charged'] ?? json['totalCharged']) as int? ?? 0,
+      totalUsed: (json['total_used'] ?? json['totalUsed']) as int? ?? 0,
+      totalCommission: (json['total_commission'] ?? json['totalCommission']) as int? ?? 0,
       history: history,
     );
   }

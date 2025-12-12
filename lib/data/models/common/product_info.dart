@@ -13,10 +13,10 @@ class ProductInfo {
 
   factory ProductInfo.fromJson(Map<String, dynamic> json) {
     return ProductInfo(
-      productId: json['productId'],
-      name: json['name'],
-      image: json['image'],
-      price: json['price'],
+      productId: (json['productId'] ?? json['product_id'])?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      image: json['image']?.toString() ?? '',
+      price: json['price'] as int?,
     );
   }
 

@@ -18,7 +18,6 @@ class OrderViewModel extends ChangeNotifier {
 
   Future<void> getMyOrders({int page = 1, int limit = 10}) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getMyOrdersUseCase(page: page, limit: limit);
@@ -27,7 +26,6 @@ class OrderViewModel extends ChangeNotifier {
       success: (orders) {
         _paginatedOrders = orders;
         _isLoading = false;
-        _errorMessage = null;
         notifyListeners();
       },
       failure: (failure) {

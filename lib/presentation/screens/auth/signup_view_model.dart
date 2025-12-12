@@ -25,7 +25,6 @@ class SignUpViewModel extends ChangeNotifier {
     String? referredBy,
   }) async {
     _isLoading = true;
-    _errorMessage = null;
     _signupSuccess = false;
     notifyListeners();
 
@@ -42,7 +41,6 @@ class SignUpViewModel extends ChangeNotifier {
     result.when(
       success: (_) {
         _signupSuccess = true;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);
@@ -56,14 +54,12 @@ class SignUpViewModel extends ChangeNotifier {
 
   void clearErrorMessage() {
     if (_errorMessage != null) {
-      _errorMessage = null;
       notifyListeners();
     }
   }
 
   void reset() {
     _isLoading = false;
-    _errorMessage = null;
     _signupSuccess = false;
     notifyListeners();
   }

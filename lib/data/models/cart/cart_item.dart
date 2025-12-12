@@ -15,11 +15,11 @@ class CartItem {
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
-      productId: json['productId'],
-      name: json['name'],
-      quantity: json['quantity'],
-      price: json['price'],
-      imageUrl: json['imageUrl'],
+      productId: (json['productId'] ?? json['product_id'])?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      quantity: json['quantity'] as int? ?? 0,
+      price: json['price'] as int? ?? 0,
+      imageUrl: (json['imageUrl'] ?? json['image_url'])?.toString() ?? '',
     );
   }
 }

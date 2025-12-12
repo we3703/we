@@ -16,10 +16,10 @@ class UserInAdminOrder {
 
   factory UserInAdminOrder.fromJson(Map<String, dynamic> json) {
     return UserInAdminOrder(
-      userId: json['userId'],
-      name: json['name'],
-      email: json['email'],
-      level: json['level'],
+      userId: (json['userId'] ?? json['user_id'])?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      level: json['level']?.toString() ?? 'BRONZE',
     );
   }
 }
@@ -49,15 +49,15 @@ class AdminOrderSummary {
 
   factory AdminOrderSummary.fromJson(Map<String, dynamic> json) {
     return AdminOrderSummary(
-      orderId: json['orderId'],
-      user: UserInAdminOrder.fromJson(json['user']),
-      product: ProductInfo.fromJson(json['product']),
-      quantity: json['quantity'],
-      totalPrice: json['totalPrice'],
-      status: json['status'],
-      trackingNumber: json['trackingNumber'],
-      orderedAt: json['orderedAt'],
-      shippedAt: json['shippedAt'],
+      orderId: (json['orderId'] ?? json['order_id'])?.toString() ?? '',
+      user: UserInAdminOrder.fromJson(json['user'] ?? {}),
+      product: ProductInfo.fromJson(json['product'] ?? {}),
+      quantity: (json['quantity'] as int?) ?? 0,
+      totalPrice: (json['totalPrice'] ?? json['total_price']) as int? ?? 0,
+      status: json['status']?.toString() ?? 'PENDING',
+      trackingNumber: (json['trackingNumber'] ?? json['tracking_number'])?.toString(),
+      orderedAt: (json['orderedAt'] ?? json['ordered_at'])?.toString() ?? '',
+      shippedAt: (json['shippedAt'] ?? json['shipped_at'])?.toString(),
     );
   }
 }

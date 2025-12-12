@@ -24,7 +24,7 @@ class NoticeViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _notices = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -44,7 +44,7 @@ class NoticeViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _noticeDetail = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));

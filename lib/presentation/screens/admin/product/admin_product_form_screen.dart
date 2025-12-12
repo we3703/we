@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:we/data/models/product/create_product_request.dart';
 import 'package:we/data/models/product/update_product_request.dart';
 import 'package:we/domain/entities/product/product_summary_entity.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
+import 'package:we/presentation/atoms/buttons/secondary_button.dart';
 import 'package:we/presentation/atoms/inputs/text_input.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
@@ -23,6 +25,7 @@ class AdminProductFormScreen extends StatefulWidget {
 
 class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
   final _formKey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
 
   late TextEditingController _nameController;
   late TextEditingController _categoryController;
@@ -30,8 +33,8 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
   late TextEditingController _descriptionController;
   late TextEditingController _detailDescriptionController;
   late TextEditingController _stockController;
-  late TextEditingController _imagesController;
   late bool _isAvailable;
+  List<XFile> _selectedImages = [];
 
   @override
   void initState() {
@@ -52,9 +55,6 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
     _stockController = TextEditingController(
       text: widget.product?.stock.toString() ?? '',
     );
-    _imagesController = TextEditingController(
-      text: widget.product?.images.join(', ') ?? '',
-    );
     _isAvailable = widget.product?.isAvailable ?? true;
   }
 
@@ -66,14 +66,41 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
     _descriptionController.dispose();
     _detailDescriptionController.dispose();
     _stockController.dispose();
-    _imagesController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImages() async {
+    try {
+      final List<XFile> images = await _picker.pickMultiImage();
+      setState(() {
+        _selectedImages = images;
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('이미지 선택 중 오류가 발생했습니다: $e')),
+        );
+      }
+    }
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      _selectedImages.removeAt(index);
+    });
   }
 
   void _saveProduct() {
     if (_formKey.currentState?.validate() ?? false) {
       if (widget.product == null) {
-        // Create new product
+        // Create new product - validate images
+        if (_selectedImages.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('최소 1개 이상의 이미지를 선택해주세요.')),
+          );
+          return;
+        }
+
         final request = CreateProductRequest(
           name: _nameController.text,
           category: _categoryController.text,
@@ -83,11 +110,7 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
           stock: int.tryParse(_stockController.text) ?? 0,
           isAvailable: _isAvailable,
           specifications: {},
-          images: _imagesController.text
-              .split(',')
-              .map((e) => e.trim())
-              .where((e) => e.isNotEmpty)
-              .toList(),
+          imageFiles: _selectedImages,
         );
         context.read<AdminProductViewModel>().createProduct(request);
       } else {
@@ -232,18 +255,92 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
               Text('이미지', style: AppTextStyles.heading3Bold),
               const SizedBox(height: AppSpacing.space20),
 
-              TextInput(
-                controller: _imagesController,
-                labelText: '이미지 URL',
-                hintText: 'URL을 쉼표(,)로 구분하여 입력하세요',
+              SecondaryButton(
+                text: '이미지 선택 (${_selectedImages.length}개)',
+                onPressed: _pickImages,
+                icon: Icons.image,
               ),
-              const SizedBox(height: AppSpacing.space8),
-              Text(
-                '여러 이미지는 쉼표(,)로 구분하여 입력하세요',
-                style: AppTextStyles.subRegular.copyWith(
-                  color: AppColors.textDisabled,
+              const SizedBox(height: AppSpacing.space12),
+
+              if (_selectedImages.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.space12),
+                  decoration: BoxDecoration(
+                    color: AppColors.subSurface,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '선택된 이미지',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.space8),
+                      Wrap(
+                        spacing: AppSpacing.space8,
+                        runSpacing: AppSpacing.space8,
+                        children: _selectedImages
+                            .asMap()
+                            .entries
+                            .map(
+                              (entry) => Stack(
+                                children: [
+                                  Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.surface,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.border,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.network(
+                                        entry.value.path,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return const Center(
+                                            child: Icon(
+                                              Icons.image,
+                                              color: AppColors.textDisabled,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 4,
+                                    right: 4,
+                                    child: GestureDetector(
+                                      onTap: () => _removeImage(entry.key),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
               const SizedBox(height: AppSpacing.space20),
 
               const Divider(),

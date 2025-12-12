@@ -41,7 +41,6 @@ class AdminNoticeViewModel extends ChangeNotifier {
 
   Future<void> getNotices() async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getNoticesUseCase();
@@ -49,7 +48,6 @@ class AdminNoticeViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _notices = data;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);
@@ -63,7 +61,6 @@ class AdminNoticeViewModel extends ChangeNotifier {
 
   Future<void> getNoticeDetail(String noticeId) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getNoticeDetailUseCase(noticeId);
@@ -71,7 +68,6 @@ class AdminNoticeViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _noticeDetail = data;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);
@@ -85,14 +81,12 @@ class AdminNoticeViewModel extends ChangeNotifier {
 
   Future<void> createAdminNotice(UpsertNoticeRequest request) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _createAdminNoticeUseCase(request);
 
     result.when(
       success: (_) {
-        _errorMessage = null;
         getNotices(); // Refresh list
       },
       failure: (failure) {
@@ -109,14 +103,12 @@ class AdminNoticeViewModel extends ChangeNotifier {
     UpsertNoticeRequest request,
   ) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _updateAdminNoticeUseCase(noticeId, request);
 
     result.when(
       success: (_) {
-        _errorMessage = null;
         getNotices(); // Refresh list
         getNoticeDetail(noticeId); // Refresh detail
       },
@@ -131,7 +123,6 @@ class AdminNoticeViewModel extends ChangeNotifier {
 
   Future<void> deleteAdminNotice(String noticeId) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _deleteAdminNoticeUseCase(noticeId);
@@ -139,7 +130,6 @@ class AdminNoticeViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _deleteResponse = data;
-        _errorMessage = null;
         getNotices(); // Refresh list
       },
       failure: (failure) {

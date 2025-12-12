@@ -19,7 +19,6 @@ class AdminUserViewModel extends ChangeNotifier {
 
   Future<void> getAdminUsers() async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getAdminUsersUseCase();
@@ -27,7 +26,6 @@ class AdminUserViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _paginatedAdminUsers = data;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);

@@ -36,7 +36,7 @@ class PointsViewModel extends BaseViewModel {
 
     result.when(
       success: (_) {
-        setError(null);
+        notifyListeners();
         getPointsHistory();
       },
       failure: (failure) {
@@ -56,7 +56,7 @@ class PointsViewModel extends BaseViewModel {
 
     result.when(
       success: (_) {
-        setError(null);
+        notifyListeners();
         getPointsHistory();
       },
       failure: (failure) {
@@ -75,7 +75,7 @@ class PointsViewModel extends BaseViewModel {
 
     result.when(
       success: (_) {
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -94,7 +94,7 @@ class PointsViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _rechargeHistory = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));
@@ -114,7 +114,7 @@ class PointsViewModel extends BaseViewModel {
     result.when(
       success: (data) {
         _pointsHistory = data;
-        setError(null);
+        notifyListeners();
       },
       failure: (failure) {
         setError(mapFailureToMessage(failure));

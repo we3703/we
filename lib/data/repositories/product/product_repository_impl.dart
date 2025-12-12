@@ -27,7 +27,9 @@ class ProductRepositoryImpl implements ProductRepository {
   }) async {
     try {
       final response = await productApi.getProducts();
-      final products = PaginatedProductsExtension.fromJson(response);
+      // Extract data from response: {status, data: {...}}
+      final data = response['data'] ?? response;
+      final products = PaginatedProductsExtension.fromJson(data);
       return Result.success(products);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -65,7 +67,9 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<void>> createProduct(CreateProductRequest request) async {
     try {
-      await productApi.createProduct(request.toJson());
+      final fields = request.getMultipartFields();
+      final files = await request.getMultipartFiles();
+      await productApi.createProduct(fields, files);
       return Result.success(null);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

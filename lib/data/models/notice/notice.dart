@@ -15,11 +15,11 @@ class Notice {
 
   factory Notice.fromJson(Map<String, dynamic> json) {
     return Notice(
-      id: json['id'],
-      title: json['title'],
-      content: json['content'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      id: json['id'] as int? ?? 0,
+      title: json['title']?.toString() ?? '',
+      content: json['content']?.toString() ?? '',
+      createdAt: (json['created_at'] ?? json['createdAt'])?.toString() ?? '',
+      updatedAt: (json['updated_at'] ?? json['updatedAt'])?.toString() ?? '',
     );
   }
 }

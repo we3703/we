@@ -32,14 +32,12 @@ class CartViewModel extends ChangeNotifier {
 
   Future<void> addCartItem(AddCartItemRequest request) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _addCartItemUseCase(request);
 
     result.when(
       success: (_) {
-        _errorMessage = null;
         // Optionally, refresh cart after adding item
         getCart();
       },
@@ -54,7 +52,6 @@ class CartViewModel extends ChangeNotifier {
 
   Future<void> getCart() async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getCartUseCase();
@@ -62,7 +59,6 @@ class CartViewModel extends ChangeNotifier {
     result.when(
       success: (cartEntity) {
         _cart = cartEntity;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);
@@ -79,14 +75,12 @@ class CartViewModel extends ChangeNotifier {
     UpdateCartItemRequest request,
   ) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _updateCartItemUseCase(itemId, request);
 
     result.when(
       success: (_) {
-        _errorMessage = null;
         // Optionally, refresh cart after updating item
         getCart();
       },
@@ -101,14 +95,12 @@ class CartViewModel extends ChangeNotifier {
 
   Future<void> deleteCartItem(String itemId) async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _deleteCartItemUseCase(itemId);
 
     result.when(
       success: (_) {
-        _errorMessage = null;
         // Optionally, refresh cart after deleting item
         getCart();
       },

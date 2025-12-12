@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Consumer<LoginViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.loggedInUser != null && !_hasNavigated) {
@@ -71,22 +71,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
           return SafeArea(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 80),
-                    Center(child: Image.asset('assets/Logo.png', height: 80)),
-                    const SizedBox(height: 60),
-                    LoginForm(
-                      onLogin: _handleLogin,
-                      onSignUp: _handleSignUp,
-                      isLoading: viewModel.isLoading,
-                      errorMessage: viewModel.errorMessage,
-                    ),
-                  ],
-                ),
+              padding: EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                top: 16.0,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 80),
+                  Center(child: Image.asset('assets/Logo.png', height: 80)),
+                  const SizedBox(height: 60),
+                  LoginForm(
+                    onLogin: _handleLogin,
+                    onSignUp: _handleSignUp,
+                    isLoading: viewModel.isLoading,
+                    errorMessage: viewModel.errorMessage,
+                  ),
+                ],
               ),
             ),
           );

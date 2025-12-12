@@ -102,4 +102,46 @@ class HttpClient {
     );
     return _processResponse(response);
   }
+
+  /// Send multipart/form-data request with optional files
+  Future<http.Response> postMultipart(
+    String path, {
+    Map<String, String>? fields,
+    List<http.MultipartFile>? files,
+    Map<String, String>? headers,
+  }) async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl$path'),
+    );
+
+    // Add authorization header
+    final requestHeaders = <String, String>{};
+    if (tokenProvider.hasToken()) {
+      final token = tokenProvider.accessToken;
+      requestHeaders['Authorization'] = 'Bearer $token';
+    }
+
+    // Add custom headers (but not Content-Type, as multipart sets it automatically)
+    if (headers != null) {
+      requestHeaders.addAll(headers);
+    }
+
+    request.headers.addAll(requestHeaders);
+
+    // Add fields
+    if (fields != null) {
+      request.fields.addAll(fields);
+    }
+
+    // Add files
+    if (files != null) {
+      request.files.addAll(files);
+    }
+
+    final streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
+
+    return _processResponse(response);
+  }
 }

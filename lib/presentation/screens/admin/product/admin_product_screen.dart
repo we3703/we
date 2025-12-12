@@ -42,14 +42,18 @@ class _AdminProductScreenState extends State<AdminProductScreen> {
         title: Text('삭제 확인', style: AppTextStyles.heading3Bold),
         content: Text('정말로 이 제품을 삭제하시겠습니까?', style: AppTextStyles.bodyRegular),
         actions: [
-          SecondaryButton(text: '취소', onPressed: () => Navigator.pop(context)),
-          DangerButton(
-            text: '삭제',
-            onPressed: () {
-              context.read<AdminProductViewModel>().deleteProduct(productId);
-              Navigator.pop(context);
-            },
-          ),
+          Row(
+            children: [
+              SecondaryButton(text: '취소', onPressed: () => Navigator.pop(context)),
+              DangerButton(
+                text: '삭제',
+                onPressed: () {
+                  context.read<AdminProductViewModel>().deleteProduct(productId);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          )
         ],
       ),
     );

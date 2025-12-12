@@ -51,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppHeader(titleWidget: const Text('회원가입'), showBackButton: true),
       body: Consumer<SignUpViewModel>(
         builder: (context, viewModel, child) {
@@ -69,29 +69,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           return SafeArea(
             child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                left: AppSpacing.layoutPadding,
+                right: AppSpacing.layoutPadding,
+                top: AppSpacing.layoutPadding,
+                bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.layoutPadding,
+              ),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSpacing.layoutPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SignUpForm(
-                          onSignUp: _handleSignup,
-                          isLoading: viewModel.isLoading,
-                        ),
-                        if (viewModel.errorMessage != null)
-                          Padding(
-                            padding: EdgeInsets.only(top: AppSpacing.space12),
-                            child: Text(
-                              viewModel.errorMessage!,
-                              style: TextStyle(color: AppColors.error),
-                              textAlign: TextAlign.center,
-                            ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SignUpForm(
+                        onSignUp: _handleSignup,
+                        isLoading: viewModel.isLoading,
+                      ),
+                      if (viewModel.errorMessage != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: AppSpacing.space12),
+                          child: Text(
+                            viewModel.errorMessage!,
+                            style: TextStyle(color: AppColors.error),
+                            textAlign: TextAlign.center,
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
                 ),
               ),

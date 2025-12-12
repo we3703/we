@@ -33,7 +33,6 @@ class AdminProductViewModel extends ChangeNotifier {
 
   Future<void> getProducts() async {
     _isLoading = true;
-    _errorMessage = null;
     notifyListeners();
 
     final result = await _getProductsUseCase();
@@ -41,7 +40,6 @@ class AdminProductViewModel extends ChangeNotifier {
     result.when(
       success: (data) {
         _paginatedProducts = data;
-        _errorMessage = null;
       },
       failure: (failure) {
         _errorMessage = _mapFailureToMessage(failure);

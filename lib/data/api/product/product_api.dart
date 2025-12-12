@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:we/core/config/http_client.dart';
+import 'package:http/http.dart' as http;
 
 class ProductApi {
   final HttpClient client;
@@ -10,8 +11,15 @@ class ProductApi {
     return jsonDecode(res.body);
   }
 
-  Future<Map<String, dynamic>> createProduct(Map<String, dynamic> body) async {
-    final res = await client.post('/products', body: body);
+  Future<Map<String, dynamic>> createProduct(
+    Map<String, String> fields,
+    List<http.MultipartFile> files,
+  ) async {
+    final res = await client.postMultipart(
+      '/products',
+      fields: fields,
+      files: files,
+    );
     return jsonDecode(res.body);
   }
 

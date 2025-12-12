@@ -20,18 +20,16 @@ class ReferralNode {
   factory ReferralNode.fromJson(Map<String, dynamic> json) {
     var childrenList = json['children'] as List? ?? [];
     List<ReferralNode> children = childrenList
-        .map((i) => ReferralNode.fromJson(i))
+        .map((i) => ReferralNode.fromJson(i as Map<String, dynamic>))
         .toList();
 
     return ReferralNode(
-      userId: json['user_id'] ?? json['userId'] ?? '',
-      name: json['name'] ?? '',
-      level: json['level'] ?? '',
-      joinedAt: json['joined_at'] ?? json['joinedAt'],
-      totalPurchase: json['total_purchase'] ?? json['totalPurchase'],
-      totalCommissionGenerated:
-          json['total_commission_generated'] ??
-          json['totalCommissionGenerated'],
+      userId: (json['user_id'] ?? json['userId'])?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      level: json['level']?.toString() ?? 'BRONZE',
+      joinedAt: (json['joined_at'] ?? json['joinedAt'])?.toString(),
+      totalPurchase: (json['total_purchase'] ?? json['totalPurchase']) as int?,
+      totalCommissionGenerated: (json['total_commission_generated'] ?? json['totalCommissionGenerated']) as int?,
       children: children,
     );
   }
