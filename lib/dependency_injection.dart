@@ -1,4 +1,3 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:we/core/auth/token_provider.dart';
@@ -99,10 +98,7 @@ Future<List<SingleChildWidget>> setupProviders() async {
   // Load tokens from storage before setting up the rest
   await tokenProvider.loadTokens();
 
-  String url = dotenv.get(
-    "SERVER_ADDRESS",
-    fallback: "https://www.weserver.store/",
-  );
+  String url = String.fromEnvironment('API_BASE_URL');
   final httpClient = HttpClient(baseUrl: url, tokenProvider: tokenProvider);
 
   return [
