@@ -37,7 +37,6 @@ dependencies:
   provider: ^6.1.5
   http: ^1.6.0
   graphview: ^1.2.0 # Added for organization chart visualization
-  flutter_dotenv: ^6.0.0
   shared_preferences: ^2.2.2
   shared_preferences_web: ^2.2.2
   toastification: ^2.3.0
@@ -74,7 +73,6 @@ flutter_launcher_icons:
 flutter:
   assets:
     - assets/
-    - env
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

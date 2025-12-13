@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:we/core/auth/token_provider.dart';
@@ -12,7 +11,6 @@ import 'package:we/presentation/screens/main/main_scaffold.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: 'env');
 
   final providers = await setupProviders();
 
