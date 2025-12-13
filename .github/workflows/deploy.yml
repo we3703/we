@@ -47,17 +47,17 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/healthon-frontend:${{ github.sha }}
 
       # 6️⃣ EC2 배포
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/healthon-frontend:latest
-            docker stop healthon-frontend || true
-            docker rm healthon-frontend || true
-            docker run -d \
-              -p 80:80 \
-              --name healthon-frontend \
-              ${{ secrets.DOCKERHUB_USERNAME }}/healthon-frontend:latest
+      # - name: Deploy to EC2
+      #   uses: appleboy/ssh-action@v1.0.3
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: |
+      #       docker pull ${{ secrets.DOCKERHUB_USERNAME }}/healthon-frontend:latest
+      #       docker stop healthon-frontend || true
+      #       docker rm healthon-frontend || true
+      #       docker run -d \
+      #         -p 80:80 \
+      #         --name healthon-frontend \
+      #         ${{ secrets.DOCKERHUB_USERNAME }}/healthon-frontend:latest
