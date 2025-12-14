@@ -91,6 +91,12 @@ import 'package:we/presentation/screens/product/product_view_model.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';
 import 'package:we/presentation/screens/user/user_view_model.dart';
 
+// 컴파일 타임 환경변수는 최상위 레벨에서 const로 선언
+const String kApiBaseUrl = String.fromEnvironment(
+  'API_BASE_URL',
+  defaultValue: 'http://localhost:8080',
+);
+
 Future<List<SingleChildWidget>> setupProviders() async {
   // Core Dependencies
   final tokenProvider = TokenProvider();
@@ -98,8 +104,11 @@ Future<List<SingleChildWidget>> setupProviders() async {
   // Load tokens from storage before setting up the rest
   await tokenProvider.loadTokens();
 
-  String url = String.fromEnvironment('API_BASE_URL');
-  final httpClient = HttpClient(baseUrl: url, tokenProvider: tokenProvider);
+  // 최상위 레벨에서 선언한 const 사용
+  final httpClient = HttpClient(
+    baseUrl: kApiBaseUrl,
+    tokenProvider: tokenProvider,
+  );
 
   return [
     ChangeNotifierProvider<TokenProvider>.value(value: tokenProvider),
