@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/data/models/user/update_my_info_request.dart';
+import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/organisms/user/user_info_form.dart';
 import 'package:we/presentation/screens/user/user_view_model.dart';
@@ -35,7 +37,9 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
           left: AppSpacing.layoutPadding,
           right: AppSpacing.layoutPadding,
           top: AppSpacing.layoutPadding,
-          bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.layoutPadding,
+          bottom:
+              MediaQuery.of(context).viewInsets.bottom +
+              AppSpacing.layoutPadding,
         ),
         child: Consumer<UserViewModel>(
           builder: (context, userVM, child) {
@@ -44,12 +48,26 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
             }
 
             if (userVM.errorMessage != null) {
-              return Center(child: Text(userVM.errorMessage!));
+              return Center(
+                child: Text(
+                  userVM.errorMessage!,
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.error,
+                  ),
+                ),
+              );
             }
 
             final myInfo = userVM.myInfo;
             if (myInfo == null) {
-              return const Center(child: Text('사용자 정보를 불러올 수 없습니다.'));
+              return Center(
+                child: Text(
+                  '사용자 정보를 불러올 수 없습니다.',
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.textDisabled,
+                  ),
+                ),
+              );
             }
 
             return UserInfoForm(

@@ -13,10 +13,13 @@ class ReferralTreeStatistics {
 
   factory ReferralTreeStatistics.fromJson(Map<String, dynamic> json) {
     return ReferralTreeStatistics(
-      totalMembers: (json['totalMembers'] ?? json['total_members']) as int? ?? 0,
+      totalMembers:
+          (json['totalMembers'] ?? json['total_members']) as int? ?? 0,
       totalDepth: (json['totalDepth'] ?? json['total_depth']) as int? ?? 0,
-      totalPurchase: (json['totalPurchase'] ?? json['total_purchase']) as int? ?? 0,
-      totalCommission: (json['totalCommission'] ?? json['total_commission']) as int? ?? 0,
+      totalPurchase:
+          (json['totalPurchase'] ?? json['total_purchase']) as int? ?? 0,
+      totalCommission:
+          (json['totalCommission'] ?? json['total_commission']) as int? ?? 0,
     );
   }
 }
@@ -57,13 +60,19 @@ class AdminReferralNode {
       name: json['name']?.toString() ?? '',
       email: json['email']?.toString() ?? '',
       level: json['level']?.toString() ?? 'BRONZE',
-      totalReferrals: (json['totalReferrals'] ?? json['total_referrals']) as int?,
+      totalReferrals:
+          (json['totalReferrals'] ?? json['total_referrals']) as int?,
       joinedAt: (json['joinedAt'] ?? json['joined_at'])?.toString(),
       totalPurchase: (json['totalPurchase'] ?? json['total_purchase']) as int?,
-      totalCommissionGenerated: (json['totalCommissionGenerated'] ?? json['total_commission_generated']) as int?,
+      totalCommissionGenerated:
+          (json['totalCommissionGenerated'] ??
+                  json['total_commission_generated'])
+              as int?,
       children: children,
       statistics: json['statistics'] != null
-          ? ReferralTreeStatistics.fromJson(json['statistics'] as Map<String, dynamic>)
+          ? ReferralTreeStatistics.fromJson(
+              json['statistics'] as Map<String, dynamic>,
+            )
           : null,
     );
   }

@@ -20,10 +20,7 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
   Future<Result<Notice>> createAdminNotice(UpsertNoticeRequest request) async {
     try {
       final response = await adminNoticeApi.createAdminNotice(request.toJson());
-      final notice = ApiResponse.fromJson(
-        response,
-        Notice.fromJson,
-      ).data;
+      final notice = ApiResponse.fromJson(response, Notice.fromJson).data;
       return Result.success(notice);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));
@@ -53,10 +50,7 @@ class AdminNoticeRepositoryImpl implements AdminNoticeRepository {
         noticeId,
         request.toJson(),
       );
-      final notice = ApiResponse.fromJson(
-        response,
-        Notice.fromJson,
-      ).data;
+      final notice = ApiResponse.fromJson(response, Notice.fromJson).data;
       return Result.success(notice);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

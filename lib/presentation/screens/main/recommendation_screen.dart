@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/date_formatter.dart';
 import 'package:we/core/utils/membership_level.dart';
+import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/organisms/user/recommendation_section.dart';
 import 'package:we/presentation/screens/referral/referral_view_model.dart';
 import 'package:we/presentation/screens/user/user_view_model.dart';
@@ -36,12 +38,24 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
         }
 
         if (referralVM.errorMessage != null) {
-          return Center(child: Text(referralVM.errorMessage!));
+          return Center(
+            child: Text(
+              referralVM.errorMessage!,
+              style: AppTextStyles.bodyRegular.copyWith(color: AppColors.error),
+            ),
+          );
         }
 
         final summary = referralVM.referralSummary;
         if (summary == null) {
-          return const Center(child: Text('추천 정보를 불러올 수 없습니다.'));
+          return Center(
+            child: Text(
+              '추천 정보를 불러올 수 없습니다.',
+              style: AppTextStyles.bodyRegular.copyWith(
+                color: AppColors.textDisabled,
+              ),
+            ),
+          );
         }
 
         final statsData = RecommendationStatsData(
@@ -91,14 +105,29 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('알림'),
-                        content: Text('내 추천 ID가 복사되었습니다!\n${myInfo.userId}'),
+                        title: Text(
+                          '알림',
+                          style: AppTextStyles.heading3Bold.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        content: Text(
+                          '내 추천 ID가 복사되었습니다!\n${myInfo.userId}',
+                          style: AppTextStyles.bodyRegular.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('확인'),
+                            child: Text(
+                              '확인',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
                           ),
                         ],
                       );

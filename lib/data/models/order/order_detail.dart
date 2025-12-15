@@ -49,7 +49,8 @@ class OrderDetail {
   });
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) {
-    var historyList = (json['statusHistory'] ?? json['status_history']) as List? ?? [];
+    var historyList =
+        (json['statusHistory'] ?? json['status_history']) as List? ?? [];
     List<StatusHistoryItem> history = historyList
         .map((i) => StatusHistoryItem.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -61,8 +62,11 @@ class OrderDetail {
       totalPrice: (json['totalPrice'] ?? json['total_price']) as int? ?? 0,
       pointsUsed: (json['pointsUsed'] ?? json['points_used']) as int? ?? 0,
       status: json['status']?.toString() ?? 'PENDING',
-      shippingAddress: ShippingAddress.fromJson((json['shippingAddress'] ?? json['shipping_address']) ?? {}),
-      trackingNumber: (json['trackingNumber'] ?? json['tracking_number'])?.toString(),
+      shippingAddress: ShippingAddress.fromJson(
+        (json['shippingAddress'] ?? json['shipping_address']) ?? {},
+      ),
+      trackingNumber: (json['trackingNumber'] ?? json['tracking_number'])
+          ?.toString(),
       courier: json['courier']?.toString(),
       statusHistory: history,
       orderedAt: (json['orderedAt'] ?? json['ordered_at'])?.toString() ?? '',

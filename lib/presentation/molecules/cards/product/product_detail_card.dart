@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/shadows.dart';
 import 'package:we/presentation/foundations/typography.dart';
@@ -15,7 +16,7 @@ class DetailSection {
 class ProductDetailCard extends StatelessWidget {
   final String? category;
   final String title;
-  final String price;
+  final int price;
   final String? remaining;
   final List<DetailSection> sections;
 
@@ -55,9 +56,9 @@ class ProductDetailCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  price,
-                  style: AppTextStyles.heading3Bold.copyWith(
-                    color: AppColors.textPrimary,
+                  '${formatNumber(price)} P',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.primaryGreen,
                   ),
                 ),
                 if (remaining != null) ...[

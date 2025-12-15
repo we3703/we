@@ -41,10 +41,7 @@ class CartRepositoryImpl implements CartRepository {
   Future<Result<Cart>> getCart() async {
     try {
       final response = await cartApi.getCart();
-      final cart = ApiResponse.fromJson(
-        response,
-        Cart.fromJson,
-      ).data;
+      final cart = ApiResponse.fromJson(response, Cart.fromJson).data;
       return Result.success(cart);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

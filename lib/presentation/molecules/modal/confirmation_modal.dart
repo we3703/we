@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:we/presentation/foundations/colors.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/modal/base_modal.dart';
 
 class ConfirmationModal extends StatelessWidget {
@@ -26,8 +28,16 @@ class ConfirmationModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseModal(
-      title: Text(title),
-      content: Text(content),
+      title: Text(
+        title,
+        style: AppTextStyles.heading3Bold.copyWith(
+          color: AppColors.textPrimary,
+        ),
+      ),
+      content: Text(
+        content,
+        style: AppTextStyles.bodyRegular.copyWith(color: AppColors.textPrimary),
+      ),
       okText: okText,
       cancelText: cancelText,
       onOk: onConfirm,

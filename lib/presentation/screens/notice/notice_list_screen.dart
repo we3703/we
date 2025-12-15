@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/organisms/notice/notice_feed.dart';
 import 'package:we/presentation/screens/notice/notice_detail_screen.dart';
@@ -37,12 +39,26 @@ class _NoticeListScreenState extends State<NoticeListScreen> {
             }
 
             if (noticeVM.errorMessage != null) {
-              return Center(child: Text(noticeVM.errorMessage!));
+              return Center(
+                child: Text(
+                  noticeVM.errorMessage!,
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.error,
+                  ),
+                ),
+              );
             }
 
             final noticeList = noticeVM.notices;
             if (noticeList == null || noticeList.isEmpty) {
-              return const Center(child: Text('공지사항이 없습니다.'));
+              return Center(
+                child: Text(
+                  '공지사항이 없습니다.',
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.textDisabled,
+                  ),
+                ),
+              );
             }
 
             final notices = noticeList.map((notice) {

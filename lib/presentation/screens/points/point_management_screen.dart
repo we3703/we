@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/data/models/point/recharge_points_request.dart';
+import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/molecules/modal/point_charge_modal.dart';
 import 'package:we/presentation/molecules/point/point_summary_card.dart';
@@ -45,12 +47,26 @@ class _PointManagementScreenState extends State<PointManagementScreen> {
             }
 
             if (pointsVM.errorMessage != null) {
-              return Center(child: Text(pointsVM.errorMessage!));
+              return Center(
+                child: Text(
+                  pointsVM.errorMessage!,
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.error,
+                  ),
+                ),
+              );
             }
 
             final pointsHistory = pointsVM.pointsHistory;
             if (pointsHistory == null) {
-              return const Center(child: Text('포인트 내역을 불러올 수 없습니다.'));
+              return Center(
+                child: Text(
+                  '포인트 내역을 불러올 수 없습니다.',
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.textDisabled,
+                  ),
+                ),
+              );
             }
 
             // Filter history items by type based on current tab

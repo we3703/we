@@ -19,10 +19,7 @@ class ReferralRepositoryImpl implements ReferralRepository {
   Future<Result<ReferralNode>> getReferralTree() async {
     try {
       final response = await referralsApi.getReferralTree();
-      final tree = ApiResponse.fromJson(
-        response,
-        ReferralNode.fromJson,
-      ).data;
+      final tree = ApiResponse.fromJson(response, ReferralNode.fromJson).data;
       return Result.success(tree);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

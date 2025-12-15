@@ -21,7 +21,8 @@ class ShippingAddress {
       phone: json['phone']?.toString() ?? '',
       zipCode: (json['zipCode'] ?? json['zip_code'])?.toString(),
       address: json['address']?.toString() ?? '',
-      detailAddress: (json['detailAddress'] ?? json['detail_address'])?.toString(),
+      detailAddress: (json['detailAddress'] ?? json['detail_address'])
+          ?.toString(),
       memo: json['memo']?.toString(),
     );
   }

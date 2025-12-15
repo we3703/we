@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:we/core/utils/membership_level.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/auth/logout_use_case.dart';
+import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/organisms/user/my_page_section.dart';
 import 'package:we/presentation/screens/auth/login_screen.dart';
 import 'package:we/presentation/screens/user/my_product_management_screen.dart';
@@ -104,12 +106,26 @@ class _MyPageScreenState extends State<MyPageScreen> {
             }
 
             if (userVM.errorMessage != null) {
-              return Center(child: Text(userVM.errorMessage!));
+              return Center(
+                child: Text(
+                  userVM.errorMessage!,
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.error,
+                  ),
+                ),
+              );
             }
 
             final myInfo = userVM.myInfo;
             if (myInfo == null) {
-              return const Center(child: Text('사용자 정보를 불러올 수 없습니다.'));
+              return Center(
+                child: Text(
+                  '사용자 정보를 불러올 수 없습니다.',
+                  style: AppTextStyles.bodyRegular.copyWith(
+                    color: AppColors.textDisabled,
+                  ),
+                ),
+              );
             }
 
             return MyPageSection(

@@ -32,7 +32,8 @@ class ProductSummary {
       description: json['description']?.toString() ?? '',
       images: List<String>.from(json['images'] ?? []),
       stock: json['stock'] as int? ?? 0,
-      isAvailable: (json['is_available'] ?? json['isAvailable']) as bool? ?? true,
+      isAvailable:
+          (json['is_available'] ?? json['isAvailable']) as bool? ?? true,
       createdAt: (json['created_at'] ?? json['createdAt'])?.toString() ?? '',
     );
   }

@@ -21,8 +21,10 @@ class Referral {
       name: json['name']?.toString() ?? '',
       level: json['level']?.toString() ?? 'BRONZE',
       joinedAt: (json['joined_at'] ?? json['joinedAt'])?.toString() ?? '',
-      totalPurchase: (json['total_purchase'] ?? json['totalPurchase']) as int? ?? 0,
-      subReferrals: (json['sub_referrals'] ?? json['subReferrals']) as int? ?? 0,
+      totalPurchase:
+          (json['total_purchase'] ?? json['totalPurchase']) as int? ?? 0,
+      subReferrals:
+          (json['sub_referrals'] ?? json['subReferrals']) as int? ?? 0,
     );
   }
 }
@@ -49,10 +51,15 @@ class ReferralSummary {
         .toList();
 
     return ReferralSummary(
-      totalReferrals: (json['total_referrals'] ?? json['totalReferrals']) as int? ?? 0,
-      directReferrals: (json['direct_referrals'] ?? json['directReferrals']) as int? ?? 0,
-      indirectReferrals: (json['indirect_referrals'] ?? json['indirectReferrals']) as int? ?? 0,
-      totalCommission: (json['total_commission'] ?? json['totalCommission']) as int? ?? 0,
+      totalReferrals:
+          (json['total_referrals'] ?? json['totalReferrals']) as int? ?? 0,
+      directReferrals:
+          (json['direct_referrals'] ?? json['directReferrals']) as int? ?? 0,
+      indirectReferrals:
+          (json['indirect_referrals'] ?? json['indirectReferrals']) as int? ??
+          0,
+      totalCommission:
+          (json['total_commission'] ?? json['totalCommission']) as int? ?? 0,
       referrals: referrals,
     );
   }

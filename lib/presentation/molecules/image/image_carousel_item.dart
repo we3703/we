@@ -11,7 +11,7 @@ class ImageCarouselItem extends StatelessWidget {
     return AppImage(
       imageUrl: imageUrl,
       ratioType: ImageRatioType.ratio3x2, // Or make this configurable
-      fit: BoxFit.cover,
+      fit: BoxFit.contain,
     );
   }
 }

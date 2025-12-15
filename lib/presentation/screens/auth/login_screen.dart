@@ -31,7 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         if (tokenProvider.hasToken()) {
           _hasNavigated = true;
-          Navigator.of(context).pushReplacementNamed(MainScaffold.routeName);
+          final routeName = tokenProvider.role == 'ADMIN'
+              ? AdminScaffold.routeName
+              : MainScaffold.routeName;
+          Navigator.of(context).pushReplacementNamed(routeName);
           return;
         }
 

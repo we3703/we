@@ -54,10 +54,13 @@ class PointsHistory {
         .map((i) => PointHistoryItem.fromJson(i as Map<String, dynamic>))
         .toList();
     return PointsHistory(
-      currentPoints: (json['current_points'] ?? json['currentPoints']) as int? ?? 0,
-      totalCharged: (json['total_charged'] ?? json['totalCharged']) as int? ?? 0,
+      currentPoints:
+          (json['current_points'] ?? json['currentPoints']) as int? ?? 0,
+      totalCharged:
+          (json['total_charged'] ?? json['totalCharged']) as int? ?? 0,
       totalUsed: (json['total_used'] ?? json['totalUsed']) as int? ?? 0,
-      totalCommission: (json['total_commission'] ?? json['totalCommission']) as int? ?? 0,
+      totalCommission:
+          (json['total_commission'] ?? json['totalCommission']) as int? ?? 0,
       history: history,
     );
   }

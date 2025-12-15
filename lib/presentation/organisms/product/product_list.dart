@@ -8,7 +8,7 @@ class ProductListItemData {
   final String imageUrl;
   final String name;
   final String description;
-  final String price;
+  final int price;
   final String remaining;
   final VoidCallback? onDetailsPressed;
 

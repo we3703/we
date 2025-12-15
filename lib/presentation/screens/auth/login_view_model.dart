@@ -29,6 +29,7 @@ class LoginViewModel extends BaseViewModel {
           await _tokenProvider.setTokens(
             loginEntity.tokens.accessToken,
             loginEntity.tokens.refreshToken,
+            loginEntity.user.role ?? 'USER',
           );
           // Save user info to UserViewModel
           _userViewModel.setUserFromLogin(loginEntity.user);

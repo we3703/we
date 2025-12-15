@@ -29,7 +29,10 @@ class ReferralNode {
       level: json['level']?.toString() ?? 'BRONZE',
       joinedAt: (json['joined_at'] ?? json['joinedAt'])?.toString(),
       totalPurchase: (json['total_purchase'] ?? json['totalPurchase']) as int?,
-      totalCommissionGenerated: (json['total_commission_generated'] ?? json['totalCommissionGenerated']) as int?,
+      totalCommissionGenerated:
+          (json['total_commission_generated'] ??
+                  json['totalCommissionGenerated'])
+              as int?,
       children: children,
     );
   }

@@ -110,10 +110,7 @@ class HttpClient {
     List<http.MultipartFile>? files,
     Map<String, String>? headers,
   }) async {
-    final request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$baseUrl$path'),
-    );
+    final request = http.MultipartRequest('POST', Uri.parse('$baseUrl$path'));
 
     // Add authorization header
     final requestHeaders = <String, String>{};

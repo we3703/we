@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/shadows.dart';
 import 'package:we/presentation/foundations/typography.dart';
@@ -10,10 +11,12 @@ class ProductCard extends StatelessWidget {
   final String imageUrl;
   final String productName;
   final String productDescription;
-  final String price;
+  final int price;
   final VoidCallback? onDetailsPressed;
   final String? quantityRemaining; // Added from image
   final bool showQuantityRemaining; // Added from image
+  final VoidCallback? onEditPressed; // Admin edit action
+  final VoidCallback? onDeletePressed; // Admin delete action
 
   const ProductCard({
     super.key,
@@ -24,6 +27,8 @@ class ProductCard extends StatelessWidget {
     this.onDetailsPressed,
     this.quantityRemaining,
     this.showQuantityRemaining = false,
+    this.onEditPressed,
+    this.onDeletePressed,
   });
 
   @override
@@ -87,7 +92,7 @@ class ProductCard extends StatelessWidget {
                           LinkButton(text: '상세보기', onPressed: onDetailsPressed),
                         const Spacer(),
                         Text(
-                          price,
+                          '${formatNumber(price)} P',
                           style: AppTextStyles.bodyBold.copyWith(
                             color: AppColors.primaryGreen,
                             fontSize: 12,
@@ -101,6 +106,33 @@ class ProductCard extends StatelessWidget {
                               color: AppColors.textDisabled,
                               fontSize: 12,
                             ),
+                          ),
+                        ],
+                        if (onEditPressed != null ||
+                            onDeletePressed != null) ...[
+                          const SizedBox(width: AppSpacing.space8),
+                          if (onEditPressed != null)
+                            IconButton(
+                              icon: const Icon(
+                                Icons.edit,
+                                color: AppColors.textPrimary,
+                                size: 24,
+                              ),
+                              onPressed: onEditPressed,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          if (onDeletePressed != null)
+                            SizedBox(width: AppSpacing.space8),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: AppColors.error,
+                              size: 24,
+                            ),
+                            onPressed: onDeletePressed,
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
                           ),
                         ],
                       ],

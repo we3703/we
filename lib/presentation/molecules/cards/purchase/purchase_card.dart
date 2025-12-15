@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/shadows.dart';
 import 'package:we/presentation/foundations/typography.dart';
@@ -93,7 +94,7 @@ class PurchaseCard extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSpacing.space12),
                       Text(
-                        '$price P',
+                        '${formatNumber(price)} P',
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: AppColors.primaryGreen,
                         ),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/organisms/auth/signup_form.dart';
 import 'package:we/presentation/screens/auth/signup_view_model.dart';
@@ -52,7 +53,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppHeader(titleWidget: const Text('회원가입'), showBackButton: true),
+      appBar: AppHeader(
+        titleWidget: Text(
+          '회원가입',
+          style: AppTextStyles.heading3Bold.copyWith(
+            color: AppColors.textPrimary,
+          ),
+        ),
+        showBackButton: true,
+      ),
       body: Consumer<SignUpViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.signupSuccess && !_hasNavigated) {
@@ -73,7 +82,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 left: AppSpacing.layoutPadding,
                 right: AppSpacing.layoutPadding,
                 top: AppSpacing.layoutPadding,
-                bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.layoutPadding,
+                bottom:
+                    MediaQuery.of(context).viewInsets.bottom +
+                    AppSpacing.layoutPadding,
               ),
               child: Center(
                 child: ConstrainedBox(
@@ -87,10 +98,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       if (viewModel.errorMessage != null)
                         Padding(
-                          padding: EdgeInsets.only(top: AppSpacing.space12),
+                          padding: const EdgeInsets.only(
+                            top: AppSpacing.space12,
+                          ),
                           child: Text(
                             viewModel.errorMessage!,
-                            style: TextStyle(color: AppColors.error),
+                            style: AppTextStyles.bodyRegular.copyWith(
+                              color: AppColors.error,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ),

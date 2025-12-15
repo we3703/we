@@ -52,10 +52,7 @@ class NoticeRepositoryImpl implements NoticeRepository {
   Future<Result<Notice>> getNoticeDetail(String noticeId) async {
     try {
       final response = await noticeApi.getNoticeDetail(noticeId);
-      final notice = ApiResponse.fromJson(
-        response,
-        Notice.fromJson,
-      ).data;
+      final notice = ApiResponse.fromJson(response, Notice.fromJson).data;
       return Result.success(notice);
     } on SocketException {
       return Result.failure(const NetworkFailure('인터넷 연결을 확인해주세요'));

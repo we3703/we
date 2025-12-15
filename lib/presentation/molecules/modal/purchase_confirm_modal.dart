@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/modal/base_modal.dart';
 
 class PurchaseConfirmModal extends StatelessWidget {
   final String productName;
-  final String price;
-  final String pointsAfterPurchase;
+  final int price;
+  final int pointsAfterPurchase;
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
   final bool isConfirming;
@@ -29,9 +30,13 @@ class PurchaseConfirmModal extends StatelessWidget {
         children: [
           _buildInfoRow('상품명', productName),
           const SizedBox(height: 8),
-          _buildInfoRow('가격', price),
+          _buildInfoRow('가격', '${formatNumber(price)} P'),
           const SizedBox(height: 8),
-          _buildInfoRow('구매 후 포인트', pointsAfterPurchase, highlight: true),
+          _buildInfoRow(
+            '구매 후 포인트',
+            '${formatNumber(pointsAfterPurchase)} P',
+            highlight: true,
+          ),
         ],
       ),
       okText: '구매하기',
@@ -69,8 +74,8 @@ class PurchaseConfirmModal extends StatelessWidget {
 Future<void> showPurchaseConfirmModal({
   required BuildContext context,
   required String productName,
-  required String price,
-  required String pointsAfterPurchase,
+  required int price,
+  required int pointsAfterPurchase,
   required VoidCallback onConfirm,
 }) {
   return showDialog(

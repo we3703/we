@@ -77,9 +77,9 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
       });
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('이미지 선택 중 오류가 발생했습니다: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('이미지 선택 중 오류가 발생했습니다: $e')));
       }
     }
   }
@@ -145,7 +145,9 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
           left: AppSpacing.layoutPadding,
           right: AppSpacing.layoutPadding,
           top: AppSpacing.layoutPadding,
-          bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.layoutPadding,
+          bottom:
+              MediaQuery.of(context).viewInsets.bottom +
+              AppSpacing.layoutPadding,
         ),
         child: Form(
           key: _formKey,
@@ -309,14 +311,15 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
                                       child: Image.network(
                                         entry.value.path,
                                         fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return const Center(
-                                            child: Icon(
-                                              Icons.image,
-                                              color: AppColors.textDisabled,
-                                            ),
-                                          );
-                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                              return const Center(
+                                                child: Icon(
+                                                  Icons.image,
+                                                  color: AppColors.textDisabled,
+                                                ),
+                                              );
+                                            },
                                       ),
                                     ),
                                   ),

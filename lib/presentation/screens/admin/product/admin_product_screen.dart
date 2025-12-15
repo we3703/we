@@ -7,6 +7,7 @@ import 'package:we/presentation/atoms/buttons/secondary_button.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
+import 'package:we/presentation/molecules/cards/product/product_card.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_form_screen.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_view_model.dart';
 
@@ -44,16 +45,21 @@ class _AdminProductScreenState extends State<AdminProductScreen> {
         actions: [
           Row(
             children: [
-              SecondaryButton(text: '취소', onPressed: () => Navigator.pop(context)),
+              SecondaryButton(
+                text: '취소',
+                onPressed: () => Navigator.pop(context),
+              ),
               DangerButton(
                 text: '삭제',
                 onPressed: () {
-                  context.read<AdminProductViewModel>().deleteProduct(productId);
+                  context.read<AdminProductViewModel>().deleteProduct(
+                    productId,
+                  );
                   Navigator.pop(context);
                 },
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -128,83 +134,23 @@ class _AdminProductScreenState extends State<AdminProductScreen> {
                       itemCount: products.length,
                       itemBuilder: (context, index) {
                         final product = products[index];
-                        return Card(
-                          margin: const EdgeInsets.only(
+                        return Padding(
+                          padding: const EdgeInsets.only(
                             bottom: AppSpacing.space12,
                           ),
-                          child: ListTile(
-                            leading: product.images.isNotEmpty
-                                ? Image.network(
-                                    product.images.first,
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        width: 60,
-                                        height: 60,
-                                        color: AppColors.subSurface,
-                                        child: const Icon(
-                                          Icons.image_not_supported,
-                                          color: AppColors.textDisabled,
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : Container(
-                                    width: 60,
-                                    height: 60,
-                                    color: AppColors.subSurface,
-                                    child: const Icon(
-                                      Icons.shopping_bag,
-                                      color: AppColors.textDisabled,
-                                    ),
-                                  ),
-                            title: Text(
-                              product.name,
-                              style: AppTextStyles.bodyBold,
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: AppSpacing.space8),
-                                Text(
-                                  '${product.price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}원',
-                                  style: AppTextStyles.subMedium.copyWith(
-                                    color: AppColors.primaryGreen,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '재고: ${product.stock}개 | ${product.isAvailable ? '판매중' : '판매중지'}',
-                                  style: AppTextStyles.subRegular.copyWith(
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: AppColors.textPrimary,
-                                  ),
-                                  onPressed: () =>
-                                      _navigateToProductForm(product: product),
-                                ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: AppColors.error,
-                                  ),
-                                  onPressed: () => _showDeleteConfirmDialog(
-                                    product.productId,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: ProductCard(
+                            imageUrl: product.images.isNotEmpty
+                                ? product.images.first
+                                : 'https://via.placeholder.com/150',
+                            productName: product.name,
+                            productDescription:
+                                '재고: ${product.stock}개 | ${product.isAvailable ? '판매중' : '판매중지'}',
+                            price: product.price,
+                            quantityRemaining: '${product.stock}개 남음',
+                            onEditPressed: () =>
+                                _navigateToProductForm(product: product),
+                            onDeletePressed: () =>
+                                _showDeleteConfirmDialog(product.productId),
                           ),
                         );
                       },

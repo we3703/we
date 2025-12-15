@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/domain/entities/product/paginated_products_entity.dart';
+import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
+import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/organisms/product/product_list.dart';
 import 'package:we/presentation/screens/product/product_detail_screen.dart';
 import 'package:we/presentation/screens/product/product_view_model.dart';
@@ -58,13 +60,27 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   }
 
                   if (productState.errorMessage != null) {
-                    return Center(child: Text(productState.errorMessage!));
+                    return Center(
+                      child: Text(
+                        productState.errorMessage!,
+                        style: AppTextStyles.bodyRegular.copyWith(
+                          color: AppColors.error,
+                        ),
+                      ),
+                    );
                   }
 
                   final paginatedProducts = productState.paginatedProducts;
                   if (paginatedProducts == null ||
                       paginatedProducts.items.isEmpty) {
-                    return const Center(child: Text('제품이 없습니다.'));
+                    return Center(
+                      child: Text(
+                        '제품이 없습니다.',
+                        style: AppTextStyles.bodyRegular.copyWith(
+                          color: AppColors.textDisabled,
+                        ),
+                      ),
+                    );
                   }
 
                   final products = paginatedProducts.items.map((product) {
@@ -74,7 +90,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           : 'https://via.placeholder.com/400x300',
                       name: product.name,
                       description: product.description,
-                      price: '${product.price} P',
+                      price: product.price,
                       remaining: '${product.stock}개 남음',
                       onDetailsPressed: () {
                         Navigator.of(context).push(

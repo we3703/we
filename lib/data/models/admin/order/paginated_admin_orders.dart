@@ -55,7 +55,8 @@ class AdminOrderSummary {
       quantity: (json['quantity'] as int?) ?? 0,
       totalPrice: (json['totalPrice'] ?? json['total_price']) as int? ?? 0,
       status: json['status']?.toString() ?? 'PENDING',
-      trackingNumber: (json['trackingNumber'] ?? json['tracking_number'])?.toString(),
+      trackingNumber: (json['trackingNumber'] ?? json['tracking_number'])
+          ?.toString(),
       orderedAt: (json['orderedAt'] ?? json['ordered_at'])?.toString() ?? '',
       shippedAt: (json['shippedAt'] ?? json['shipped_at'])?.toString(),
     );

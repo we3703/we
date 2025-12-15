@@ -43,38 +43,41 @@ class AppImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: _aspectRatio,
-      child: ClipRRect(
-        borderRadius: borderRadius ?? BorderRadius.zero,
-        child: Image.network(
-          imageUrl,
-          fit: fit,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return placeholder ??
-                Container(
-                  color: AppColors.secondaryLight,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                          : null,
-                      color: AppColors.primaryDarkGreen,
+      child: Container(
+        color: Colors.white,
+        child: ClipRRect(
+          borderRadius: borderRadius ?? BorderRadius.zero,
+          child: Image.network(
+            imageUrl,
+            fit: fit,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return placeholder ??
+                  Container(
+                    color: AppColors.secondaryLight,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                            : null,
+                        color: AppColors.primaryDarkGreen,
+                      ),
                     ),
-                  ),
-                );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return errorWidget ??
-                Container(
-                  color: AppColors.secondaryLight,
-                  child: Icon(
-                    Icons.broken_image,
-                    size: 48,
-                    color: AppColors.textDisabled,
-                  ),
-                );
-          },
+                  );
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return errorWidget ??
+                  Container(
+                    color: AppColors.secondaryLight,
+                    child: Icon(
+                      Icons.broken_image,
+                      size: 48,
+                      color: AppColors.textDisabled,
+                    ),
+                  );
+            },
+          ),
         ),
       ),
     );

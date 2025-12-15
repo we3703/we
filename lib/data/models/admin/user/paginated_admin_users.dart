@@ -39,8 +39,10 @@ class AdminUserSummary {
       phone: json['phone']?.toString(),
       level: json['level']?.toString() ?? 'BRONZE',
       points: (json['points'] as int?) ?? 0,
-      totalPurchase: (json['totalPurchase'] ?? json['total_purchase']) as int? ?? 0,
-      totalReferrals: (json['totalReferrals'] ?? json['total_referrals']) as int? ?? 0,
+      totalPurchase:
+          (json['totalPurchase'] ?? json['total_purchase']) as int? ?? 0,
+      totalReferrals:
+          (json['totalReferrals'] ?? json['total_referrals']) as int? ?? 0,
       referrerId: (json['referrerId'] ?? json['referrer_id'])?.toString(),
       referrerName: (json['referrerName'] ?? json['referrer_name'])?.toString(),
       status: json['status']?.toString() ?? 'ACTIVE',
