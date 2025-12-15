@@ -108,6 +108,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           category: productDetail.category,
                           title: productDetail.name,
                           price: productDetail.price,
+                          salePrice: productDetail.salePrice,
                           remaining: '${productDetail.stock}개 남음',
                           sections: detailSections,
                         ),

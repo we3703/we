@@ -31,6 +31,7 @@ class GetProductsUseCase {
                 name: item.name,
                 category: item.category,
                 price: item.price,
+                salePrice: item.salePrice,
                 description: item.description,
                 images: item.images,
                 stock: item.stock,

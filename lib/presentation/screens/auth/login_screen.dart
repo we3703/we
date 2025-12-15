@@ -74,11 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
           return SafeArea(
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 16.0,
                 right: 16.0,
                 top: 16.0,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+                bottom: 16.0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     isLoading: viewModel.isLoading,
                     errorMessage: viewModel.errorMessage,
                   ),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
             ),

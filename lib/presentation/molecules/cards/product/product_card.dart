@@ -12,6 +12,7 @@ class ProductCard extends StatelessWidget {
   final String productName;
   final String productDescription;
   final int price;
+  final int salePrice;
   final VoidCallback? onDetailsPressed;
   final String? quantityRemaining; // Added from image
   final bool showQuantityRemaining; // Added from image
@@ -24,6 +25,7 @@ class ProductCard extends StatelessWidget {
     required this.productName,
     required this.productDescription,
     required this.price,
+    required this.salePrice,
     this.onDetailsPressed,
     this.quantityRemaining,
     this.showQuantityRemaining = false,
@@ -91,13 +93,32 @@ class ProductCard extends StatelessWidget {
                         if (onDetailsPressed != null)
                           LinkButton(text: '상세보기', onPressed: onDetailsPressed),
                         const Spacer(),
-                        Text(
-                          '${formatNumber(price)} P',
-                          style: AppTextStyles.bodyBold.copyWith(
-                            color: AppColors.primaryGreen,
-                            fontSize: 12,
+                        if (salePrice > 0) ...[
+                          Text(
+                            '${formatNumber(price)} P',
+                            style: AppTextStyles.bodyBold.copyWith(
+                              color: AppColors.textDisabled,
+                              fontSize: 11,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: AppColors.error,
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${formatNumber(salePrice)} P',
+                            style: AppTextStyles.bodyBold.copyWith(
+                              color: AppColors.primaryGreen,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ] else
+                          Text(
+                            '${formatNumber(price)} P',
+                            style: AppTextStyles.bodyBold.copyWith(
+                              color: AppColors.primaryGreen,
+                              fontSize: 12,
+                            ),
+                          ),
                         if (quantityRemaining != null) ...[
                           const SizedBox(width: AppSpacing.space8),
                           Text(

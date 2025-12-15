@@ -9,6 +9,7 @@ class ProductListItemData {
   final String name;
   final String description;
   final int price;
+  final int salePrice;
   final String remaining;
   final VoidCallback? onDetailsPressed;
 
@@ -17,6 +18,7 @@ class ProductListItemData {
     required this.name,
     required this.description,
     required this.price,
+    required this.salePrice,
     required this.remaining,
     this.onDetailsPressed,
   });
@@ -55,6 +57,7 @@ class ProductList extends StatelessWidget {
               productName: product.name,
               productDescription: product.description,
               price: product.price,
+              salePrice: product.salePrice,
               onDetailsPressed: product.onDetailsPressed,
               quantityRemaining: product.remaining,
               showQuantityRemaining: true,

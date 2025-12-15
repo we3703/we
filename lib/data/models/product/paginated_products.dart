@@ -5,6 +5,7 @@ class ProductSummary {
   final String name;
   final String category;
   final int price;
+  final int salePrice;
   final String description;
   final List<String> images;
   final int stock;
@@ -16,6 +17,7 @@ class ProductSummary {
     required this.name,
     required this.category,
     required this.price,
+    required this.salePrice,
     required this.description,
     required this.images,
     required this.stock,
@@ -29,6 +31,7 @@ class ProductSummary {
       name: json['name']?.toString() ?? '',
       category: json['category']?.toString() ?? '',
       price: json['price'] as int? ?? 0,
+      salePrice: json['sale_price'] as int? ?? 0,
       description: json['description']?.toString() ?? '',
       images: List<String>.from(json['images'] ?? []),
       stock: json['stock'] as int? ?? 0,

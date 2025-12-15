@@ -3,6 +3,7 @@ class ProductDetailEntity {
   final String name;
   final String category;
   final int price;
+  final int salePrice;
   final String description;
   final String detailDescription;
   final List<String> images;
@@ -18,6 +19,7 @@ class ProductDetailEntity {
     required this.name,
     required this.category,
     required this.price,
+    required this.salePrice,
     required this.description,
     required this.detailDescription,
     required this.images,

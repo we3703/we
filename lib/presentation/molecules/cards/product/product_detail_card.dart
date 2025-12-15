@@ -17,6 +17,7 @@ class ProductDetailCard extends StatelessWidget {
   final String? category;
   final String title;
   final int price;
+  final int salePrice;
   final String? remaining;
   final List<DetailSection> sections;
 
@@ -25,6 +26,7 @@ class ProductDetailCard extends StatelessWidget {
     this.category,
     required this.title,
     required this.price,
+    required this.salePrice,
     this.remaining,
     required this.sections,
   });
@@ -55,12 +57,29 @@ class ProductDetailCard extends StatelessWidget {
             const SizedBox(height: 8),
             Row(
               children: [
-                Text(
-                  '${formatNumber(price)} P',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.primaryGreen,
+                if (salePrice > 0) ...[
+                  Text(
+                    '${formatNumber(price)} P',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textDisabled,
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: AppColors.error,
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${formatNumber(salePrice)} P',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.primaryGreen,
+                    ),
+                  ),
+                ] else
+                  Text(
+                    '${formatNumber(price)} P',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.primaryGreen,
+                    ),
+                  ),
                 if (remaining != null) ...[
                   const SizedBox(width: 8),
                   Text(

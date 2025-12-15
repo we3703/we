@@ -3,6 +3,7 @@ class ProductDetail {
   final String name;
   final String category;
   final int price;
+  final int salePrice;
   final String description;
   final String detailDescription;
   final List<String> images;
@@ -18,6 +19,7 @@ class ProductDetail {
     required this.name,
     required this.category,
     required this.price,
+    required this.salePrice,
     required this.description,
     required this.detailDescription,
     required this.images,
@@ -37,6 +39,7 @@ class ProductDetail {
       name: json['name']?.toString() ?? '',
       category: json['category']?.toString() ?? '',
       price: json['price'] as int? ?? 0,
+      salePrice: json['sale_price'] as int? ?? 0,
       description: json['description']?.toString() ?? '',
       detailDescription:
           (json['detail_description'] ?? json['detailDescription'])

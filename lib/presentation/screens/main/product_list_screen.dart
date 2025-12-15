@@ -91,6 +91,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       name: product.name,
                       description: product.description,
                       price: product.price,
+                      salePrice: product.salePrice,
                       remaining: '${product.stock}개 남음',
                       onDetailsPressed: () {
                         Navigator.of(context).push(

@@ -134,6 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         productName: product.name,
                         productDescription: product.description,
                         price: product.price,
+                        salePrice: product.salePrice,
                         quantityRemaining: '${product.stock}개 남음',
                         onDetailsPressed: () {
                           Navigator.of(context).push(

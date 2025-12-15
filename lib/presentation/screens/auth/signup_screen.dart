@@ -78,13 +78,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           return SafeArea(
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: AppSpacing.layoutPadding,
                 right: AppSpacing.layoutPadding,
                 top: AppSpacing.layoutPadding,
-                bottom:
-                    MediaQuery.of(context).viewInsets.bottom +
-                    AppSpacing.layoutPadding,
+                bottom: AppSpacing.layoutPadding,
               ),
               child: Center(
                 child: ConstrainedBox(
@@ -109,6 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textAlign: TextAlign.center,
                           ),
                         ),
+                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                     ],
                   ),
                 ),

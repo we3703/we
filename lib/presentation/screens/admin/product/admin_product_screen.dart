@@ -146,6 +146,7 @@ class _AdminProductScreenState extends State<AdminProductScreen> {
                             productDescription:
                                 '재고: ${product.stock}개 | ${product.isAvailable ? '판매중' : '판매중지'}',
                             price: product.price,
+                            salePrice: product.salePrice,
                             quantityRemaining: '${product.stock}개 남음',
                             onEditPressed: () =>
                                 _navigateToProductForm(product: product),

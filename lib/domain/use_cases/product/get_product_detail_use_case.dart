@@ -17,6 +17,7 @@ class GetProductDetailUseCase {
             name: productDetail.name,
             category: productDetail.category,
             price: productDetail.price,
+            salePrice: productDetail.salePrice,
             description: productDetail.description,
             detailDescription: productDetail.detailDescription,
             images: productDetail.images,
