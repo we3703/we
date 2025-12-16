@@ -7,6 +7,7 @@ class CreateProductRequest {
   final String name;
   final String category;
   final int price;
+  final int salePrice;
   final String description;
   final String detailDescription;
   final int stock;
@@ -18,6 +19,7 @@ class CreateProductRequest {
     required this.name,
     required this.category,
     required this.price,
+    required this.salePrice,
     required this.description,
     required this.detailDescription,
     required this.stock,
@@ -31,6 +33,7 @@ class CreateProductRequest {
       'name': name,
       'category': category,
       'price': price,
+      'sale_price': salePrice,
       'description': description,
       'detail_description': detailDescription,
       'stock': stock,
@@ -49,6 +52,7 @@ class CreateProductRequest {
       'name': name,
       'category': category,
       'price': price,
+      'sale_price': salePrice,
       'description': description,
       'detail_description': detailDescription,
       'stock': stock,

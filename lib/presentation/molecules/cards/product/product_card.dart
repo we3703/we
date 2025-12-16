@@ -88,12 +88,10 @@ class ProductCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        if (onDetailsPressed != null)
-                          LinkButton(text: '상세보기', onPressed: onDetailsPressed),
-                        const Spacer(),
-                        if (salePrice > 0) ...[
+                    // 포인트 표시 (재고/판매 상태 밑에)
+                    if (salePrice > 0) ...[
+                      Row(
+                        children: [
                           Text(
                             '${formatNumber(price)} P',
                             style: AppTextStyles.bodyBold.copyWith(
@@ -111,27 +109,25 @@ class ProductCard extends StatelessWidget {
                               fontSize: 12,
                             ),
                           ),
-                        ] else
-                          Text(
-                            '${formatNumber(price)} P',
-                            style: AppTextStyles.bodyBold.copyWith(
-                              color: AppColors.primaryGreen,
-                              fontSize: 12,
-                            ),
-                          ),
-                        if (quantityRemaining != null) ...[
-                          const SizedBox(width: AppSpacing.space8),
-                          Text(
-                            quantityRemaining!,
-                            style: AppTextStyles.bodyRegular.copyWith(
-                              color: AppColors.textDisabled,
-                              fontSize: 12,
-                            ),
-                          ),
                         ],
+                      ),
+                    ] else
+                      Text(
+                        '${formatNumber(price)} P',
+                        style: AppTextStyles.bodyBold.copyWith(
+                          color: AppColors.primaryGreen,
+                          fontSize: 12,
+                        ),
+                      ),
+                    const SizedBox(height: 8),
+                    // 버튼 영역 (상세보기 / 수정/삭제)
+                    Row(
+                      children: [
+                        if (onDetailsPressed != null)
+                          LinkButton(text: '상세보기', onPressed: onDetailsPressed),
+                        const Spacer(),
                         if (onEditPressed != null ||
                             onDeletePressed != null) ...[
-                          const SizedBox(width: AppSpacing.space8),
                           if (onEditPressed != null)
                             IconButton(
                               icon: const Icon(
@@ -143,18 +139,19 @@ class ProductCard extends StatelessWidget {
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
                             ),
-                          if (onDeletePressed != null)
-                            SizedBox(width: AppSpacing.space8),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.delete,
-                              color: AppColors.error,
-                              size: 24,
+                          if (onDeletePressed != null) ...[
+                            const SizedBox(width: AppSpacing.space8),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: AppColors.error,
+                                size: 24,
+                              ),
+                              onPressed: onDeletePressed,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
                             ),
-                            onPressed: onDeletePressed,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                          ),
+                          ],
                         ],
                       ],
                     ),

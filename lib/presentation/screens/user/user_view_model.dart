@@ -74,4 +74,10 @@ class UserViewModel extends BaseViewModel {
 
     setLoading(false);
   }
+
+  void reset() {
+    _myInfo = null;
+    _updatedMyInfo = null;
+    notifyListeners();
+  }
 }

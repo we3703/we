@@ -30,6 +30,7 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
   late TextEditingController _nameController;
   late TextEditingController _categoryController;
   late TextEditingController _priceController;
+  late TextEditingController _salePriceController;
   late TextEditingController _descriptionController;
   late TextEditingController _detailDescriptionController;
   late TextEditingController _stockController;
@@ -45,6 +46,9 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
     );
     _priceController = TextEditingController(
       text: widget.product?.price.toString() ?? '',
+    );
+    _salePriceController = TextEditingController(
+      text: widget.product?.salePrice.toString() ?? '',
     );
     _descriptionController = TextEditingController(
       text: widget.product?.description ?? '',
@@ -63,6 +67,7 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
     _nameController.dispose();
     _categoryController.dispose();
     _priceController.dispose();
+    _salePriceController.dispose();
     _descriptionController.dispose();
     _detailDescriptionController.dispose();
     _stockController.dispose();
@@ -105,6 +110,7 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
           name: _nameController.text,
           category: _categoryController.text,
           price: int.tryParse(_priceController.text) ?? 0,
+          salePrice: int.tryParse(_salePriceController.text) ?? 0,
           description: _descriptionController.text,
           detailDescription: _detailDescriptionController.text,
           stock: int.tryParse(_stockController.text) ?? 0,
@@ -118,6 +124,7 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
         final request = UpdateProductRequest(
           name: _nameController.text,
           price: int.tryParse(_priceController.text),
+          salePrice: int.tryParse(_salePriceController.text),
           stock: int.tryParse(_stockController.text),
           isAvailable: _isAvailable,
         );
@@ -187,16 +194,33 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
 
               TextInput(
                 controller: _priceController,
-                labelText: '가격',
-                hintText: '가격을 입력하세요',
+                labelText: '정가',
+                hintText: '정가를 입력하세요',
                 isRequired: true,
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return '가격을 입력해주세요';
+                    return '정가를 입력해주세요';
                   }
                   if (int.tryParse(value) == null) {
                     return '올바른 숫자를 입력해주세요';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: AppSpacing.layoutPadding),
+
+              TextInput(
+                controller: _salePriceController,
+                labelText: '할인가',
+                hintText: '할인가를 입력하세요 (0이면 할인 없음)',
+                isRequired: false,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    if (int.tryParse(value) == null) {
+                      return '올바른 숫자를 입력해주세요';
+                    }
                   }
                   return null;
                 },

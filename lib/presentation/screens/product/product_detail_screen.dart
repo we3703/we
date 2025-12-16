@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/order/create_order_use_case.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
@@ -84,8 +85,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           }
 
           final myInfo = userVM.myInfo;
+          final actualPrice = productDetail.salePrice > 0
+              ? productDetail.salePrice
+              : productDetail.price;
           final pointsAfterPurchase = myInfo != null
-              ? myInfo.points - productDetail.price
+              ? myInfo.points - actualPrice
               : 0;
 
           return Column(
@@ -109,7 +113,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           title: productDetail.name,
                           price: productDetail.price,
                           salePrice: productDetail.salePrice,
-                          remaining: '${productDetail.stock}개 남음',
+                          remaining: '${formatNumber(productDetail.stock)}개 남음',
                           sections: detailSections,
                         ),
                       ),
@@ -129,7 +133,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             showPurchaseConfirmModal(
                               context: context,
                               productName: productDetail.name,
-                              price: productDetail.price,
+                              price: actualPrice,
                               pointsAfterPurchase: pointsAfterPurchase,
                               onConfirm: () async {
                                 final createOrderUseCase = context

@@ -22,6 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _hasNavigated = false;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         // Check if user already has a valid token

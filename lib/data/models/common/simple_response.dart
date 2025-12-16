@@ -1,8 +1,8 @@
 class DeleteResponse {
   final String? id;
-  final String deletedAt;
+  final String? deletedAt;
 
-  DeleteResponse({this.id, required this.deletedAt});
+  DeleteResponse({this.id, this.deletedAt});
 
   factory DeleteResponse.fromJson(Map<String, dynamic> json) {
     return DeleteResponse(

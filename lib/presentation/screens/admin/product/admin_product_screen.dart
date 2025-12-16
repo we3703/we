@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/domain/entities/product/product_summary_entity.dart';
-import 'package:we/presentation/atoms/buttons/danger_button.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
-import 'package:we/presentation/atoms/buttons/secondary_button.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/cards/product/product_card.dart';
+import 'package:we/presentation/molecules/modal/confirmation_modal.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_form_screen.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_view_model.dart';
 
@@ -37,31 +37,16 @@ class _AdminProductScreenState extends State<AdminProductScreen> {
   }
 
   void _showDeleteConfirmDialog(String productId) {
-    showDialog(
+    showConfirmationModal(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('삭제 확인', style: AppTextStyles.heading3Bold),
-        content: Text('정말로 이 제품을 삭제하시겠습니까?', style: AppTextStyles.bodyRegular),
-        actions: [
-          Row(
-            children: [
-              SecondaryButton(
-                text: '취소',
-                onPressed: () => Navigator.pop(context),
-              ),
-              DangerButton(
-                text: '삭제',
-                onPressed: () {
-                  context.read<AdminProductViewModel>().deleteProduct(
-                    productId,
-                  );
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+      title: '삭제 확인',
+      content: '정말로 이 제품을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      isDanger: true,
+      onConfirm: () {
+        context.read<AdminProductViewModel>().deleteProduct(productId);
+      },
     );
   }
 
@@ -144,10 +129,10 @@ class _AdminProductScreenState extends State<AdminProductScreen> {
                                 : 'https://via.placeholder.com/150',
                             productName: product.name,
                             productDescription:
-                                '재고: ${product.stock}개 | ${product.isAvailable ? '판매중' : '판매중지'}',
+                                '재고: ${formatNumber(product.stock)}개 | ${product.isAvailable ? '판매중' : '판매중지'}',
                             price: product.price,
                             salePrice: product.salePrice,
-                            quantityRemaining: '${product.stock}개 남음',
+                            quantityRemaining: '${formatNumber(product.stock)}개 남음',
                             onEditPressed: () =>
                                 _navigateToProductForm(product: product),
                             onDeletePressed: () =>

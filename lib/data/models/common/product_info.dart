@@ -3,12 +3,14 @@ class ProductInfo {
   final String name;
   final String image;
   final int? price;
+  final int? salePrice;
 
   ProductInfo({
     required this.productId,
     required this.name,
     required this.image,
     this.price,
+    this.salePrice,
   });
 
   factory ProductInfo.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class ProductInfo {
       name: json['name']?.toString() ?? '',
       image: json['image']?.toString() ?? '',
       price: json['price'] as int?,
+      salePrice: json['sale_price'] as int?,
     );
   }
 
@@ -26,6 +29,7 @@ class ProductInfo {
       'name': name,
       'image': image,
       if (price != null) 'price': price,
+      if (salePrice != null) 'sale_price': salePrice,
     };
   }
 }

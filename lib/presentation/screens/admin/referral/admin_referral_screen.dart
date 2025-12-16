@@ -77,6 +77,7 @@ class _AdminReferralScreenState extends State<AdminReferralScreen> {
         Padding(
           padding: const EdgeInsets.all(AppSpacing.layoutPadding),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(
                 child: TextInput(

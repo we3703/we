@@ -8,6 +8,7 @@ import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/organisms/user/my_page_section.dart';
 import 'package:we/presentation/screens/auth/login_screen.dart';
+import 'package:we/presentation/screens/auth/login_view_model.dart';
 import 'package:we/presentation/screens/user/my_product_management_screen.dart';
 import 'package:we/presentation/screens/points/point_management_screen.dart';
 import 'package:we/presentation/screens/user/purchase_history_screen.dart';
@@ -75,6 +76,12 @@ class _MyPageScreenState extends State<MyPageScreen> {
               // 토큰 제거
               final logoutUseCase = context.read<LogoutUseCase>();
               final result = await logoutUseCase();
+
+              // View model 상태 초기화
+              if (context.mounted) {
+                context.read<LoginViewModel>().reset();
+                context.read<UserViewModel>().reset();
+              }
 
               result.when(
                 success: (_) {

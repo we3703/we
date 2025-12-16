@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/date_formatter.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/domain/entities/product/paginated_products_entity.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
@@ -135,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         productDescription: product.description,
                         price: product.price,
                         salePrice: product.salePrice,
-                        quantityRemaining: '${product.stock}개 남음',
+                        quantityRemaining: '${formatNumber(product.stock)}개 남음',
                         onDetailsPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(

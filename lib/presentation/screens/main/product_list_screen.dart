@@ -1,6 +1,7 @@
 // product_list_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/domain/entities/product/paginated_products_entity.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
@@ -92,7 +93,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       description: product.description,
                       price: product.price,
                       salePrice: product.salePrice,
-                      remaining: '${product.stock}개 남음',
+                      remaining: '${formatNumber(product.stock)}개 남음',
                       onDetailsPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
