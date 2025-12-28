@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/auth/token_provider.dart';
+import 'package:we/presentation/foundations/image.dart';
 import 'package:we/presentation/organisms/auth/login_form.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
 import 'package:we/presentation/screens/auth/login_view_model.dart';
@@ -9,7 +10,6 @@ import 'package:we/presentation/screens/main/main_scaffold.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
-
   const LoginScreen({super.key});
 
   @override
@@ -22,33 +22,30 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _hasNavigated = false;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        // Check if user already has a valid token
-        final tokenProvider = Provider.of<TokenProvider>(
-          context,
-          listen: false,
-        );
-        if (tokenProvider.hasToken()) {
-          _hasNavigated = true;
-          final routeName = tokenProvider.role == 'ADMIN'
-              ? AdminScaffold.routeName
-              : MainScaffold.routeName;
-          Navigator.of(context).pushReplacementNamed(routeName);
-          return;
-        }
+      if (!mounted) return;
 
-        final viewModel = Provider.of<LoginViewModel>(context, listen: false);
-        viewModel.reset();
+      final tokenProvider =
+          Provider.of<TokenProvider>(context, listen: false);
+
+      if (tokenProvider.hasToken()) {
+        _hasNavigated = true;
+        Navigator.of(context).pushReplacementNamed(
+          tokenProvider.role == 'ADMIN'
+              ? AdminScaffold.routeName
+              : MainScaffold.routeName,
+        );
+        return;
       }
+
+      Provider.of<LoginViewModel>(context, listen: false).reset();
     });
   }
 
   void _handleLogin(String userId, String password) {
-    final viewModel = Provider.of<LoginViewModel>(context, listen: false);
-    viewModel.login(userId, password);
+    Provider.of<LoginViewModel>(context, listen: false)
+        .login(userId, password);
   }
 
   void _handleSignUp() {
@@ -57,50 +54,74 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Consumer<LoginViewModel>(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          return;
+        }
+        FocusScope.of(context).unfocus();
+        Navigator.of(context).pop();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Consumer<LoginViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.loggedInUser != null && !_hasNavigated) {
             _hasNavigated = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (mounted) {
-                final role = viewModel.loggedInUser!.user.role;
-                final routeName = (role == 'ADMIN')
+              if (!mounted) return;
+              Navigator.of(context).pushReplacementNamed(
+                viewModel.loggedInUser!.user.role == 'ADMIN'
                     ? AdminScaffold.routeName
-                    : MainScaffold.routeName;
-                Navigator.of(context).pushReplacementNamed(routeName);
-              }
+                    : MainScaffold.routeName,
+              );
             });
           }
 
-          return SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 16.0,
-                bottom: 16.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 80),
-                  Center(child: Image.asset('assets/Logo.png', height: 80)),
-                  const SizedBox(height: 60),
-                  LoginForm(
-                    onLogin: _handleLogin,
-                    onSignUp: _handleSignUp,
-                    isLoading: viewModel.isLoading,
-                    errorMessage: viewModel.errorMessage,
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
                   ),
-                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
-                ],
-              ),
-            ),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: 420,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 48),
+                          Center(
+                            child: Image.asset(
+                              ImageStorage.logo,
+                              height: 80,
+                            ),
+                          ),
+                          const SizedBox(height: 48),
+                          LoginForm(
+                            onLogin: _handleLogin,
+                            onSignUp: _handleSignUp,
+                            isLoading: viewModel.isLoading,
+                            errorMessage: viewModel.errorMessage,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
+    ),
     );
   }
 }

@@ -17,12 +17,12 @@ class UpdateProductResponse {
 
   factory UpdateProductResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProductResponse(
-      productId: json['productId'],
-      name: json['name'],
-      price: json['price'],
-      stock: json['stock'],
-      isAvailable: json['isAvailable'],
-      updatedAt: json['updatedAt'],
+      productId: (json['productId'] ?? json['product_id'])?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      price: json['price'] as int? ?? 0,
+      stock: json['stock'] as int? ?? 0,
+      isAvailable: (json['isAvailable'] ?? json['is_available']) as bool? ?? false,
+      updatedAt: (json['updatedAt'] ?? json['updated_at'])?.toString() ?? '',
     );
   }
 }

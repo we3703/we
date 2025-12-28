@@ -97,9 +97,12 @@ class ProductRepositoryImpl implements ProductRepository {
     UpdateProductRequest request,
   ) async {
     try {
+      final fields = request.getMultipartFields();
+      final files = await request.getMultipartFiles();
       final response = await productApi.updateProduct(
         productId,
-        request.toJson(),
+        fields,
+        files,
       );
       final updateResponse = UpdateProductResponse.fromJson(response);
       return Result.success(updateResponse);

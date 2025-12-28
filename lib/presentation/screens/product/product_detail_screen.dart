@@ -100,11 +100,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ImageCarousel(
-                        imageUrls: productDetail.images.isNotEmpty
-                            ? productDetail.images
-                            : ['https://via.placeholder.com/600x400'],
-                        height: 250,
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          return ImageCarousel(
+                            imageUrls: productDetail.images.isNotEmpty
+                                ? productDetail.images
+                                : ['https://via.placeholder.com/600x400'],
+                            height: constraints.maxWidth * 2 / 3, // 3:2 비율
+                            fit: BoxFit.contain,
+                          );
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.all(AppSpacing.layoutPadding),

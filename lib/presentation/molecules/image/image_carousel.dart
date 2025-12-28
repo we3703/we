@@ -5,11 +5,15 @@ import 'package:we/presentation/molecules/indicator/carousel_indicator.dart';
 class ImageCarousel extends StatefulWidget {
   final List<String> imageUrls;
   final double? height;
+  final bool isAsset;
+  final BoxFit fit;
 
   const ImageCarousel({
     super.key,
     required this.imageUrls,
     this.height, // e.g. 200
+    this.isAsset = false,
+    this.fit = BoxFit.cover,
   });
 
   @override
@@ -34,7 +38,11 @@ class _ImageCarouselState extends State<ImageCarousel> {
               });
             },
             itemBuilder: (context, index) {
-              return ImageCarouselItem(imageUrl: widget.imageUrls[index]);
+              return ImageCarouselItem(
+                imageUrl: widget.imageUrls[index],
+                isAsset: widget.isAsset,
+                fit: widget.fit,
+              );
             },
           ),
           Padding(

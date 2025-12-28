@@ -1,9 +1,10 @@
+import 'package:we/presentation/foundations/image.dart';
+import 'package:we/presentation/molecules/image/image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/date_formatter.dart';
 import 'package:we/core/utils/number_formatter.dart';
 import 'package:we/domain/entities/product/paginated_products_entity.dart';
-import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/cards/notice/notice_card.dart';
@@ -45,20 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image placeholder area
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Text(
-                  '이미지 영역',
-                  style: AppTextStyles.bodyRegular.copyWith(
-                    color: AppColors.textDisabled,
-                  ),
-                ),
-              ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return ImageCarousel(
+                  imageUrls: ImageStorage.banners,
+                  height: constraints.maxWidth * 2 / 3, // 3:2 비율
+                  isAsset: true,
+                  fit: BoxFit.contain,
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.space32),
             _buildSectionHeader(context, '최신 공지사항', () {

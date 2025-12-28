@@ -29,9 +29,18 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: const AppHeader(title: '내 정보 수정', showBackButton: true),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          return;
+        }
+        FocusScope.of(context).unfocus();
+        Navigator.of(context).pop();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: const AppHeader(title: '내 정보 수정', showBackButton: true),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           left: AppSpacing.layoutPadding,
@@ -97,6 +106,7 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
           },
         ),
       ),
+    ),
     );
   }
 }

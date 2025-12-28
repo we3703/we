@@ -30,9 +30,14 @@ class ProductApi {
 
   Future<Map<String, dynamic>> updateProduct(
     String productId,
-    Map<String, dynamic> body,
+    Map<String, String> fields,
+    List<http.MultipartFile> files,
   ) async {
-    final res = await client.patch('/products/$productId', body: body);
+    final res = await client.patchMultipart(
+      '/products/$productId',
+      fields: fields,
+      files: files,
+    );
     return jsonDecode(res.body);
   }
 

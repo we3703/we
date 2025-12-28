@@ -4,6 +4,7 @@ import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/auth/logout_use_case.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
 import 'package:we/presentation/foundations/colors.dart';
+import 'package:we/presentation/foundations/image.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -107,7 +108,7 @@ class _AdminScaffoldState extends State<AdminScaffold> {
       titleWidget: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/Logo.png', height: 24),
+          Image.asset(ImageStorage.logo, height: 24),
           const SizedBox(width: AppSpacing.space8),
           Text(
             '헬스온 관리자',
