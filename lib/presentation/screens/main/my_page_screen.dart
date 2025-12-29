@@ -3,12 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:we/core/utils/membership_level.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/auth/logout_use_case.dart';
+import 'package:we/features/auth/screen/login_screen.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/organisms/user/my_page_section.dart';
-import 'package:we/presentation/screens/auth/login_screen.dart';
-import 'package:we/presentation/screens/auth/login_view_model.dart';
 import 'package:we/presentation/screens/user/my_product_management_screen.dart';
 import 'package:we/presentation/screens/points/point_management_screen.dart';
 import 'package:we/presentation/screens/user/purchase_history_screen.dart';
@@ -79,7 +78,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
 
               // View model 상태 초기화
               if (context.mounted) {
-                context.read<LoginViewModel>().reset();
                 context.read<UserViewModel>().reset();
               }
 

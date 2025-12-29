@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we/core/utils/toast_service.dart';
+import 'package:we/features/auth/screen/login_screen.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
 import 'package:we/presentation/organisms/auth/signup_form.dart';
 import 'package:we/presentation/screens/auth/signup_view_model.dart';
-import 'package:we/presentation/screens/auth/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String routeName = '/signup';
@@ -74,8 +74,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (!mounted) return;
                 ToastService.showSuccess('회원가입이 완료되었습니다.');
-                Navigator.of(context)
-                    .pushReplacementNamed(LoginScreen.routeName);
+                Navigator.of(
+                  context,
+                ).pushReplacementNamed(LoginScreen.routeName);
               });
             }
 

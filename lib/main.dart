@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:we/core/auth/token_provider.dart';
-import 'package:we/core/routes/app_routes.dart';
+import 'package:we/core/config/app_routes.dart';
 import 'package:we/dependency_injection.dart'; // Import the new DI file
+import 'package:we/features/auth/screen/login_screen.dart';
 import 'package:we/presentation/foundations/app_theme.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
-import 'package:we/presentation/screens/auth/login_screen.dart';
 import 'package:we/presentation/screens/auth/signup_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
 

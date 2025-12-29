@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:we/core/auth/token_provider.dart';
-import 'package:we/core/config/http_client.dart';
+import 'package:we/core/api/http_client.dart';
 import 'package:we/data/api/auth/auth_api.dart';
 import 'package:we/data/api/auth/license_api.dart';
 import 'package:we/data/api/order/order_api.dart';
@@ -81,7 +81,7 @@ import 'package:we/presentation/screens/admin/order/admin_order_view_model.dart'
 import 'package:we/presentation/screens/admin/product/admin_product_view_model.dart';
 import 'package:we/presentation/screens/admin/referral/admin_referral_view_model.dart';
 import 'package:we/presentation/screens/admin/user/admin_user_view_model.dart';
-import 'package:we/presentation/screens/auth/login_view_model.dart';
+import 'package:we/features/auth/viewmodel/login_viewmodel.dart';
 import 'package:we/presentation/screens/auth/signup_view_model.dart';
 import 'package:we/presentation/screens/cart/cart_view_model.dart';
 import 'package:we/presentation/screens/notice/notice_view_model.dart';
@@ -302,7 +302,7 @@ Future<List<SingleChildWidget>> setupProviders() async {
     ),
 
     // ViewModels - Lazy initialization with ProxyProvider
-    // UserViewModel must be defined first because LoginViewModel depends on it
+    // UserViewModel must be defined first because LoginService depends on it
     ChangeNotifierProxyProvider2<GetMeUseCase, UpdateMeUseCase, UserViewModel>(
       create: (context) => UserViewModel(
         Provider.of<GetMeUseCase>(context, listen: false),
@@ -311,19 +311,8 @@ Future<List<SingleChildWidget>> setupProviders() async {
       update: (_, getMeUseCase, updateMeUseCase, previous) =>
           previous ?? UserViewModel(getMeUseCase, updateMeUseCase),
     ),
-    ChangeNotifierProxyProvider3<
-      LoginUseCase,
-      TokenProvider,
-      UserViewModel,
-      LoginViewModel
-    >(
-      create: (context) => LoginViewModel(
-        Provider.of<LoginUseCase>(context, listen: false),
-        tokenProvider,
-        Provider.of<UserViewModel>(context, listen: false),
-      ),
-      update: (_, loginUseCase, tokenProvider, userViewModel, previous) =>
-          previous ??
+    ProxyProvider3<LoginUseCase, TokenProvider, UserViewModel, LoginViewModel>(
+      update: (_, loginUseCase, tokenProvider, userViewModel, __) =>
           LoginViewModel(loginUseCase, tokenProvider, userViewModel),
     ),
     ChangeNotifierProxyProvider<SignupUseCase, SignUpViewModel>(
