@@ -1,5 +1,5 @@
 import 'package:we/domain/repositories/admin/admin_order_repository.dart';
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/admin/order/admin_order_summary_entity.dart';
 import 'package:we/domain/entities/admin/order/paginated_admin_orders_entity.dart';
 import 'package:we/domain/entities/admin/order/user_in_admin_order_entity.dart';

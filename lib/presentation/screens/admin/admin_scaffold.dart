@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:we/core/config/constant.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/domain/use_cases/auth/logout_use_case.dart';
 import 'package:we/presentation/atoms/buttons/primary_button.dart';
 import 'package:we/presentation/foundations/colors.dart';
-import 'package:we/presentation/foundations/image.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -15,8 +16,7 @@ import 'package:we/presentation/screens/admin/order/admin_order_screen.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_screen.dart';
 import 'package:we/presentation/screens/admin/referral/admin_referral_screen.dart';
 import 'package:we/presentation/screens/admin/user/admin_user_screen.dart';
-import 'package:we/presentation/screens/auth/login_screen.dart';
-import 'package:we/presentation/screens/auth/login_view_model.dart';
+import 'package:we/features/auth/screen/login_screen.dart';
 import 'package:we/presentation/screens/user/user_view_model.dart';
 
 class AdminScaffold extends StatefulWidget {
@@ -69,7 +69,6 @@ class _AdminScaffoldState extends State<AdminScaffold> {
   void _handleLogout() {
     // async gap 전에 모든 Provider를 먼저 가져옴
     final logoutUseCase = context.read<LogoutUseCase>();
-    final loginViewModel = context.read<LoginViewModel>();
     final userViewModel = context.read<UserViewModel>();
 
     showLogoutModal(
@@ -84,7 +83,6 @@ class _AdminScaffoldState extends State<AdminScaffold> {
         final result = await logoutUseCase();
 
         // View model 상태 초기화
-        loginViewModel.reset();
         userViewModel.reset();
 
         result.when(
@@ -108,7 +106,7 @@ class _AdminScaffoldState extends State<AdminScaffold> {
       titleWidget: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(ImageStorage.logo, height: 24),
+          SvgPicture.asset(AppConstant.logoPath, width: 24, height: 24),
           const SizedBox(width: AppSpacing.space8),
           Text(
             '헬스온 관리자',

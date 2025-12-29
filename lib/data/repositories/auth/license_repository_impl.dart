@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:we/core/error/failure.dart';
-import 'package:we/core/error/result.dart';
-import 'package:we/core/error/http_exception.dart'; // Import CustomHttpException
-import 'package:we/core/error/error_extractor.dart'; // Import the new error extractor
+import 'package:we/core/api/error/failure.dart';
+import 'package:we/core/api/error/result.dart';
+import 'package:we/core/api/error/http_exception.dart'; // Import CustomHttpException
+import 'package:we/core/api/error/error_extractor.dart'; // Import the new error extractor
 import 'package:we/data/models/auth/license/send_code_request.dart';
 import 'package:we/data/models/auth/license/verify_code_request.dart';
 import 'package:we/data/models/auth/license/verify_code_response.dart';

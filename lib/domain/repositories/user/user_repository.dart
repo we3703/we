@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/user/my_info.dart';
 import 'package:we/data/models/user/update_my_info_request.dart';
 import 'package:we/data/models/user/update_my_info_response.dart';

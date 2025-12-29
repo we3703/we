@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/notice/notice_entity.dart';
 import 'package:we/domain/repositories/notice/notice_repository.dart';
 

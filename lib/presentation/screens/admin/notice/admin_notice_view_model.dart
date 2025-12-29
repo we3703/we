@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 import 'package:we/data/models/admin/notice/upsert_notice_request.dart';
 import 'package:we/domain/entities/common/delete_response_entity.dart';
 import 'package:we/domain/entities/notice/notice_entity.dart';

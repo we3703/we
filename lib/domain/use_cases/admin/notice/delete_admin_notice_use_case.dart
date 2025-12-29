@@ -1,5 +1,5 @@
 import 'package:we/domain/repositories/admin/admin_notice_repository.dart';
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/common/delete_response_entity.dart';
 
 class DeleteAdminNoticeUseCase {

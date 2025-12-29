@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/cart/cart_entity.dart';
 import 'package:we/domain/entities/cart/cart_item_entity.dart';
 import 'package:we/domain/repositories/cart/cart_repository.dart';

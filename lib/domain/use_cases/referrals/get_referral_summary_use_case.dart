@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/referral/referral_entity.dart';
 import 'package:we/domain/entities/referral/referral_summary_entity.dart';
 import 'package:we/domain/repositories/referrals/referral_repository.dart';

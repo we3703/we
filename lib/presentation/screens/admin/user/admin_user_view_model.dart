@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 import 'package:we/domain/entities/admin/user/paginated_admin_users_entity.dart';
 import 'package:we/domain/use_cases/admin/user/get_admin_users_use_case.dart';
 

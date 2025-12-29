@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/auth/license/verify_code_request.dart';
 import 'package:we/domain/repositories/auth/license_repository.dart';
 

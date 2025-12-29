@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:we/core/config/http_client.dart';
+import 'package:we/core/api/http_client.dart';
 
 class AuthApi {
   final HttpClient client;

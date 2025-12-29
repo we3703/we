@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/order/paginated_orders.dart';
 import 'package:we/domain/repositories/order/order_repository.dart';
 

@@ -1,6 +1,6 @@
 import 'package:we/data/models/user/update_my_info_request.dart';
 
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/user/update_my_info_entity.dart';
 import 'package:we/domain/repositories/user/user_repository.dart';
 

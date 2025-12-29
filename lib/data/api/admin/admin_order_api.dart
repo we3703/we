@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:we/core/config/http_client.dart';
+import 'package:we/core/api/http_client.dart';
 
 class AdminOrderApi {
   final HttpClient client;

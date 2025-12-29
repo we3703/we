@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 import 'package:we/data/models/auth/signup_request.dart';
 import 'package:we/domain/use_cases/auth/signup_use_case.dart';
 

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:we/core/error/failure.dart';
-import 'package:we/core/error/http_exception.dart';
-import 'package:we/core/error/error_extractor.dart';
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/failure.dart';
+import 'package:we/core/api/error/http_exception.dart';
+import 'package:we/core/api/error/error_extractor.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/api/order/order_api.dart';
 import 'package:we/data/models/order/paginated_orders.dart';
 import 'package:we/data/models/order/order_detail.dart';

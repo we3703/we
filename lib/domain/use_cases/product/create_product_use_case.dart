@@ -1,6 +1,6 @@
 import 'package:we/data/models/product/create_product_request.dart';
 
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/repositories/product/product_repository.dart';
 
 class CreateProductUseCase {

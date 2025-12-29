@@ -1,5 +1,5 @@
 import 'package:we/domain/repositories/admin/admin_user_repository.dart';
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/admin/user/admin_user_summary_entity.dart';
 import 'package:we/domain/entities/admin/user/paginated_admin_users_entity.dart';
 import 'package:we/domain/entities/common/paginated_response_entity.dart';

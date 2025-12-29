@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/point/point_history_item_entity.dart';
 import 'package:we/domain/entities/point/points_history_entity.dart';
 import 'package:we/domain/repositories/points/points_repository.dart';

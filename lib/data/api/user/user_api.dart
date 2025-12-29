@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:we/data/models/user/update_my_info_request.dart';
-import 'package:we/core/config/http_client.dart';
+import 'package:we/core/api/http_client.dart';
 
 /// User API
 ///

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 import 'package:we/domain/entities/admin/referral/admin_referral_node_entity.dart';
 import 'package:we/domain/use_cases/admin/referral/get_admin_user_referral_tree_use_case.dart';
 

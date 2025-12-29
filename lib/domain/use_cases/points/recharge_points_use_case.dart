@@ -1,6 +1,6 @@
 import 'package:we/data/models/point/recharge_points_request.dart';
 
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/repositories/points/points_repository.dart';
 
 class RechargePointsUseCase {

@@ -21,7 +21,8 @@ class UpdateProductResponse {
       name: json['name']?.toString() ?? '',
       price: json['price'] as int? ?? 0,
       stock: json['stock'] as int? ?? 0,
-      isAvailable: (json['isAvailable'] ?? json['is_available']) as bool? ?? false,
+      isAvailable:
+          (json['isAvailable'] ?? json['is_available']) as bool? ?? false,
       updatedAt: (json['updatedAt'] ?? json['updated_at'])?.toString() ?? '',
     );
   }

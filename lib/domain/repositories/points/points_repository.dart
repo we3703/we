@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/point/paginated_recharge_history.dart';
 import 'package:we/data/models/point/points_history.dart';
 import 'package:we/data/models/point/recharge_points_request.dart';

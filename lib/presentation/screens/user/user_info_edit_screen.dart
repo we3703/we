@@ -41,72 +41,72 @@ class _UserInfoEditScreenState extends State<UserInfoEditScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: const AppHeader(title: '내 정보 수정', showBackButton: true),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          left: AppSpacing.layoutPadding,
-          right: AppSpacing.layoutPadding,
-          top: AppSpacing.layoutPadding,
-          bottom:
-              MediaQuery.of(context).viewInsets.bottom +
-              AppSpacing.layoutPadding,
-        ),
-        child: Consumer<UserViewModel>(
-          builder: (context, userVM, child) {
-            if (userVM.isLoading && userVM.myInfo == null) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: AppSpacing.layoutPadding,
+            right: AppSpacing.layoutPadding,
+            top: AppSpacing.layoutPadding,
+            bottom:
+                MediaQuery.of(context).viewInsets.bottom +
+                AppSpacing.layoutPadding,
+          ),
+          child: Consumer<UserViewModel>(
+            builder: (context, userVM, child) {
+              if (userVM.isLoading && userVM.myInfo == null) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-            if (userVM.errorMessage != null) {
-              return Center(
-                child: Text(
-                  userVM.errorMessage!,
-                  style: AppTextStyles.bodyRegular.copyWith(
-                    color: AppColors.error,
+              if (userVM.errorMessage != null) {
+                return Center(
+                  child: Text(
+                    userVM.errorMessage!,
+                    style: AppTextStyles.bodyRegular.copyWith(
+                      color: AppColors.error,
+                    ),
                   ),
-                ),
-              );
-            }
-
-            final myInfo = userVM.myInfo;
-            if (myInfo == null) {
-              return Center(
-                child: Text(
-                  '사용자 정보를 불러올 수 없습니다.',
-                  style: AppTextStyles.bodyRegular.copyWith(
-                    color: AppColors.textDisabled,
-                  ),
-                ),
-              );
-            }
-
-            return UserInfoForm(
-              initialName: myInfo.name,
-              initialPhone: myInfo.phone ?? '',
-              onSave: (name, phone, oldPassword, newPassword) async {
-                // TODO: Password update is not implemented in the request model yet
-                // Only updating name and phone for now
-                final request = UpdateMyInfoRequest(
-                  memberName: name,
-                  phone: phone,
                 );
+              }
 
-                await context.read<UserViewModel>().updateMe(request);
+              final myInfo = userVM.myInfo;
+              if (myInfo == null) {
+                return Center(
+                  child: Text(
+                    '사용자 정보를 불러올 수 없습니다.',
+                    style: AppTextStyles.bodyRegular.copyWith(
+                      color: AppColors.textDisabled,
+                    ),
+                  ),
+                );
+              }
 
-                if (!context.mounted) return;
+              return UserInfoForm(
+                initialName: myInfo.name,
+                initialPhone: myInfo.phone ?? '',
+                onSave: (name, phone, oldPassword, newPassword) async {
+                  // TODO: Password update is not implemented in the request model yet
+                  // Only updating name and phone for now
+                  final request = UpdateMyInfoRequest(
+                    memberName: name,
+                    phone: phone,
+                  );
 
-                final viewModel = context.read<UserViewModel>();
-                if (viewModel.errorMessage == null) {
-                  ToastService.showSuccess('정보가 저장되었습니다.');
-                  Navigator.of(context).pop();
-                } else {
-                  ToastService.showError(viewModel.errorMessage!);
-                }
-              },
-            );
-          },
+                  await context.read<UserViewModel>().updateMe(request);
+
+                  if (!context.mounted) return;
+
+                  final viewModel = context.read<UserViewModel>();
+                  if (viewModel.errorMessage == null) {
+                    ToastService.showSuccess('정보가 저장되었습니다.');
+                    Navigator.of(context).pop();
+                  } else {
+                    ToastService.showError(viewModel.errorMessage!);
+                  }
+                },
+              );
+            },
+          ),
         ),
       ),
-    ),
     );
   }
 }

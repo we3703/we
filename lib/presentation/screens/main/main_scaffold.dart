@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:we/core/config/constant.dart';
 import 'package:we/presentation/foundations/colors.dart';
 import 'package:we/presentation/foundations/icon_radio.dart';
-import 'package:we/presentation/foundations/image.dart';
 import 'package:we/presentation/foundations/spacing.dart';
 import 'package:we/presentation/foundations/typography.dart';
 import 'package:we/presentation/molecules/appbar/app_header.dart';
@@ -62,7 +63,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       titleWidget: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(ImageStorage.logo, height: 24),
+          SvgPicture.asset(AppConstant.logoPath, width: 24, height: 24),
           const SizedBox(width: AppSpacing.space8),
           Text(
             '헬스온',

@@ -1,7 +1,7 @@
 import 'package:we/domain/entities/admin/referral/admin_referral_node_entity.dart';
 import 'package:we/domain/entities/admin/referral/referral_tree_statistics_entity.dart';
 import 'package:we/domain/repositories/admin/admin_referral_repository.dart';
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 
 class GetAdminUserReferralTreeUseCase {
   final AdminReferralRepository _repository;

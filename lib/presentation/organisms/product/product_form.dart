@@ -70,10 +70,7 @@ class ProductForm extends StatelessWidget {
           const SizedBox(height: AppSpacing.space20),
           _buildSalesSettingSection(),
           const SizedBox(height: AppSpacing.space32),
-          PrimaryButton(
-            text: isEdit ? '수정하기' : '생성하기',
-            onPressed: onSave,
-          ),
+          PrimaryButton(text: isEdit ? '수정하기' : '생성하기', onPressed: onSave),
           const SizedBox(height: AppSpacing.space20),
         ],
       ),
@@ -236,19 +233,14 @@ class ProductForm extends StatelessWidget {
                   runSpacing: AppSpacing.space8,
                   children: [
                     // 기존 이미지 표시
-                    ...existingImageUrls
-                        .asMap()
-                        .entries
-                        .map(
-                          (entry) => _buildExistingImagePreview(entry.key, entry.value),
-                        ),
+                    ...existingImageUrls.asMap().entries.map(
+                      (entry) =>
+                          _buildExistingImagePreview(entry.key, entry.value),
+                    ),
                     // 새로 선택한 이미지 표시
-                    ...selectedImages
-                        .asMap()
-                        .entries
-                        .map(
-                          (entry) => _buildNewImagePreview(entry.key, entry.value),
-                        ),
+                    ...selectedImages.asMap().entries.map(
+                      (entry) => _buildNewImagePreview(entry.key, entry.value),
+                    ),
                   ],
                 ),
               ],
@@ -267,9 +259,7 @@ class ProductForm extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: AppColors.border,
-            ),
+            border: Border.all(color: AppColors.border),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
@@ -278,10 +268,7 @@ class ProductForm extends StatelessWidget {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return const Center(
-                  child: Icon(
-                    Icons.image,
-                    color: AppColors.textDisabled,
-                  ),
+                  child: Icon(Icons.image, color: AppColors.textDisabled),
                 );
               },
             ),
@@ -298,11 +285,7 @@ class ProductForm extends StatelessWidget {
                 color: Colors.red,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.close,
-                size: 16,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.close, size: 16, color: Colors.white),
             ),
           ),
         ),
@@ -319,10 +302,7 @@ class ProductForm extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: AppColors.primaryGreen,
-              width: 2,
-            ),
+            border: Border.all(color: AppColors.primaryGreen, width: 2),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
@@ -332,10 +312,7 @@ class ProductForm extends StatelessWidget {
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
-                        child: Icon(
-                          Icons.image,
-                          color: AppColors.textDisabled,
-                        ),
+                        child: Icon(Icons.image, color: AppColors.textDisabled),
                       );
                     },
                   )
@@ -344,10 +321,7 @@ class ProductForm extends StatelessWidget {
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
-                        child: Icon(
-                          Icons.image,
-                          color: AppColors.textDisabled,
-                        ),
+                        child: Icon(Icons.image, color: AppColors.textDisabled),
                       );
                     },
                   ),
@@ -364,11 +338,7 @@ class ProductForm extends StatelessWidget {
                 color: Colors.red,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.close,
-                size: 16,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.close, size: 16, color: Colors.white),
             ),
           ),
         ),
@@ -376,10 +346,7 @@ class ProductForm extends StatelessWidget {
           bottom: 4,
           left: 4,
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4,
-              vertical: 2,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
             decoration: BoxDecoration(
               color: AppColors.primaryGreen,
               borderRadius: BorderRadius.circular(4),

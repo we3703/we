@@ -1,6 +1,6 @@
 import 'package:we/data/models/admin/notice/upsert_notice_request.dart';
 import 'package:we/domain/repositories/admin/admin_notice_repository.dart';
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/domain/entities/notice/notice_entity.dart';
 
 class UpdateAdminNoticeUseCase {

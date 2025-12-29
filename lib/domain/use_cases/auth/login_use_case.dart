@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/auth/login_request.dart';
 import 'package:we/domain/entities/auth/login_entity.dart';
 import 'package:we/domain/entities/auth/token_entity.dart';

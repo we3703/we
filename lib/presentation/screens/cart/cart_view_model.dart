@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 import 'package:we/data/models/cart/add_cart_item_request.dart';
 import 'package:we/data/models/cart/update_cart_item_request.dart';
 import 'package:we/domain/entities/cart/cart_entity.dart';

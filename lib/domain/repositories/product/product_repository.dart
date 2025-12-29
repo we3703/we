@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/product/create_product_request.dart';
 import 'package:we/data/models/product/delete_product_response.dart';
 import 'package:we/data/models/product/paginated_products.dart';

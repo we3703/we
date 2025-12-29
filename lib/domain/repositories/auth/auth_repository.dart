@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/auth/change_password_request.dart';
 import 'package:we/data/models/auth/login_request.dart';
 import 'package:we/data/models/auth/login_response.dart';

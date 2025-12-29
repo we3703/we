@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 import 'package:we/core/utils/toast_service.dart';
 import 'package:we/data/models/product/create_product_request.dart';
 import 'package:we/data/models/product/update_product_request.dart';

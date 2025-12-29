@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:we/core/error/failure.dart';
+import 'package:we/core/api/error/failure.dart';
 
 /// Base ViewModel class with common functionality
 abstract class BaseViewModel extends ChangeNotifier {

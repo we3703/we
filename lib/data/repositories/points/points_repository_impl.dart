@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:we/core/error/failure.dart';
-import 'package:we/core/error/http_exception.dart';
-import 'package:we/core/error/result.dart';
-import 'package:we/core/error/error_extractor.dart';
+import 'package:we/core/api/error/failure.dart';
+import 'package:we/core/api/error/http_exception.dart';
+import 'package:we/core/api/error/result.dart';
+import 'package:we/core/api/error/error_extractor.dart';
 import 'package:we/domain/repositories/points/points_repository.dart';
 import 'package:we/data/api/points/points_api.dart';
 import 'package:we/data/models/common/api_response.dart';

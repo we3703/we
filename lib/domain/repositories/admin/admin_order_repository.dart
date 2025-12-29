@@ -1,4 +1,4 @@
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/admin/order/paginated_admin_orders.dart';
 
 /// Admin Order Repository Interface

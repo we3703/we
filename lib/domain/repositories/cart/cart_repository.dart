@@ -1,6 +1,6 @@
 import 'package:we/data/models/cart/cart.dart';
 
-import 'package:we/core/error/result.dart';
+import 'package:we/core/api/error/result.dart';
 import 'package:we/data/models/cart/add_cart_item_request.dart';
 import 'package:we/data/models/cart/update_cart_item_request.dart';
 
