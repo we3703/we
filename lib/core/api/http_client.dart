@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:we/core/auth/token_provider.dart';
-import 'package:we/core/error/http_exception.dart';
+import 'package:we/core/api/error/http_exception.dart';
 import 'package:we/data/models/common/token_response.dart';
 
 /// HTTP Client with automatic token injection and refresh
@@ -297,7 +297,10 @@ class HttpClient {
         final refreshed = await _handleUnauthorized();
         if (refreshed) {
           // Retry the multipart request
-          final request = http.MultipartRequest('POST', Uri.parse('$baseUrl$path'));
+          final request = http.MultipartRequest(
+            'POST',
+            Uri.parse('$baseUrl$path'),
+          );
 
           final requestHeaders = <String, String>{};
           if (tokenProvider.hasToken()) {
@@ -334,7 +337,10 @@ class HttpClient {
     Map<String, String>? headers,
   }) async {
     try {
-      final request = http.MultipartRequest('PATCH', Uri.parse('$baseUrl$path'));
+      final request = http.MultipartRequest(
+        'PATCH',
+        Uri.parse('$baseUrl$path'),
+      );
 
       // Add authorization header
       final requestHeaders = <String, String>{};
@@ -369,7 +375,10 @@ class HttpClient {
         final refreshed = await _handleUnauthorized();
         if (refreshed) {
           // Retry the multipart request
-          final request = http.MultipartRequest('PATCH', Uri.parse('$baseUrl$path'));
+          final request = http.MultipartRequest(
+            'PATCH',
+            Uri.parse('$baseUrl$path'),
+          );
 
           final requestHeaders = <String, String>{};
           if (tokenProvider.hasToken()) {

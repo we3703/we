@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:we/core/error/http_exception.dart';
+import 'package:we/core/api/error/http_exception.dart';
 
 String extractErrorMessage(CustomHttpException e) {
   try {

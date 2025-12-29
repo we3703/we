@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:we/features/auth/screen/login_screen.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_form_screen.dart';
-import 'package:we/presentation/screens/auth/login_screen.dart';
 import 'package:we/presentation/screens/auth/signup_screen.dart';
 import 'package:we/presentation/screens/main/home_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
