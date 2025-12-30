@@ -23,10 +23,11 @@ class CustomCheckbox extends StatelessWidget {
     return GestureDetector(
       onTap: onChanged != null ? () => onChanged!(!value) : null,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 16,
-            height: 16,
+            width: 20,
+            height: 20,
             decoration: BoxDecoration(
               color: value ? AppColors.primaryDefault : AppColors.surface,
               border: Border.all(
@@ -38,8 +39,8 @@ class CustomCheckbox extends StatelessWidget {
                 ? Center(
                     child: SvgPicture.asset(
                       AppConstant.checkIcon,
-                      width: 12,
-                      height: 12,
+                      width: 16,
+                      height: 16,
                     ),
                   )
                 : null,

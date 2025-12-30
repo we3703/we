@@ -4,16 +4,16 @@ import 'package:we/core/theme/spacing.dart';
 import 'package:we/core/theme/typography.dart';
 import 'package:we/core/theme/radius.dart';
 
-enum ButtonVariant { primary, disabled, cancel }
+enum ButtonVariant { primary, disabled }
 
-class CustomButton extends StatelessWidget {
+class PrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final ButtonVariant variant;
   final double? width;
   final double height;
 
-  const CustomButton({
+  const PrimaryButton({
     super.key,
     required this.text,
     this.onPressed,
@@ -39,10 +39,6 @@ class CustomButton extends StatelessWidget {
         textColor = AppColors.textDisabled;
         border = Border.all(color: AppColors.border, width: 1);
         break;
-      case ButtonVariant.cancel:
-        backgroundColor = AppColors.surface;
-        textColor = AppColors.primaryDefault;
-        border = Border.all(color: AppColors.primaryDefault, width: 2);
     }
 
     return SizedBox(

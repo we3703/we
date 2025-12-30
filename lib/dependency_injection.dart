@@ -82,7 +82,7 @@ import 'package:we/presentation/screens/admin/product/admin_product_view_model.d
 import 'package:we/presentation/screens/admin/referral/admin_referral_view_model.dart';
 import 'package:we/presentation/screens/admin/user/admin_user_view_model.dart';
 import 'package:we/features/auth/viewmodel/login_viewmodel.dart';
-import 'package:we/presentation/screens/auth/signup_view_model.dart';
+import 'package:we/features/auth/viewmodel/signup_viewmodel.dart';
 import 'package:we/presentation/screens/cart/cart_view_model.dart';
 import 'package:we/presentation/screens/notice/notice_view_model.dart';
 import 'package:we/presentation/screens/order/order_view_model.dart';
@@ -315,11 +315,8 @@ Future<List<SingleChildWidget>> setupProviders() async {
       update: (_, loginUseCase, tokenProvider, userViewModel, __) =>
           LoginViewModel(loginUseCase, tokenProvider, userViewModel),
     ),
-    ChangeNotifierProxyProvider<SignupUseCase, SignUpViewModel>(
-      create: (context) =>
-          SignUpViewModel(Provider.of<SignupUseCase>(context, listen: false)),
-      update: (_, signupUseCase, previous) =>
-          previous ?? SignUpViewModel(signupUseCase),
+    ProxyProvider<SignupUseCase, SignUpViewModel>(
+      update: (_, signupUseCase, __) => SignUpViewModel(signupUseCase),
     ),
     ChangeNotifierProxyProvider5<
       GetProductsUseCase,

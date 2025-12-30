@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:we/features/auth/screen/login_screen.dart';
+import 'package:we/features/auth/screen/signup_screen.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_form_screen.dart';
-import 'package:we/presentation/screens/auth/signup_screen.dart';
 import 'package:we/presentation/screens/main/home_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
 import 'package:we/presentation/screens/main/my_page_screen.dart';
@@ -19,7 +19,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> get routes {
     return {
       LoginScreen.routeName: (context) => const LoginScreen(),
-      SignUpScreen.routeName: (context) => const SignUpScreen(),
+      SignupScreen.routeName: (context) => const SignupScreen(),
       MainScaffold.routeName: (context) => const MainScaffold(),
       AdminScaffold.routeName: (context) => const AdminScaffold(),
       AdminProductFormScreen.routeName: (context) =>

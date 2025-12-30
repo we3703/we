@@ -6,11 +6,11 @@ import 'package:we/core/theme/colors.dart';
 import 'package:we/core/theme/spacing.dart';
 import 'package:we/core/theme/typography.dart';
 import 'package:we/core/utils/toast_service.dart';
-import 'package:we/core/widgets/custom_button.dart';
+import 'package:we/core/widgets/primary_button.dart';
 import 'package:we/core/widgets/custom_input.dart';
+import 'package:we/features/auth/screen/signup_screen.dart';
 import 'package:we/features/auth/viewmodel/login_viewmodel.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
-import 'package:we/presentation/screens/auth/signup_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -50,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final loginService = Provider.of<LoginViewModel>(context, listen: false);
-      final loginEntity = await loginService.login(email, password);
+      final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+      final loginEntity = await loginViewModel.login(email, password);
 
       if (!mounted) return;
 
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleSignUp() {
-    Navigator.pushNamed(context, SignUpScreen.routeName);
+    Navigator.pushNamed(context, SignupScreen.routeName);
   }
 
   @override
@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
 
                         // Login Button
-                        CustomButton(
+                        PrimaryButton(
                           text: _isLoading ? '로그인 중...' : '로그인',
                           onPressed: _isLoading ? null : _handleLogin,
                           variant: _isLoading

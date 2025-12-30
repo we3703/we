@@ -5,9 +5,9 @@ import 'package:we/core/auth/token_provider.dart';
 import 'package:we/core/config/app_routes.dart';
 import 'package:we/dependency_injection.dart'; // Import the new DI file
 import 'package:we/features/auth/screen/login_screen.dart';
+import 'package:we/features/auth/screen/signup_screen.dart';
 import 'package:we/presentation/foundations/app_theme.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
-import 'package:we/presentation/screens/auth/signup_screen.dart';
 import 'package:we/presentation/screens/main/main_scaffold.dart';
 
 void main() async {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                   // 로그인이 필요없는 화면들
                   final publicRoutes = [
                     LoginScreen.routeName,
-                    SignUpScreen.routeName,
+                    SignupScreen.routeName,
                   ];
 
                   // 토큰 체크 - 공개 화면이 아니고 토큰이 없으면 로그인으로

@@ -1,21 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:we/core/api/error/failure.dart';
 import 'package:we/data/models/auth/signup_request.dart';
 import 'package:we/domain/use_cases/auth/signup_use_case.dart';
 
-class SignUpViewModel extends ChangeNotifier {
+class SignUpViewModel {
   final SignupUseCase _signupUseCase;
 
   SignUpViewModel(this._signupUseCase);
-
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  bool _signupSuccess = false;
-  bool get signupSuccess => _signupSuccess;
 
   Future<void> signup({
     required String userId,
@@ -24,10 +14,6 @@ class SignUpViewModel extends ChangeNotifier {
     required String phone,
     String? referredBy,
   }) async {
-    _isLoading = true;
-    _signupSuccess = false;
-    notifyListeners();
-
     final request = SignupRequest(
       userId: userId,
       password: password,
@@ -38,30 +24,14 @@ class SignUpViewModel extends ChangeNotifier {
 
     final result = await _signupUseCase(request);
 
-    result.when(
+    return await result.when(
       success: (_) {
-        _signupSuccess = true;
+        // Success - no exception thrown
       },
       failure: (failure) {
-        _errorMessage = _mapFailureToMessage(failure);
-        _signupSuccess = false;
+        throw Exception(_mapFailureToMessage(failure));
       },
     );
-
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  void clearErrorMessage() {
-    if (_errorMessage != null) {
-      notifyListeners();
-    }
-  }
-
-  void reset() {
-    _isLoading = false;
-    _signupSuccess = false;
-    notifyListeners();
   }
 
   String _mapFailureToMessage(Failure failure) {
