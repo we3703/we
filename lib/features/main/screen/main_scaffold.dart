@@ -4,6 +4,9 @@ import 'package:we/core/widgets/appbar.dart';
 import 'package:we/core/widgets/bottom_bar.dart';
 import 'package:we/core/widgets/input/search_input.dart';
 import 'package:we/features/main/screen/home_screen.dart';
+import 'package:we/presentation/screens/main/product_list_screen.dart';
+import 'package:we/presentation/screens/main/recommendation_screen.dart';
+import 'package:we/presentation/screens/main/my_page_screen.dart';
 
 class MainScaffold extends StatefulWidget {
   static const routeName = '/main';
@@ -44,9 +47,9 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const Center(child: Text('제품 페이지')),
-    const Center(child: Text('추천도 페이지')),
-    const Center(child: Text('마이 페이지')),
+    const ProductListScreen(),
+    const RecommendationScreen(),
+    const MyPageScreen(),
   ];
 
   @override

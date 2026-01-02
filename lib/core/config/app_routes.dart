@@ -4,10 +4,6 @@ import 'package:we/features/auth/screen/signup_screen.dart';
 import 'package:we/features/main/screen/main_scaffold.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
 import 'package:we/presentation/screens/admin/product/admin_product_form_screen.dart';
-import 'package:we/presentation/screens/main/home_screen.dart';
-import 'package:we/presentation/screens/main/my_page_screen.dart';
-import 'package:we/presentation/screens/main/product_list_screen.dart';
-import 'package:we/presentation/screens/main/recommendation_screen.dart';
 import 'package:we/presentation/screens/notice/notice_list_screen.dart';
 import 'package:we/presentation/screens/points/point_management_screen.dart';
 import 'package:we/presentation/screens/user/purchase_history_screen.dart';
@@ -24,10 +20,6 @@ class AppRoutes {
       AdminScaffold.routeName: (context) => const AdminScaffold(),
       AdminProductFormScreen.routeName: (context) =>
           const AdminProductFormScreen(),
-      HomeScreen.routeName: (context) => const HomeScreen(),
-      ProductListScreen.routeName: (context) => const ProductListScreen(),
-      RecommendationScreen.routeName: (context) => const RecommendationScreen(),
-      MyPageScreen.routeName: (context) => const MyPageScreen(),
       NoticeListScreen.routeName: (context) => const NoticeListScreen(),
       MyProductManagementScreen.routeName: (context) =>
           const MyProductManagementScreen(),

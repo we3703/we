@@ -10,8 +10,8 @@ import 'package:we/core/widgets/button/primary_button.dart';
 import 'package:we/core/widgets/input/custom_input.dart';
 import 'package:we/features/auth/screen/signup_screen.dart';
 import 'package:we/features/auth/viewmodel/login_viewmodel.dart';
+import 'package:we/features/main/screen/main_scaffold.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
-import 'package:we/presentation/screens/main/main_scaffold.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
