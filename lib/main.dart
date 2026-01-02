@@ -6,9 +6,9 @@ import 'package:we/core/config/app_routes.dart';
 import 'package:we/dependency_injection.dart'; // Import the new DI file
 import 'package:we/features/auth/screen/login_screen.dart';
 import 'package:we/features/auth/screen/signup_screen.dart';
+import 'package:we/features/main/screen/main_scaffold.dart';
 import 'package:we/presentation/foundations/app_theme.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
-import 'package:we/presentation/screens/main/main_scaffold.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

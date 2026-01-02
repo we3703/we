@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:we/core/theme/spacing.dart';
-import 'package:we/core/widgets/custom_input.dart';
-import 'package:we/core/widgets/primary_button.dart';
+import 'package:we/core/widgets/input/custom_input.dart';
+import 'package:we/core/widgets/button/primary_button.dart';
 
 class SignupStep1 extends StatelessWidget {
   final TextEditingController userIdController;

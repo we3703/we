@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:we/core/theme/colors.dart';
 import 'package:we/core/theme/spacing.dart';
 import 'package:we/core/theme/typography.dart';
-import 'package:we/core/widgets/custom_input.dart';
-import 'package:we/core/widgets/primary_button.dart';
-import 'package:we/core/widgets/cancel_button.dart' as cancel;
+import 'package:we/core/widgets/input/custom_input.dart';
+import 'package:we/core/widgets/button/primary_button.dart';
+import 'package:we/core/widgets/button/cancel_button.dart' as cancel;
 import 'package:we/features/auth/widgets/checkbox.dart';
 
 class SignupStep2 extends StatelessWidget {
@@ -43,10 +43,7 @@ class SignupStep2 extends StatelessWidget {
           const SizedBox(height: AppSpacing.space16),
 
           // Name Input
-          CustomInput(
-            controller: nameController,
-            placeholder: '이름을 입력해주세요.',
-          ),
+          CustomInput(controller: nameController, placeholder: '이름을 입력해주세요.'),
           const SizedBox(height: AppSpacing.space16),
 
           // Phone Input

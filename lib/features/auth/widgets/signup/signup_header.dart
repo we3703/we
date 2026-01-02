@@ -8,10 +8,7 @@ import 'package:we/core/theme/typography.dart';
 class SignupHeader extends StatelessWidget {
   final VoidCallback onBackPressed;
 
-  const SignupHeader({
-    super.key,
-    required this.onBackPressed,
-  });
+  const SignupHeader({super.key, required this.onBackPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +17,7 @@ class SignupHeader extends StatelessWidget {
         // Background Image
         Positioned.fill(
           child: ClipRRect(
-            child: Image.asset(
-              AppConstant.background,
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset(AppConstant.background, fit: BoxFit.cover),
           ),
         ),
         // Content
@@ -35,16 +29,16 @@ class SignupHeader extends StatelessWidget {
               children: [
                 // Back Button
                 IconButton(
-                  icon: SvgPicture.asset(AppConstant.backIcon, width: 32, height: 32,),
+                  icon: SvgPicture.asset(
+                    AppConstant.backIcon,
+                    width: 32,
+                    height: 32,
+                  ),
                   onPressed: onBackPressed,
                 ),
-                const SizedBox(height: AppSpacing.space32,),
+                const SizedBox(height: AppSpacing.space32),
                 // Logo
-                SvgPicture.asset(
-                  AppConstant.logoPath,
-                  width: 64,
-                  height: 64,
-                ),
+                SvgPicture.asset(AppConstant.logoPath, width: 64, height: 64),
                 const SizedBox(height: AppSpacing.space24),
                 // Title
                 Text(

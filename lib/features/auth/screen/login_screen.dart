@@ -6,8 +6,8 @@ import 'package:we/core/theme/colors.dart';
 import 'package:we/core/theme/spacing.dart';
 import 'package:we/core/theme/typography.dart';
 import 'package:we/core/utils/toast_service.dart';
-import 'package:we/core/widgets/primary_button.dart';
-import 'package:we/core/widgets/custom_input.dart';
+import 'package:we/core/widgets/button/primary_button.dart';
+import 'package:we/core/widgets/input/custom_input.dart';
 import 'package:we/features/auth/screen/signup_screen.dart';
 import 'package:we/features/auth/viewmodel/login_viewmodel.dart';
 import 'package:we/presentation/screens/admin/admin_scaffold.dart';
@@ -50,7 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+      final loginViewModel = Provider.of<LoginViewModel>(
+        context,
+        listen: false,
+      );
       final loginEntity = await loginViewModel.login(email, password);
 
       if (!mounted) return;

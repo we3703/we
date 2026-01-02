@@ -104,7 +104,10 @@ class _SignupScreenState extends State<SignupScreen> {
     });
 
     try {
-      final signupViewModel = Provider.of<SignUpViewModel>(context, listen: false);
+      final signupViewModel = Provider.of<SignUpViewModel>(
+        context,
+        listen: false,
+      );
       await signupViewModel.signup(
         userId: _userIdController.text,
         password: _passwordController.text,
@@ -179,7 +182,8 @@ class _SignupScreenState extends State<SignupScreen> {
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: SizedBox(
-              height: size.height -
+              height:
+                  size.height -
                   MediaQuery.of(context).padding.top -
                   MediaQuery.of(context).padding.bottom,
               child: Column(
