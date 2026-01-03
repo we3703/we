@@ -27,13 +27,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 56,
       centerTitle: false,
       leading: showBackButton
-          ? IconButton(
-              icon: SvgPicture.asset(
-                AppConstant.backIcon,
-                width: 32,
-                height: 32,
+          ? Center(
+              child: IconButton(
+                icon: SvgPicture.asset(
+                  AppConstant.backIcon,
+                  width: 32,
+                  height: 32,
+                ),
+                onPressed: onBackTap ?? () => Navigator.pop(context),
               ),
-              onPressed: onBackTap ?? () => Navigator.pop(context),
             )
           : Padding(
               padding: const EdgeInsets.only(left: 20),

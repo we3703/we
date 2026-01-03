@@ -6,6 +6,7 @@ import 'package:we/core/widgets/card/purchase_card.dart';
 import 'package:we/data/models/order/paginated_orders.dart';
 import 'package:we/features/main/widgets/section_header.dart';
 import 'package:we/presentation/screens/order/order_view_model.dart';
+import 'package:we/presentation/screens/user/purchase_history_screen.dart';
 
 class PurchaseSection extends StatelessWidget {
   const PurchaseSection({super.key});
@@ -15,7 +16,7 @@ class PurchaseSection extends StatelessWidget {
     return Column(
       children: [
         SectionHeader(title: '최근 구매 내역', onMoreTap: () {
-          // TODO: 구매 내역 목록으로 네비게이션
+          Navigator.of(context).pushNamed(PurchaseHistoryScreen.routeName);
         }),
         const SizedBox(height: AppSpacing.space24),
         Padding(

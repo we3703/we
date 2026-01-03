@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:we/core/theme/spacing.dart';
 import 'package:we/core/widgets/card/product_card.dart';
 import 'package:we/domain/entities/product/paginated_products_entity.dart';
+import 'package:we/features/main/screen/main_scaffold.dart';
 import 'package:we/features/main/widgets/section_header.dart';
 import 'package:we/presentation/screens/product/product_detail_screen.dart';
 import 'package:we/presentation/screens/product/product_view_model.dart';
@@ -15,7 +16,11 @@ class ProductSection extends StatelessWidget {
     return Column(
       children: [
         SectionHeader(title: '신규 제품', onMoreTap: () {
-          // TODO: 제품 목록으로 네비게이션 (탭 인덱스 1)
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const MainScaffold(initialIndex: 1),
+            ),
+          );
         }),
         const SizedBox(height: AppSpacing.space24),
         Selector<ProductViewModel, ({bool isLoading, PaginatedProductsEntity? products})>(

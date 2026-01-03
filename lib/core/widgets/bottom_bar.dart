@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:we/core/theme/colors.dart';
+import 'package:we/core/theme/typography.dart';
 
 class CustomBottomBar extends StatelessWidget {
   final int currentIndex;
@@ -27,27 +29,31 @@ class CustomBottomBar extends StatelessWidget {
         currentIndex: currentIndex,
         onTap: onTap,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFF00C853),
-        unselectedItemColor: Colors.grey,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
+        backgroundColor: AppColors.surface,
+        selectedItemColor: AppColors.primaryDefault,
+        unselectedItemColor: AppColors.textSecondary,
+        selectedLabelStyle: AppTextStyles.subBold.copyWith(
+          color: AppColors.primaryDefault,
+        ),
+        unselectedLabelStyle: AppTextStyles.subRegular.copyWith(
+          color: AppColors.textSecondary,
+        ),
         elevation: 0,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_filled, size: 24),
             label: '홈',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
+            icon: Icon(Icons.shopping_bag, size: 24),
             label: '제품',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: Icon(Icons.group, size: 24),
             label: '추천도',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_rounded, size: 24),
             label: '마이',
           ),
         ],

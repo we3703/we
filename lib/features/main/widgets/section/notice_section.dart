@@ -5,6 +5,7 @@ import 'package:we/core/utils/date_formatter.dart';
 import 'package:we/core/widgets/card/notice_card.dart';
 import 'package:we/features/main/widgets/section_header.dart';
 import 'package:we/presentation/screens/notice/notice_detail_screen.dart';
+import 'package:we/presentation/screens/notice/notice_list_screen.dart';
 import 'package:we/presentation/screens/notice/notice_view_model.dart';
 
 class NoticeSection extends StatelessWidget {
@@ -15,7 +16,7 @@ class NoticeSection extends StatelessWidget {
     return Column(
       children: [
         SectionHeader(title: '새 공지사항', onMoreTap: () {
-          // TODO: 공지사항 목록으로 네비게이션
+          Navigator.of(context).pushNamed(NoticeListScreen.routeName);
         }),
         const SizedBox(height: AppSpacing.space24),
         Padding(

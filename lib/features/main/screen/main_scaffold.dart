@@ -7,6 +7,7 @@ import 'package:we/features/main/screen/home_screen.dart';
 import 'package:we/presentation/screens/main/product_list_screen.dart';
 import 'package:we/presentation/screens/main/recommendation_screen.dart';
 import 'package:we/presentation/screens/main/my_page_screen.dart';
+import 'package:we/presentation/screens/notice/notice_list_screen.dart';
 
 class MainScaffold extends StatefulWidget {
   static const routeName = '/main';
@@ -58,7 +59,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
         onNotificationTap: () {
-          // TODO: 알림 페이지로 이동
+          Navigator.of(context).pushNamed(NoticeListScreen.routeName);
         },
       ),
       body: Column(
@@ -70,6 +71,7 @@ class _MainScaffoldState extends State<MainScaffold> {
               placeholder: '검색할 제품을 입력하세요.',
               onSubmitted: (value) {
                 // TODO: 검색 로직 구현
+                // 서버에서 구현이 필요함.
               },
             ),
           ),
